@@ -7,10 +7,13 @@
 from __future__ import annotations
 
 import os
+import sys
 
-from pathlib import Path
+root = os.path.dirname(os.path.dirname(__file__))  # workspaces/one/onecv
+onecv_src_root = os.path.join(root, "src")
+if str(onecv_src_root) not in sys.path:
+    sys.path.append(str(onecv_src_root))  # add ROOT to PATH
+    
+import onecv
 
-full_path = "workspaces/one/projects/aic/src/aic"
-print(str(Path(full_path).parents[0]))  # "path/to"
-print(str(Path(full_path).parents[1]))  # "path"
-print(str(Path(full_path).parents[3]))  # "."
+print(os.environ["DATASETS_DIR"])
