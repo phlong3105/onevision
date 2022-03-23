@@ -7,6 +7,5 @@ dist/
 __pycache__/
 *.so
 *~
-tests/playground.py
 *.pt
 *.pth
