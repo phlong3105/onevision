@@ -8,3 +8,5 @@ __pycache__/
 *.so
 *~
 tests/playground.py
+*.pt
+*.pth
