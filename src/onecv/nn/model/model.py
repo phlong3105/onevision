@@ -30,7 +30,6 @@ from onecv.factory import METRICS
 from onecv.factory import OPTIMIZERS
 from onecv.factory import SCHEDULERS
 from onecv.file import create_dirs
-from onecv.file import filedir
 from onecv.file import is_url_or_file
 from onecv.nn.model.debugger import Debugger
 from onecv.nn.model.io import load_pretrained
@@ -133,8 +132,6 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
             Debugger's configs. Default: `None`.
         model_dir (str, optional):
             Model's dir. Default: `None`.
-        checkpoints_dir (str, optional):
-            Model's checkpoint dir. Default: `None`.
         version (int, str, optional):
             Experiment version. If version is not specified the logger
             inspects the save directory for existing versions, then
@@ -181,7 +178,6 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
         debugger       : Optional[dict]            = None,
         verbose        : bool                      = False,
         model_dir      : Optional[str]             = None,
-        checkpoints_dir: Optional[str]             = None,
         version        : Optional[Union[int, str]] = None,
         pretrained_dir : Optional[str]             = None,
         *args, **kwargs
@@ -204,13 +200,8 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
         self.debugger      = None
         self.verbose       = verbose
         self.epoch_step    = 0
-        
-        self.init_dirs(
-            model_dir       = model_dir,
-            checkpoints_dir = checkpoints_dir,
-            version         = version,
-            pretrained_dir  = pretrained_dir
-        )
+
+        self.init_dirs(model_dir=model_dir, version=version, pretrained_dir=pretrained_dir)
         self.init_num_classes()
         self.init_metrics(metrics=metrics)
         self.init_debugger(debugger=debugger)
@@ -331,9 +322,7 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
     @property
     def debug_image_dir(self) -> str:
         """Return the debug image dir path located at: <debug_dir>/<dir>."""
-        debug_dir = os.path.join(
-            self.debug_dir, f"{self.phase.value}_{(self.current_epoch + 1):03d}"
-        )
+        debug_dir = os.path.join(self.debug_dir, f"{self.phase.value}_{(self.current_epoch + 1):03d}")
         create_dirs(paths=[debug_dir])
         return debug_dir
     
@@ -435,21 +424,18 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
                 setattr(self, name, metric)
     
     # MARK: Configure
-    
+
     def init_dirs(
         self,
-        model_dir      : Optional[str]             = None,
-        checkpoints_dir: Optional[str]             = None,
-        version        : Optional[Union[int, str]] = None,
-        pretrained_dir : Optional[str]             = None,
+        model_dir     : Optional[str]             = None,
+        version       : Optional[Union[int, str]] = None,
+        pretrained_dir: Optional[str]             = None,
     ):
         """Initialize directories.
         
         Args:
             model_dir (str, optional):
                 Model's dir. Default: `None`.
-            checkpoints_dir (str, optional):
-                Model's checkpoint dir. Default: `None`.
             version (int, str, optional):
                 Experiment version. If version is not specified the logger
                 inspects the save directory for existing versions, then
@@ -459,10 +445,13 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
             pretrained_dir (str, optional):
                 Model's pretrained dir. Default: `None`.
         """
+        if pretrained_dir is not None and os.path.isdir(pretrained_dir):
+            self.pretrained_dir = os.path.join(pretrained_dir, self.basename)
+        else:
+            self.pretrained_dir = None
+            
         if model_dir is not None and os.path.isdir(model_dir):
             self.model_dir = model_dir
-        elif checkpoints_dir is not None and os.path.isdir(model_dir):
-            self.model_dir = os.path.join(checkpoints_dir, self.basename, self.fullname)
         else:
             self.model_dir = None
         
@@ -475,11 +464,6 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
             self.version_dir = os.path.join(self.model_dir,   self.version)
             self.weights_dir = os.path.join(self.version_dir, "weights")
             self.debug_dir   = os.path.join(self.version_dir, "debugs")
-
-        if pretrained_dir is not None and os.path.isdir(pretrained_dir):
-            self.pretrained_dir = os.path.join(pretrained_dir, self.basename)
-        else:
-            self.pretrained_dir = None
 
     def init_num_classes(self):
         """Initialize num_classes."""
@@ -552,7 +536,7 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
         matching keys and shapes between current model and pretrained.
         """
         if self.pretrained:
-            filedir.create_dirs([self.pretrained_dir])
+            # create_dirs([self.pretrained_dir])
             load_pretrained(
                 module	  = self,
                 model_dir = self.pretrained_dir,
@@ -741,9 +725,7 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
     
     def on_fit_start(self):
         """Called at the very beginning of fit."""
-        filedir.create_dirs(paths=[
-            self.model_dir, self.version_dir, self.weights_dir, self.debug_dir
-        ])
+        create_dirs(paths=[self.model_dir, self.version_dir, self.weights_dir, self.debug_dir])
         
         if self.debugger:
             self.debugger.run_routine_start()
@@ -936,9 +918,7 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
                 
     def on_test_start(self) -> None:
         """Called at the very beginning of testing."""
-        filedir.create_dirs(paths=[
-            self.model_dir, self.version_dir, self.weights_dir, self.debug_dir
-        ])
+        create_dirs(paths=[self.model_dir, self.version_dir, self.weights_dir, self.debug_dir])
         
         if self.debugger:
             self.debugger.run_routine_start()
