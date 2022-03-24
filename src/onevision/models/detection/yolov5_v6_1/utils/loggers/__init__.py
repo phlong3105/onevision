@@ -11,12 +11,12 @@ import pkg_resources as pkg
 import torch
 from torch.utils.tensorboard import SummaryWriter
 
-from onedetection.models.yolov5_v6_1.utils.general import colorstr
-from onedetection.models.yolov5_v6_1.utils.general import emojis
-from onedetection.models.yolov5_v6_1.utils.loggers.wandb.wandb_utils import WandbLogger
-from onedetection.models.yolov5_v6_1.utils.plots import plot_images
-from onedetection.models.yolov5_v6_1.utils.plots import plot_results
-from onedetection.models.yolov5_v6_1.utils.torch_utils import de_parallel
+from onevision.models.detection.yolov5_v6_1.utils.general import colorstr
+from onevision.models.detection.yolov5_v6_1.utils.general import emojis
+from onevision.models.detection.yolov5_v6_1.utils.loggers.wandb.wandb_utils import WandbLogger
+from onevision.models.detection.yolov5_v6_1.utils.plots import plot_images
+from onevision.models.detection.yolov5_v6_1.utils.plots import plot_results
+from onevision.models.detection.yolov5_v6_1.utils.torch_utils import de_parallel
 
 LOGGERS = ('csv', 'tb', 'wandb')  # text-file, TensorBoard, Weights & Biases
 RANK = int(os.getenv('RANK', -1))

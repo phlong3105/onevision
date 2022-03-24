@@ -21,11 +21,11 @@ ROOT = FILE.parents[3]  # YOLOv5 root directory
 if str(ROOT) not in sys.path:
     sys.path.append(str(ROOT))  # add ROOT to PATH
 
-from onedetection.models.yolov5_v6_1.utils.datasets import img2label_paths
-from onedetection.models.yolov5_v6_1.utils.datasets import LoadImagesAndLabels
-from onedetection.models.yolov5_v6_1.utils.general import check_dataset
-from onedetection.models.yolov5_v6_1.utils.general import check_file
-from onedetection.models.yolov5_v6_1.utils.general import LOGGER
+from onevision.models.detection.yolov5_v6_1.utils.datasets import img2label_paths
+from onevision.models.detection.yolov5_v6_1.utils.datasets import LoadImagesAndLabels
+from onevision.models.detection.yolov5_v6_1.utils.general import check_dataset
+from onevision.models.detection.yolov5_v6_1.utils.general import check_file
+from onevision.models.detection.yolov5_v6_1.utils.general import LOGGER
 
 try:
     import wandb
