@@ -13,7 +13,5 @@ root = os.path.dirname(os.path.dirname(__file__))  # workspaces/one/onecv
 onecv_src_root = os.path.join(root, "src")
 if str(onecv_src_root) not in sys.path:
     sys.path.append(str(onecv_src_root))  # add ROOT to PATH
-    
-import onecv
 
 print(os.environ["DATASETS_DIR"])

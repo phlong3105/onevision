@@ -11,10 +11,10 @@ import pickle as pkl
 import cv2
 import torch
 
-from onecv.cv.core import to_channel_first
-from onecv.cv.core import to_channel_last
-from onecv.cv.imgproc import adjust_gamma
-from onecv.cv.io import read_image_cv
+from onevision.cv.core import to_channel_first
+from onevision.cv.core import to_channel_last
+from onevision.cv.imgproc import adjust_gamma
+from onevision.cv.io import read_image_cv
 
 
 def draw_rect(im, cords, color=None):

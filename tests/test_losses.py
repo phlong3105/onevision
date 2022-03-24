@@ -8,10 +8,10 @@ from __future__ import annotations
 
 import cv2
 
-from onecv import loss
-from onecv import print_table
-from onecv import resize
-from onecv import to_tensor
+from onevision import loss
+from onevision import print_table
+from onevision import resize
+from onevision import to_tensor
 
 image = cv2.imread("image.jpg")
 image = to_tensor(image)
