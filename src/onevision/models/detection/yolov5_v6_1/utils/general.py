@@ -36,6 +36,7 @@ import yaml
 from onevision.models.detection.yolov5_v6_1.utils.downloads import gsutil_getsize
 from onevision.models.detection.yolov5_v6_1.utils.metrics import box_iou
 from onevision.models.detection.yolov5_v6_1.utils.metrics import fitness
+from onevision.utils import datasets_dir
 
 # Settings
 FILE         = Path(__file__).resolve()
