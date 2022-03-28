@@ -12,7 +12,7 @@ metrics, ..., datasets, and models.
 - Here is the recommendation of the directories:
 ```text
 one
-  |__ datasets (this one is the actual raw data)
+  |__ datasets (this folder contains the actual raw data)
   |__ oneinstall (quick installation scripts)
   |__ onevision
   |__ projects
