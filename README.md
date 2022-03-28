@@ -13,7 +13,7 @@ metrics, ..., datasets, and models.
 ```text
 one
   |__ datasets (this one is the actual raw data)
-  |__ oneinstall
+  |__ oneinstall (quick installation scripts)
   |__ onevision
   |__ projects
   |          |__ project1
