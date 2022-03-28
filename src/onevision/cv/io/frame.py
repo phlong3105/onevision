@@ -136,7 +136,7 @@ class FrameLoader:
 
 				self.index += 1
 
-			return np.array(images, dtype=np.uint8), indexes, files, rel_paths
+			return np.array(images), indexes, files, rel_paths
 
 	def __del__(self):
 		"""Close `video_capture` object."""

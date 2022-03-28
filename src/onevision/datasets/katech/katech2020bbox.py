@@ -42,59 +42,6 @@ __all__ = [
 ]
 
 
-# MARK: - Data Config
-
-data = {
-    "name": "katech2020_bbox",
-    # Dataset's name.
-    "shape": [1536, 1536, 3],
-    # Image shape as [H, W, C]. This is compatible with OpenCV format.
-    # This is also used to reshape the input data.
-    "num_classes": 26,
-    # Number of classes in the dataset.
-    "batch_size": 1,
-    # Number of samples in one forward & backward pass.
-    "caching_labels": True,
-    # Should overwrite the existing cached labels? Default: `False`.
-    "caching_images": False,
-    # Cache images into memory for faster training. Default: `False`.
-    "write_labels": False,
-    # After loading images and labels for the first time, we will convert it
-    # to our custom data format and write to files. If `True`, we will
-    # overwrite these files. Default: `False`.
-    "fast_dev_run": False,
-    # Take a small subset of the data for fast debug (i.e, like unit testing).
-    # Default: `False`.
-    "shuffle": True,
-    # Set to `True` to have the data reshuffled at every training epoch.
-    # Default: `True`.
-    "load_augment": {
-        "mosaic": 0.5,
-        "mixup" : 0.5,
-        "rect"  : False,
-        "stride": 32,
-        "pad"   : 0,
-    },
-    # Augmented loading policy.
-    "augment": {
-        "name": "image_box_augment",
-        # Name of the augmentation policy.
-        "policy": "scratch",
-        # Augmentation policy. One of: [`scratch`]. Default: `scratch`.
-        "fill": None,
-        # Pixel fill value for the area outside the transformed image.
-        # If given a number, the value is used for all bands respectively.
-        "to_tensor": True,
-        # Convert a PIL Image or numpy.ndarray [H, W, C] in the range [0, 255]
-        # to a torch.FloatTensor of shape [C, H, W] in the  range [0.0, 1.0].
-        # Default: `True`.
-    },
-    # Augmentation policy.
-    "vision_backend": VisionBackend.PIL,
-    # Vision backend option.
-}
-
-
 """Kodas 2D detection dataset hierarchy:
 
 datasets
@@ -399,7 +346,55 @@ class KATECH2020BboxDataModule(DataModule):
 
 if __name__ == "__main__":
     # NOTE: Get DataModule
-    cfgs = data
+    cfgs = {
+        "name": "katech2020bbox",
+        # Dataset's name.
+        "shape": [1536, 1536, 3],
+        # Image shape as [H, W, C]. This is compatible with OpenCV format.
+        # This is also used to reshape the input data.
+        "num_classes": 26,
+        # Number of classes in the dataset.
+        "batch_size": 1,
+        # Number of samples in one forward & backward pass.
+        "caching_labels": True,
+        # Should overwrite the existing cached labels? Default: `False`.
+        "caching_images": False,
+        # Cache images into memory for faster training. Default: `False`.
+        "write_labels": False,
+        # After loading images and labels for the first time, we will convert it
+        # to our custom data format and write to files. If `True`, we will
+        # overwrite these files. Default: `False`.
+        "fast_dev_run": False,
+        # Take a small subset of the data for fast debug (i.e, like unit testing).
+        # Default: `False`.
+        "shuffle": True,
+        # Set to `True` to have the data reshuffled at every training epoch.
+        # Default: `True`.
+        "load_augment": {
+            "mosaic": 0.5,
+            "mixup" : 0.5,
+            "rect"  : False,
+            "stride": 32,
+            "pad"   : 0,
+        },
+        # Augmented loading policy.
+        "augment": {
+            "name": "image_box_augment",
+            # Name of the augmentation policy.
+            "policy": "scratch",
+            # Augmentation policy. One of: [`scratch`]. Default: `scratch`.
+            "fill": None,
+            # Pixel fill value for the area outside the transformed image.
+            # If given a number, the value is used for all bands respectively.
+            "to_tensor": True,
+            # Convert a PIL Image or numpy.ndarray [H, W, C] in the range [0, 255]
+            # to a torch.FloatTensor of shape [C, H, W] in the  range [0.0, 1.0].
+            # Default: `True`.
+        },
+        # Augmentation policy.
+        "vision_backend": VisionBackend.PIL,
+        # Vision backend option.
+    }
     dm   = KATECH2020BboxDataModule(**cfgs)
     dm.setup()
     # NOTE: Visualize labels

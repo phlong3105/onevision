@@ -37,58 +37,11 @@ __all__ = [
 ]
 
 
-# MARK: - Data
-
-data = {
-    "name": "a2i2haze",
-    # Dataset's name.
-    "shape": [512, 512, 3],
-    # Image shape as [H, W, C]. This is compatible with OpenCV format.
-    "batch_size": 4,
-    # Number of samples in one forward & backward pass.
-    "caching_labels": True,
-    # Should overwrite the existing cached labels? Default: `False`.
-    "caching_images": False,
-    # Cache images into memory for faster training. Default: `False`.
-    "write_labels": False,
-    # After loading images and labels for the first time, we will convert it
-    # to our custom data format and write to files. If `True`, we will
-    # overwrite these files. Default: `False`.
-    "fast_dev_run": False,
-    # Take a small subset of the data for fast debug (i.e, like unit testing).
-    # Default: `False`.
-    "shuffle": True,
-    # Set to `True` to have the data reshuffled at every training epoch.
-    # Default: `True`.
-    "load_augment": {
-        "mosaic": 0.0,
-        "mixup" : 0.5,
-    },
-    # Augmented loading policy.
-    "augment": {
-        "name": "paired_images_auto_augment",
-        # Name of the augmentation policy.
-        "policy": "enhancement",
-        # Augmentation policy. One of: [`enhancement`]. Default: `enhancement`.
-        "fill": None,
-        # Pixel fill value for the area outside the transformed image.
-        # If given a number, the value is used for all bands respectively.
-        "to_tensor": True,
-        # Convert a PIL Image or numpy.ndarray [H, W, C] in the range [0, 255]
-        # to a torch.FloatTensor of shape [C, H, W] in the  range [0.0, 1.0].
-        # Default: `True`.
-    },
-    # Augmentation policy.
-    "vision_backend": VisionBackend.PIL,
-    # Vision backend option.
-}
-
-
 # MARK: - A2I2Haze
 
 @DATASETS.register(name="a2i2haze")
 class A2I2Haze(ImageEnhancementDataset):
-    """We provide the A2I2-Haze Haze dataset for image de-hazing.
+    """We provide the A2I2-Haze dataset for image de-hazing.
     
     Args:
         extras (Tasks, optional):
@@ -299,7 +252,49 @@ class A2I2HazeDataModule(DataModule):
 
 if __name__ == "__main__":
     # NOTE: Get DataModule
-    cfgs = data
+    cfgs = {
+        "name": "a2i2haze",
+        # Dataset's name.
+        "shape": [512, 512, 3],
+        # Image shape as [H, W, C]. This is compatible with OpenCV format.
+        "batch_size": 4,
+        # Number of samples in one forward & backward pass.
+        "caching_labels": True,
+        # Should overwrite the existing cached labels? Default: `False`.
+        "caching_images": False,
+        # Cache images into memory for faster training. Default: `False`.
+        "write_labels": False,
+        # After loading images and labels for the first time, we will convert it
+        # to our custom data format and write to files. If `True`, we will
+        # overwrite these files. Default: `False`.
+        "fast_dev_run": False,
+        # Take a small subset of the data for fast debug (i.e, like unit testing).
+        # Default: `False`.
+        "shuffle": True,
+        # Set to `True` to have the data reshuffled at every training epoch.
+        # Default: `True`.
+        "load_augment": {
+            "mosaic": 0.0,
+            "mixup" : 0.5,
+        },
+        # Augmented loading policy.
+        "augment": {
+            "name": "paired_images_auto_augment",
+            # Name of the augmentation policy.
+            "policy": "enhancement",
+            # Augmentation policy. One of: [`enhancement`]. Default: `enhancement`.
+            "fill": None,
+            # Pixel fill value for the area outside the transformed image.
+            # If given a number, the value is used for all bands respectively.
+            "to_tensor": True,
+            # Convert a PIL Image or numpy.ndarray [H, W, C] in the range [0, 255]
+            # to a torch.FloatTensor of shape [C, H, W] in the  range [0.0, 1.0].
+            # Default: `True`.
+        },
+        # Augmentation policy.
+        "vision_backend": VisionBackend.PIL,
+        # Vision backend option.
+    }
     dm   = A2I2HazeDataModule(**cfgs)
     dm.setup()
     # NOTE: Visualize labels

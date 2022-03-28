@@ -422,7 +422,7 @@ class ImageLoader:
 
 				self.index += 1
 
-			return np.array(images, dtype=np.uint8), indexes, files, rel_paths
+			return np.array(images), indexes, files, rel_paths
 	
 	# MARK: Configure
 	

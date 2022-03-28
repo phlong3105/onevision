@@ -48,63 +48,6 @@ __all__ = [
 ]
 
 
-# MARK: - Data Config
-
-data = {
-    "name": "waymo_detection2d",
-    # Dataset's name.
-    "direction": ["front_easy"],
-    # Dataset contains images from five cameras associated with five
-    # different directions. Can be a list of values. One of: [ `front`,
-    # `front_left`, `front_right`, `side_left`, `side_right` ].
-    # Default: `front`.
-    "shape": [1536, 1536, 3],
-    # Image shape as [H, W, C]. This is compatible with OpenCV format.
-    "num_classes": 5,
-    # Number of classes in the dataset.
-    "batch_size": 4,
-    # Number of samples in one forward & backward pass.
-    "caching_labels": True,
-    # Should overwrite the existing cached labels? Default: `False`.
-    "caching_images": False,
-    # Cache images into memory for faster training. Default: `False`.
-    "write_labels": False,
-    # After loading images and labels for the first time, we will convert it
-    # to our custom data format and write to files. If `True`, we will
-    # overwrite these files. Default: `False`.
-    "fast_dev_run": False,
-    # Take a small subset of the data for fast debug (i.e, like unit testing).
-    # Default: `False`.
-    "shuffle": True,
-    # Set to `True` to have the data reshuffled at every training epoch.
-    # Default: `True`.
-    "load_augment": {
-        "mosaic": 0.5,
-        "mixup" : 0.5,
-        "rect"  : False,
-        "stride": 32,
-        "pad"   : 0,
-    },
-    # Augmented loading policy.
-    "augment": {
-        "name": "image_box_augment",
-        # Name of the augmentation policy.
-        "policy": "scratch",
-        # Augmentation policy. One of: [`scratch`]. Default: `scratch`.
-        "fill": None,
-        # Pixel fill value for the area outside the transformed image.
-        # If given a number, the value is used for all bands respectively.
-        "to_tensor": True,
-        # Convert a PIL Image or numpy.ndarray [H, W, C] in the range [0, 255]
-        # to a torch.FloatTensor of shape [C, H, W] in the  range [0.0, 1.0].
-        # Default: `True`.
-    },
-    # Augmentation policy.
-    "vision_backend": VisionBackend.PIL,
-    # Vision backend option.
-}
-
-
 """Waymo 2D Dataset Folder Structure
 
 datasets
@@ -474,7 +417,59 @@ class WaymoDetection2DDataModule(DataModule):
 
 if __name__ == "__main__":
     # NOTE: Get DataModule
-    cfgs = data
+    cfgs = {
+        "name": "waymodet2d",
+        # Dataset's name.
+        "direction": ["front_easy"],
+        # Dataset contains images from five cameras associated with five
+        # different directions. Can be a list of values. One of: [ `front`,
+        # `front_left`, `front_right`, `side_left`, `side_right` ].
+        # Default: `front`.
+        "shape": [1536, 1536, 3],
+        # Image shape as [H, W, C]. This is compatible with OpenCV format.
+        "num_classes": 5,
+        # Number of classes in the dataset.
+        "batch_size": 4,
+        # Number of samples in one forward & backward pass.
+        "caching_labels": True,
+        # Should overwrite the existing cached labels? Default: `False`.
+        "caching_images": False,
+        # Cache images into memory for faster training. Default: `False`.
+        "write_labels": False,
+        # After loading images and labels for the first time, we will convert it
+        # to our custom data format and write to files. If `True`, we will
+        # overwrite these files. Default: `False`.
+        "fast_dev_run": False,
+        # Take a small subset of the data for fast debug (i.e, like unit testing).
+        # Default: `False`.
+        "shuffle": True,
+        # Set to `True` to have the data reshuffled at every training epoch.
+        # Default: `True`.
+        "load_augment": {
+            "mosaic": 0.5,
+            "mixup" : 0.5,
+            "rect"  : False,
+            "stride": 32,
+            "pad"   : 0,
+        },
+        # Augmented loading policy.
+        "augment": {
+            "name": "image_box_augment",
+            # Name of the augmentation policy.
+            "policy": "scratch",
+            # Augmentation policy. One of: [`scratch`]. Default: `scratch`.
+            "fill": None,
+            # Pixel fill value for the area outside the transformed image.
+            # If given a number, the value is used for all bands respectively.
+            "to_tensor": True,
+            # Convert a PIL Image or numpy.ndarray [H, W, C] in the range [0, 255]
+            # to a torch.FloatTensor of shape [C, H, W] in the  range [0.0, 1.0].
+            # Default: `True`.
+        },
+        # Augmentation policy.
+        "vision_backend": VisionBackend.PIL,
+        # Vision backend option.
+    }
     dm   = WaymoDetection2DDataModule(**cfgs)
     dm.setup()
     dm.setup()

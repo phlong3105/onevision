@@ -37,56 +37,6 @@ __all__ = [
 ]
 
 
-# MARK: - Data Config
-
-data = {
-    "name": "cityscapes_lol",
-    # Dataset's name.
-    "shape": [517, 1018, 3],
-    # Image shape as [H, W, C]. This is compatible with OpenCV format.
-    # This is also used to reshape the input data.
-    "num_classes": 34,
-    # Number of classes in the dataset.
-    "batch_size": 4,
-    # Number of samples in one forward & backward pass.
-    "caching_labels": True,
-    # Should overwrite the existing cached labels? Default: `False`.
-    "caching_images": False,
-    # Cache images into memory for faster training. Default: `False`.
-    "write_labels": False,
-    # After loading images and labels for the first time, we will convert it
-    # to our custom data format and write to files. If `True`, we will
-    # overwrite these files. Default: `False`.
-    "fast_dev_run": False,
-    # Take a small subset of the data for fast debug (i.e, like unit testing).
-    # Default: `False`.
-    "shuffle": True,
-    # Set to `True` to have the data reshuffled at every training epoch.
-    # Default: `True`.
-    "load_augment": {
-        "mosaic": 0.5,
-        "mixup" : 0.5,
-    },
-    # Augmented loading policy.
-    "augment": {
-        "name": "paired_images_auto_augment",
-        # Name of the augmentation policy.
-        "policy": "enhancement",
-        # Augmentation policy. One of: [`enhancement`]. Default: `enhancement`.
-        "fill": None,
-        # Pixel fill value for the area outside the transformed image.
-        # If given a number, the value is used for all bands respectively.
-        "to_tensor": True,
-        # Convert a PIL Image or numpy.ndarray [H, W, C] in the range [0, 255]
-        # to a torch.FloatTensor of shape [C, H, W] in the  range [0.0, 1.0].
-        # Default: `True`.
-    },
-    # Augmentation policy.
-    "vision_backend": VisionBackend.PIL,
-    # Vision backend option.
-}
-
-
 # MARK: - CityscapesLoL
 
 @DATASETS.register(name="cityscapeslol")
@@ -311,7 +261,52 @@ class CityscapesLoLDataModule(DataModule):
 
 if __name__ == "__main__":
     # NOTE: Get DataModule
-    cfgs = data
+    cfgs = {
+        "name": "cityscapeslol",
+        # Dataset's name.
+        "shape": [517, 1018, 3],
+        # Image shape as [H, W, C]. This is compatible with OpenCV format.
+        # This is also used to reshape the input data.
+        "num_classes": 34,
+        # Number of classes in the dataset.
+        "batch_size": 4,
+        # Number of samples in one forward & backward pass.
+        "caching_labels": True,
+        # Should overwrite the existing cached labels? Default: `False`.
+        "caching_images": False,
+        # Cache images into memory for faster training. Default: `False`.
+        "write_labels": False,
+        # After loading images and labels for the first time, we will convert it
+        # to our custom data format and write to files. If `True`, we will
+        # overwrite these files. Default: `False`.
+        "fast_dev_run": False,
+        # Take a small subset of the data for fast debug (i.e, like unit testing).
+        # Default: `False`.
+        "shuffle": True,
+        # Set to `True` to have the data reshuffled at every training epoch.
+        # Default: `True`.
+        "load_augment": {
+            "mosaic": 0.5,
+            "mixup" : 0.5,
+        },
+        # Augmented loading policy.
+        "augment": {
+            "name": "paired_images_auto_augment",
+            # Name of the augmentation policy.
+            "policy": "enhancement",
+            # Augmentation policy. One of: [`enhancement`]. Default: `enhancement`.
+            "fill": None,
+            # Pixel fill value for the area outside the transformed image.
+            # If given a number, the value is used for all bands respectively.
+            "to_tensor": True,
+            # Convert a PIL Image or numpy.ndarray [H, W, C] in the range [0, 255]
+            # to a torch.FloatTensor of shape [C, H, W] in the  range [0.0, 1.0].
+            # Default: `True`.
+        },
+        # Augmentation policy.
+        "vision_backend": VisionBackend.PIL,
+        # Vision backend option.
+    }
     dm   = CityscapesLoLDataModule(**cfgs)
     dm.setup()
     # NOTE: Visualize labels

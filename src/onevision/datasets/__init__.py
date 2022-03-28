@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 from .a2i2haze import *
+from .aicity import *
 from .carla import *
 from .cifar import *
 from .cityscapes import *

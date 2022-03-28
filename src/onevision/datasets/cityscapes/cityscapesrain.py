@@ -15,6 +15,7 @@ from typing import Union
 
 import matplotlib.pyplot as plt
 
+from onevision.cv import imshow_cls_plt
 from onevision.cv import show_images
 from onevision.cv import VisionBackend
 from onevision.data import ClassLabels
@@ -37,73 +38,6 @@ __all__ = [
     "CityscapesRain",
     "CityscapesRainDataModule"
 ]
-
-
-# MARK: - Data Config
-
-data = {
-    "name": "cityscapes_rain",
-    # Dataset's name.
-    "alpha": "*",
-    # One of: [0.01, 0.02, 0.03]. Can also be a list to include multiple
-    # alphas. When `all`, `*`, or `None`, all alphas will be included.
-    # Default: `0.01`.
-    "beta": "*",
-    # Additional information on the attenuation coefficient.
-    # One of: [0.005, 0.01, 0.02]. Can also be a list to include multiple
-    # betas. When `all`, `*`, or `None`, all betas will be included.
-    # Default: `0.01`.
-    "drop_size": "*",
-    # One of: [0.002, 0.005, 0.01]. Can also be a list to include multiple drop
-    # sizes. When `all`, `*`, or `None`, all drop sizes will be included.
-    # Default: `0.01`.
-    "pattern": "*",
-    # Frain pattern. One of: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].
-    # Can also be a list to include multiple patterns. When `all`, `*`, or
-    # `None`, all drop sizes will be included. Default: `1`.
-    "shape": [1024, 2048, 3],
-    # Image shape as [H, W, C]. This is compatible with OpenCV format.
-    # This is also used to reshape the input data.
-    "num_classes": 34,
-    # Number of classes in the dataset.
-    "batch_size": 4,
-    # Number of samples in one forward & backward pass.
-    "caching_labels": True,
-    # Should overwrite the existing cached labels? Default: `False`.
-    "caching_images": False,
-    # Cache images into memory for faster training. Default: `False`.
-    "write_labels": False,
-    # After loading images and labels for the first time, we will convert it
-    # to our custom data format and write to files. If `True`, we will
-    # overwrite these files. Default: `False`.
-    "fast_dev_run": False,
-    # Take a small subset of the data for fast debug (i.e, like unit testing).
-    # Default: `False`.
-    "shuffle": True,
-    # Set to `True` to have the data reshuffled at every training epoch.
-    # Default: `True`.
-    "load_augment": {
-        "mosaic": 0.0,
-        "mixup" : 0.5,
-    },
-    # Augmented loading policy.
-    "augment": {
-        "name": "paired_images_auto_augment",
-        # Name of the augmentation policy.
-        "policy": "enhancement",
-        # Augmentation policy. One of: [`enhancement`]. Default: `enhancement`.
-        "fill": None,
-        # Pixel fill value for the area outside the transformed image.
-        # If given a number, the value is used for all bands respectively.
-        "to_tensor": True,
-        # Convert a PIL Image or numpy.ndarray [H, W, C] in the range [0, 255]
-        # to a torch.FloatTensor of shape [C, H, W] in the  range [0.0, 1.0].
-        # Default: `True`.
-    },
-    # Augmentation policy.
-    "vision_backend": VisionBackend.PIL,
-    # Vision backend option.
-}
 
 
 # MARK: - CityscapesRain
@@ -438,7 +372,69 @@ class CityscapesRainDataModule(DataModule):
 
 if __name__ == "__main__":
     # NOTE: Get DataModule
-    cfgs = data
+    cfgs = {
+        "name": "cityscapesrain",
+        # Dataset's name.
+        "alpha": "*",
+        # One of: [0.01, 0.02, 0.03]. Can also be a list to include multiple
+        # alphas. When `all`, `*`, or `None`, all alphas will be included.
+        # Default: `0.01`.
+        "beta": "*",
+        # Additional information on the attenuation coefficient.
+        # One of: [0.005, 0.01, 0.02]. Can also be a list to include multiple
+        # betas. When `all`, `*`, or `None`, all betas will be included.
+        # Default: `0.01`.
+        "drop_size": "*",
+        # One of: [0.002, 0.005, 0.01]. Can also be a list to include multiple drop
+        # sizes. When `all`, `*`, or `None`, all drop sizes will be included.
+        # Default: `0.01`.
+        "pattern": "*",
+        # Frain pattern. One of: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].
+        # Can also be a list to include multiple patterns. When `all`, `*`, or
+        # `None`, all drop sizes will be included. Default: `1`.
+        "shape": [1024, 2048, 3],
+        # Image shape as [H, W, C]. This is compatible with OpenCV format.
+        # This is also used to reshape the input data.
+        "num_classes": 34,
+        # Number of classes in the dataset.
+        "batch_size": 4,
+        # Number of samples in one forward & backward pass.
+        "caching_labels": True,
+        # Should overwrite the existing cached labels? Default: `False`.
+        "caching_images": False,
+        # Cache images into memory for faster training. Default: `False`.
+        "write_labels": False,
+        # After loading images and labels for the first time, we will convert it
+        # to our custom data format and write to files. If `True`, we will
+        # overwrite these files. Default: `False`.
+        "fast_dev_run": False,
+        # Take a small subset of the data for fast debug (i.e, like unit testing).
+        # Default: `False`.
+        "shuffle": True,
+        # Set to `True` to have the data reshuffled at every training epoch.
+        # Default: `True`.
+        "load_augment": {
+            "mosaic": 0.0,
+            "mixup" : 0.5,
+        },
+        # Augmented loading policy.
+        "augment": {
+            "name": "paired_images_auto_augment",
+            # Name of the augmentation policy.
+            "policy": "enhancement",
+            # Augmentation policy. One of: [`enhancement`]. Default: `enhancement`.
+            "fill": None,
+            # Pixel fill value for the area outside the transformed image.
+            # If given a number, the value is used for all bands respectively.
+            "to_tensor": True,
+            # Convert a PIL Image or numpy.ndarray [H, W, C] in the range [0, 255]
+            # to a torch.FloatTensor of shape [C, H, W] in the  range [0.0, 1.0].
+            # Default: `True`.
+        },
+        # Augmentation policy.
+        "vision_backend": VisionBackend.PIL,
+        # Vision backend option.
+    }
     dm   = CityscapesRainDataModule(**cfgs)
     dm.setup()
     # NOTE: Visualize labels
