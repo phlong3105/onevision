@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python img = img[:, :, ::-1].transpose(2, 0, 1)  # BGR to RGB, to 3x416x416
 # -*- coding: utf-8 -*-
 
 """
@@ -75,7 +75,11 @@ class FrameLoader:
 				-1 if the online video.
 		"""
 		return self.num_frames  # number of frame, [>0 : video, -1 : online_stream]
-
+	
+	def batch_len(self) -> int:
+		"""Return the total batches calculated from `batch_size`."""
+		return int(self.__len__() / self.batch_size)
+	
 	def __iter__(self):
 		"""Return an iterator starting at index 0.
 
@@ -121,7 +125,10 @@ class FrameLoader:
 					image	 = cv2.imread(self.image_files[self.index])
 					file     = self.image_files[self.index]
 					rel_path = file.replace(self.data, "")
-
+				
+				if image is not None:
+					image = image[:, :, ::-1]  # BGR to RGB
+					
 				images.append(image)
 				indexes.append(self.index)
 				files.append(self.data)
@@ -129,12 +136,12 @@ class FrameLoader:
 
 				self.index += 1
 
-			return np.array(images), indexes, files, rel_paths
+			return np.array(images, dtype=np.uint8), indexes, files, rel_paths
 
 	def __del__(self):
 		"""Close `video_capture` object."""
 		self.close()
-
+	
 	# MARK: Configure
 
 	def init_image_files_or_video_capture(self, data: str):
@@ -282,9 +289,7 @@ class FrameWriter:
 
 		self.index += 1
 
-	def write_frames(
-		self, images: Arrays, image_files: Optional[list[str]] = None
-	):
+	def write_frames(self, images: Arrays, image_files: Optional[list[str]] = None):
 		"""Add batch of frames to video.
 
 		Args:

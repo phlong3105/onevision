@@ -412,15 +412,17 @@ class ImageLoader:
 				
 				file     = self.image_files[self.index]
 				rel_path = file.replace(self.data, "")
-
-				images.append(cv2.imread(self.image_files[self.index]))
+				image    = cv2.imread(self.image_files[self.index])
+				image    = image[:, :, ::-1]  # BGR to RGB
+				
+				images.append(image)
 				indexes.append(self.index)
 				files.append(file)
 				rel_paths.append(rel_path)
 
 				self.index += 1
 
-			return np.array(images), indexes, files, rel_paths
+			return np.array(images, dtype=np.uint8), indexes, files, rel_paths
 	
 	# MARK: Configure
 	
@@ -504,9 +506,7 @@ class ImageWriter:
 		cv2.imwrite(output_file, image)
 		self.index += 1
 
-	def write_images(
-		self, images: Arrays, image_files: Optional[list[str]] = None
-	):
+	def write_images(self, images: Arrays, image_files: Optional[list[str]] = None):
 		"""Write batch of images.
 
 		Args:

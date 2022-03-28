@@ -162,7 +162,10 @@ class LoadImages:  # for inference
             img0        = cv2.imread(path)  # BGR
             assert img0 is not None, "Image Not Found " + path
             print("image %g/%g %s: " % (self.count, self.nf, path), end="")
-
+        
+        # For aic22retail dataset
+        img0 = cv2.rotate(img0, cv2.ROTATE_180)
+        
         # Padded resize
         img = letterbox(img0, new_shape=self.img_size)[0]
 

@@ -233,9 +233,9 @@ def test(
         # Plot images
         if batch_i < 1:
             f = Path(save_dir) / ("test_batch%g_gt.jpg" % batch_i)  # filename
-            plot_images(img, targets, paths, str(f), names)  # ground truth
+            # plot_images(img, targets, paths, str(f), names)  # ground truth
             f = Path(save_dir) / ("test_batch%g_pred.jpg" % batch_i)
-            plot_images(img, output_to_target(output, width, height), paths, str(f), names)  # predictions
+            # plot_images(img, output_to_target(output, width, height), paths, str(f), names)  # predictions
 
     # Compute statistics
     stats = [np.concatenate(x, 0) for x in zip(*stats)]  # to numpy

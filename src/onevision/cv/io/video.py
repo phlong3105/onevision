@@ -90,7 +90,11 @@ class VideoLoader:
 				-1 if the online video.
 		"""
 		return self.num_frames  # number of frame, [>0 : video, -1 : online_stream]
-
+	
+	def batch_len(self) -> int:
+		"""Return the total batches calculated from `batch_size`."""
+		return int(self.__len__() / self.batch_size)
+	
 	def __iter__(self):
 		"""Returns an iterator starting at index 0."""
 		self.index = 0
@@ -127,6 +131,9 @@ class VideoLoader:
 				ret_val, image = self.video_capture.read()
 				rel_path       = os.path.basename(self.data)
 				
+				if image is not None:
+					image = image[:, :, ::-1]  # BGR to RGB
+				
 				images.append(image)
 				indexes.append(self.index)
 				files.append(self.data)
@@ -134,12 +141,12 @@ class VideoLoader:
 				
 				self.index += 1
 
-			return np.array(images), indexes, files, rel_paths
+			return np.array(images, dtype=np.uint8), indexes, files, rel_paths
 
 	def __del__(self):
 		"""Close the `video_capture` object."""
 		self.close()
-
+	
 	# MARK: Configure
 	
 	def init_video_capture(self, data: str):

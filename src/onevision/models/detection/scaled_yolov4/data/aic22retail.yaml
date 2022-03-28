@@ -1,6 +1,6 @@
 # train and val datasets (image directory or *.txt file with image paths)
 path : ../../../../../datasets  # dataset root dir
-train: aicity/aic22retail/extra/train/images
+train: aicity/aic22retail/extra/train_02/images
 val  : aicity/aic22retail/extra/val/images
 test : aicity/aic22retail/extra/val/images
 

@@ -43,7 +43,7 @@ ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
 
 # MARK: - Functional
 
-def detect(save_img=False):
+def detect(opt, save_img=False):
     out, source, weights, view_img, save_txt, imgsz = \
         opt.output, opt.source, opt.weights, opt.view_img, opt.save_txt, opt.img_size
     webcam = source == "0" or source.startswith("rtsp") or source.startswith("http") or source.endswith(".txt")
@@ -79,7 +79,7 @@ def detect(save_img=False):
         dataset  = LoadImages(source, img_size=imgsz)
 
     # Get names and colors
-    names = model.module.names if hasattr(model, "module") else model.names
+    names  = model.module.names if hasattr(model, "module") else model.names
     colors = [[random.randint(0, 255) for _ in range(3)] for _ in range(len(names))]
 
     # Run inference
@@ -193,8 +193,8 @@ def parse_opt():
     parser.add_argument("--conf-thres",   default=0.4,                       type=float, help="object confidence threshold")
     parser.add_argument("--iou-thres",    default=0.5,                       type=float, help="IOU threshold for NMS")
     parser.add_argument("--device",       default="",                        help="cuda device, i.e. 0 or 0,1,2,3 or cpu")
-    parser.add_argument("--view-img",     default=0.5,                       action="store_true", help="display results")
-    parser.add_argument("--save-txt",     default=0.5,                       action="store_true", help="save results to *.txt")
+    parser.add_argument("--view-img",     default=True,                      action="store_true", help="display results")
+    parser.add_argument("--save-txt",     default=False,                     action="store_true", help="save results to *.txt")
     parser.add_argument("--classes",                                         nargs="+", type=int, help="filter by class: --class 0, or --class 0 2 3")
     parser.add_argument("--agnostic-nms", default=False,                     action="store_true", help="class-agnostic NMS")
     parser.add_argument("--augment",      default=False,                     action="store_true", help="augmented inference")
@@ -209,10 +209,10 @@ def main(opt):
     with torch.no_grad():
         if opt.update:  # update all models (to fix SourceChangeWarning)
             for opt.weights in [""]:
-                detect()
+                detect(opt)
                 strip_optimizer(opt.weights)
         else:
-            detect()
+            detect(opt)
 
 
 # MARK: - Main
