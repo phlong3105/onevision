@@ -7,3 +7,5 @@ metrics, ..., datasets, and models.
 ----
 
 ## Installation
+
+- Easy installation scripts can be downloaded from: [https://github.com/phlong3105/oneinstall](https://github.com/phlong3105/oneinstall)
