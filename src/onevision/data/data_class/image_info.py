@@ -12,12 +12,18 @@ from pathlib import Path
 from typing import Optional
 from typing import Union
 
-import pyvips
 from PIL import Image
 
 from onevision.cv import get_exif_size
 from onevision.type import Int2Or3T
 from onevision.type import Int3T
+from onevision.utils import error_console
+
+try:
+	import pyvips
+except ImportError:
+	error_console.log(f"Cannot import `pyvips`.")
+
 
 __all__ = [
 	"ImageInfo"
@@ -88,7 +94,7 @@ class ImageInfo:
 			image  = Image.open(image_path)
 			image.verify()  # PIL verify
 			shape0 = get_exif_size(image)  # Image size (height, width)
-		else:
+		elif VISION_BACKEND == VisionBackend.LIBVIPS:
 			# NOTE: Using VIPS = 69.1 ms ± 31.3 µs per loop
 			image  = pyvips.Image.new_from_file(image_path)
 			shape0 = (image.height, image.width)  # H, W

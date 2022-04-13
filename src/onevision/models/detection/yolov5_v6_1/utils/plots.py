@@ -63,7 +63,7 @@ class Colors:
         return tuple(int(h[1 + i:1 + i + 2], 16) for i in (0, 2, 4))
 
 
-colors = Colors()  # create instance for "from utils.plots import colors"
+colors = Colors()  # create detection for "from utils.plots import colors"
 
 
 def check_pil_font(font=FONT, size=10):
@@ -362,7 +362,7 @@ def plot_labels(labels, names=(), save_dir=Path("")):
         [y[2].patches[i].set_color([x / 255 for x in colors(i)]) for i in range(nc)]  # known issue #3195
     except Exception:
         pass
-    ax[0].set_ylabel("instances")
+    ax[0].set_ylabel("detections")
     if 0 < len(names) < 30:
         ax[0].set_xticks(range(len(names)))
         ax[0].set_xticklabels(names, rotation=90, fontsize=10)

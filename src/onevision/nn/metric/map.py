@@ -31,7 +31,7 @@ class MAP(Metric):
     output scores for `N` examples and `K` classes that ought to be higher when
     the model is more convinced that the example should be positively labeled,
     and smaller when the model believes the example should be negatively labeled
-    (for instance, the output of a sigmoid function); (2) the `target` contains
+    (for detection, the output of a sigmoid function); (2) the `target` contains
     only values 0 (for negative examples) and 1 (for positive examples); and
     (3) the `weight` ( > 0) represents weight for each sample.
     """

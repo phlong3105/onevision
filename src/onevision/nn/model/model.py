@@ -233,7 +233,7 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
     @fullname.setter
     def fullname(self, fullname: Optional[str] = None):
         """Assign the model's fullname in the following format:
-        {name}_{data_name}_{postfix}. For instance: `yolov5_coco_1920`.
+        {name}_{data_name}_{postfix}. For detection: `yolov5_coco_1920`.
         In case of `None`, it will be `self.name`.
         """
         self._fullname = (fullname if fullname is not None and fullname != ""
@@ -593,7 +593,7 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
             raise ValueError(f"`optims` must be a `dict`. But got: {type(optims)}.")
         
         for optim in optims:
-            # Define optimizer instance
+            # Define optimizer detection
             optimizer = optim.get("optimizer", None)
             if optimizer is None:
                 raise ValueError(f"`optimizer` must be defined.")

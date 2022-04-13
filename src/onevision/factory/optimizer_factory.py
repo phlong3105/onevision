@@ -34,7 +34,7 @@ class OptimizerFactory(Registry):
 		self, net: torch.nn.Module, name: str, *args, **kwargs
 	) -> Optional[Optimizer]:
 		"""Factory command to create an optimizer. This method gets the
-		appropriate optimizer class from the registry and creates an instance
+		appropriate optimizer class from the registry and creates an detection
 		of it, while passing in the parameters given in `kwargs`.
 		
 		Args:
@@ -44,8 +44,8 @@ class OptimizerFactory(Registry):
 				Optimizer's name.
 		
 		Returns:
-			instance (Optimizer, optional):
-				An instance of the optimizer that is created.
+			detection (Optimizer, optional):
+				An detection of the optimizer that is created.
 		"""
 		if name not in self.registry:
 			error_console.log(f"{name} does not exist in the registry.")
@@ -57,7 +57,7 @@ class OptimizerFactory(Registry):
 		self, net: torch.nn.Module, cfg: Optional[Union[dict, Munch]], **kwargs
 	) -> Optional[Optimizer]:
 		"""Factory command to create an optimizer. This method gets the
-		appropriate optimizer class from the registry and creates an instance
+		appropriate optimizer class from the registry and creates an detection
 		of it, while passing in the parameters given in `cfg`.
 
 		Args:
@@ -67,8 +67,8 @@ class OptimizerFactory(Registry):
 				Optimizer' config.
 
 		Returns:
-			instance (Optimizer, optional):
-				An instance of the optimizer that is created.
+			detection (Optimizer, optional):
+				An detection of the optimizer that is created.
 		"""
 		if cfg is None:
 			return None
@@ -94,7 +94,7 @@ class OptimizerFactory(Registry):
 	) -> Optional[list[Optimizer]]:
 		"""Factory command to create optimizers. This method gets the
 		appropriate optimizers classes from the registry and creates
-		instances of them, while passing in the parameters given in `cfgs`.
+		detections of them, while passing in the parameters given in `cfgs`.
 
 		Args:
 			net (nn.Module):
@@ -103,7 +103,7 @@ class OptimizerFactory(Registry):
 				List of optimizers' configs.
 
 		Returns:
-			instance (list[Optimizer], optional):
+			detection (list[Optimizer], optional):
 				Instances of the optimizers that are created.
 		"""
 		if cfgs is None:
@@ -131,7 +131,7 @@ class OptimizerFactory(Registry):
 	) -> Optional[list[Optimizer]]:
 		"""Factory command to create optimizers. This method gets the
 		appropriate optimizers classes from the registry and creates
-		instances of them, while passing in the parameters given in `cfgs`.
+		detections of them, while passing in the parameters given in `cfgs`.
 
 		Args:
 			nets (list[nn.Module]):
@@ -140,7 +140,7 @@ class OptimizerFactory(Registry):
 				List of optimizers' configs.
 
 		Returns:
-			instance (list[Optimizer], optional):
+			detection (list[Optimizer], optional):
 				Instances of the optimizers that are created.
 		"""
 		if cfgs is None:

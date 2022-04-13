@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""FINet: Fraction Instance Normalization Network for Image Restoration.
+"""FINet: Fraction Detection Normalization Network for Image Restoration.
 """
 
 from __future__ import annotations
@@ -84,7 +84,7 @@ class UNetConvBlock(nn.Module):
                 num_features = out_channels,
                 selection    = selection,
             )
-            console.log(f"Fractional Instance Normalization: "
+            console.log(f"Fractional Detection Normalization: "
                         f"num_features: {self.norm.num_features}")
        
         if downsample:

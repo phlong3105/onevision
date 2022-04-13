@@ -147,7 +147,7 @@ class EvoNormSample2d(nn.Module):
 
 @NORM_LAYERS.register(name="fraction_instance_norm2d")
 class FractionInstanceNorm2d(nn.InstanceNorm2d):
-    """Perform fractional instance normalization.
+    """Perform fractional detection normalization.
     
     Args:
         num_features (int):

@@ -60,7 +60,7 @@ class EventFileWriter(event_file_writer.EventFileWriter):
             RecordWriter(self._general_file_writer), max_queue_size, flush_secs
         )
     
-        # Initialize an event instance.
+        # Initialize an event detection.
         _event = event_pb2.Event(
             wall_time=time.time(), file_version="brain.Event:2"
         )
@@ -109,7 +109,7 @@ class FileWriter(tensorboard.FileWriter):
 class SummaryWriter(tensorboard.SummaryWriter):
     
     def _get_file_writer(self):
-        """Returns the default FileWriter instance. Recreates it if closed."""
+        """Returns the default FileWriter detection. Recreates it if closed."""
         if self.all_writers is None or self.file_writer is None:
             self.file_writer = FileWriter(
                 self.log_dir, self.max_queue, self.flush_secs,

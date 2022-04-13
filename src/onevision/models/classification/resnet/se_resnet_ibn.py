@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""ResNet with Instance-Batch Normalization models.
+"""ResNet with Detection-Batch Normalization models.
 """
 
 from __future__ import annotations
@@ -341,7 +341,7 @@ class SE_ResNet_IBN(ImageClassifier):
 @IMAGE_CLASSIFICATION.register(name="se_resnet50_ibn")
 @BACKBONES.register(name="se_resnet50_ibn")
 class SE_ResNet50_IBN(SE_ResNet_IBN):
-    """ResNet-50 with Squeeze and Excite and Instance-Batch Normalization model.
+    """ResNet-50 with Squeeze and Excite and Detection-Batch Normalization model.
     """
     
     model_zoo = {}
@@ -374,7 +374,7 @@ class SE_ResNet50_IBN(SE_ResNet_IBN):
 @IMAGE_CLASSIFICATION.register(name="se_resnet101_ibn")
 @BACKBONES.register(name="se_resnet101_ibn")
 class SE_ResNet101_IBN(SE_ResNet_IBN):
-    """ResNet-101 with Squeeze and Excite and Instance-Batch Normalization
+    """ResNet-101 with Squeeze and Excite and Detection-Batch Normalization
     model.
     """
     
@@ -408,7 +408,7 @@ class SE_ResNet101_IBN(SE_ResNet_IBN):
 @IMAGE_CLASSIFICATION.register(name="se_resnet152_ibn")
 @BACKBONES.register(name="se_resnet152_ibn")
 class SE_ResNet152_IBN(SE_ResNet_IBN):
-    """ResNet-152 with Squeeze and Excite and Instance-Batch Normalization
+    """ResNet-152 with Squeeze and Excite and Detection-Batch Normalization
     model.
     """
     

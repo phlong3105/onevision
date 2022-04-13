@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""HINMPR: Half Instance Normalization for Multistage Progressive Image
+"""HINMPR: Half Detection Normalization for Multistage Progressive Image
 Restoration Network.
 """
 

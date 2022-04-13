@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""DenseNet with Instance-Batch Normalization models.
+"""DenseNet with Detection-Batch Normalization models.
 """
 
 from __future__ import annotations
@@ -35,7 +35,7 @@ __all__ = [
 # MARK: - Modules
 
 class IBN(nn.Module):
-    """Instance-Batch Normalization layer from `Two at Once: Enhancing Learning
+    """Detection-Batch Normalization layer from `Two at Once: Enhancing Learning
     and Generalization Capacities via IBN-Net
     - <https://arxiv.org/pdf/1807.09441.pdf>`
 
@@ -43,7 +43,7 @@ class IBN(nn.Module):
         planes (int):
             Number of channels for the input image.
         ratio (float):
-            Ratio of instance normalization in the IBN layer.
+            Ratio of detection normalization in the IBN layer.
     """
     
     # MARK: Magic Functions

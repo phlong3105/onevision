@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""HINet: Half Instance Normalization Network for Image Restoration.
+"""HINet: Half Detection Normalization Network for Image Restoration.
 """
 
 from __future__ import annotations

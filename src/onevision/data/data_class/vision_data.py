@@ -47,15 +47,15 @@ class VisionData:
 			is used for semantic segmentation task.
 		semantic_info (ImageInfo, optional):
 			Semantic segmentation mask information.
-		instance (np.ndarray, optional):
-			Pixel values encode both, class and the individual instance.
+		detection (np.ndarray, optional):
+			Pixel values encode both, class and the individual detection.
 			Let's say your labels.py assigns the ID 26 to the class `car`.
 			Then, the individual cars in an image get the IDs 26000, 26001,
 			26002, ... . A group of cars, where our annotators could not
-			identify the individual instances anymore, is assigned to the ID 26.
-			This is used for instance segmentation class.
+			identify the individual detections anymore, is assigned to the ID 26.
+			This is used for detection segmentation class.
 		instance_info (ImageInfo, optional):
-			Instance image information.
+			Detection image information.
 		panoptic (np.ndarray, optional):
 			This is used for panoptic segmentation task.
 		panoptic_info (ImageInfo, optional):
@@ -68,7 +68,7 @@ class VisionData:
 			Enhanced image information.
 		objects (list):
 			List of all object annotations in the image. This is used for
-			object detection and instance segmentation tasks.
+			object detection and detection segmentation tasks.
 	
 	References:
 		https://towardsdatascience.com/how-to-work-with-object-detection-datasets-in-coco-format-9bf4fb5848a4

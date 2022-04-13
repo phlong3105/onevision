@@ -166,7 +166,7 @@ def try_except(func):
 
 
 def methods(instance):
-    # Get class/instance methods
+    # Get class/detection methods
     return [f for f in dir(instance) if callable(getattr(instance, f)) and not f.startswith("__")]
 
 
@@ -202,7 +202,7 @@ def is_docker():
 
 
 def is_colab():
-    # Is environment a Google Colab instance?
+    # Is environment a Google Colab detection?
     try:
         import google.colab
         return True

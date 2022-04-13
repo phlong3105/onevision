@@ -11,7 +11,6 @@ from collections import OrderedDict
 from pathlib import Path
 
 import numpy as np
-import pyvips
 
 from onevision.cv import box_cxcywh_norm_to_xyxy
 from onevision.cv import box_xyxy_to_cxcywh_norm
@@ -24,6 +23,12 @@ from onevision.factory import LABEL_HANDLERS
 from onevision.file import dump
 from onevision.file import is_xml_file
 from onevision.file import load
+from onevision.utils import error_console
+
+try:
+	import pyvips
+except ImportError:
+	error_console.log(f"Cannot import `pyvips`.")
 
 __all__ = [
 	"PascalLabelHandler"
@@ -99,17 +104,10 @@ class PascalLabelHandler(BaseLabelHandler):
 			visual_data (VisionData):
 				A `VisualData` item.
 		"""
-		# NOTE: Get image shape
-		# NOTE: Using VIPS = 69.1 ms ± 31.3 µs per loop
-		image  = pyvips.Image.new_from_file(image_path)
-		shape0 = (image.height, image.width)  # H, W
+		# NOTE: Parse image info
+		image_info = ImageInfo.from_file(image_path=image_path)
+		shape0     = image_info.shape0
 
-		# NOTE: Using PIL = 315 ms ± 8.76 ms per loop
-		"""
-		image = Image.open(image_path)
-		image.verify()  # PIL verify
-		shape0 = exif_size(image)  # Image size (height, width)
-		"""
 		if (shape0[0] <= 9) or (shape0[1] <= 9):
 			raise ValueError(f"Image size (height and width) must >= 10 pixel."
 			                 f"But got: {shape0}.")
@@ -151,8 +149,7 @@ class PascalLabelHandler(BaseLabelHandler):
 			height0   = info.height0
 			width0    = info.width0
 			name      = l.get("name")
-			class_id  = (int(name) if isinstance(name, str) and
-									  name.isnumeric() else name)
+			class_id  = (int(name) if isinstance(name, str) and name.isnumeric() else name)
 			pose      = l.get("pose")
 			truncated = l.get("truncated")
 			difficult = l.get("difficult")

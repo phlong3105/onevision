@@ -44,7 +44,7 @@ class YoloLabelHandler(BaseLabelHandler):
 								bounding box.
 			<score>           : Fscore in the DETECTION result file
 								indicates the confidence of the predicted
-							    bounding box enclosing an object instance.
+							    bounding box enclosing an object detection.
 	"""
 	
 	# MARK: Load
@@ -69,8 +69,7 @@ class YoloLabelHandler(BaseLabelHandler):
 		# NOTE: Load content from file
 		if is_txt_file(path=label_path):
 			with open(label_path, "r") as f:
-				labels = np.array([x.split() for x in f.read().splitlines()],
-								  np.float32)  # labels
+				labels = np.array([x.split() for x in f.read().splitlines()], np.float32)  # labels
 		if len(labels) == 0:
 			return VisionData(image_info=image_info)
 		

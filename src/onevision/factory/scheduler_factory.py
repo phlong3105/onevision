@@ -33,7 +33,7 @@ class SchedulerFactory(Registry):
 		self, optimizer: Optimizer, name: Optional[str], *args, **kwargs
 	) -> Optional[_LRScheduler]:
 		"""Factory command to create a scheduler. This method gets the
-		appropriate scheduler class from the registry and creates an instance
+		appropriate scheduler class from the registry and creates an detection
 		of it, while passing in the parameters given in `kwargs`.
 		
 		Args:
@@ -43,8 +43,8 @@ class SchedulerFactory(Registry):
 				Scheduler's name.
 		
 		Returns:
-			instance (_LRScheduler, optional):
-				An instance of the scheduler that is created.
+			detection (_LRScheduler, optional):
+				An detection of the scheduler that is created.
 		"""
 		if name is None:
 			return None
@@ -78,7 +78,7 @@ class SchedulerFactory(Registry):
 	) -> Optional[_LRScheduler]:
 		"""Factory command to create a scheduler. This method gets the
 		appropriate scheduler class from the registry and creates an
-		instance of it, while passing in the parameters given in `cfg`.
+		detection of it, while passing in the parameters given in `cfg`.
 
 		Args:
 			optimizer (Optimizer):
@@ -87,8 +87,8 @@ class SchedulerFactory(Registry):
 				Scheduler' config.
 
 		Returns:
-			instance (_LRScheduler, optional):
-				An instance of the scheduler that is created.
+			detection (_LRScheduler, optional):
+				An detection of the scheduler that is created.
 		"""
 		if cfg is None:
 			return None
@@ -112,7 +112,7 @@ class SchedulerFactory(Registry):
 	) -> Optional[list[_LRScheduler]]:
 		"""Factory command to create schedulers. This method gets the
 		appropriate schedulers classes from the registry and creates
-		instances of them, while passing in the parameters given in `cfgs`.
+		detections of them, while passing in the parameters given in `cfgs`.
 
 		Args:
 			optimizer (Optimizer):
@@ -121,7 +121,7 @@ class SchedulerFactory(Registry):
 				List of optimizers' configs.
 
 		Returns:
-			instance (list[Optimizer], optional):
+			detection (list[Optimizer], optional):
 				Instances of the scheduler that are created.
 		"""
 		if cfgs is None:
@@ -150,7 +150,7 @@ class SchedulerFactory(Registry):
 	) -> Optional[list[_LRScheduler]]:
 		"""Factory command to create schedulers. This method gets the
 		appropriate schedulers classes from the registry and creates
-		instances of them, while passing in the parameters given in `cfgs`.
+		detections of them, while passing in the parameters given in `cfgs`.
 
 		Args:
 			optimizers (list[Optimizer]):
@@ -159,7 +159,7 @@ class SchedulerFactory(Registry):
 				2D-list of optimizers' configs.
 
 		Returns:
-			instance (list[Optimizer], optional):
+			detection (list[Optimizer], optional):
 				Instances of the scheduler that are created.
 		"""
 		if cfgs is None:

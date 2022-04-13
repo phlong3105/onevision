@@ -147,7 +147,7 @@ class WandbLogger():
 
     def __init__(self, opt, run_id=None, job_type='Training'):
         """
-        - Initialize WandbLogger instance
+        - Initialize WandbLogger detection
         - Upload dataset if opt.upload_dataset is True
         - Setup trainig processes if job_type is 'Training'
 
@@ -421,7 +421,7 @@ class WandbLogger():
         Create and return W&B artifact containing W&B Table of the dataset.
 
         arguments:
-        dataset -- instance of LoadImagesAndLabels class used to iterate over the data to build Table
+        dataset -- detection of LoadImagesAndLabels class used to iterate over the data to build Table
         class_to_id -- hash map that maps class ids to labels
         name -- name of the artifact
 

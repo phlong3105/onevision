@@ -445,7 +445,7 @@ model = {
 					"eta_min": 1e-7,
 					"last_epoch": -1
 				},
-				# REQUIRED: The scheduler instance
+				# REQUIRED: The scheduler detection
 				"interval": "epoch",
 				# Unit of the scheduler's step size, could also be 'step'.
 				# 'epoch' updates the scheduler on epoch end whereas 'step'

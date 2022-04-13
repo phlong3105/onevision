@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""ResNet with Instance-Batch Normalization models.
+"""ResNet with Detection-Batch Normalization models.
 """
 
 from __future__ import annotations
@@ -131,7 +131,7 @@ cfgs = {
 @IMAGE_CLASSIFICATION.register(name="resnet_ibn")
 @BACKBONES.register(name="resnet_ibn")
 class ResNet_IBN(ImageClassifier):
-    """ResNet with Instance-Batch Normalization model.
+    """ResNet with Detection-Batch Normalization model.
     
     Args:
         basename (str, optional):
@@ -293,7 +293,7 @@ class ResNet_IBN(ImageClassifier):
 @IMAGE_CLASSIFICATION.register(name="resnet50_ibn_a")
 @BACKBONES.register(name="resnet50_ibn_a")
 class ResNet50_IBN(ResNet_IBN):
-    """ResNet-50 with Instance-Batch Normalization model."""
+    """ResNet-50 with Detection-Batch Normalization model."""
     
     model_zoo = {
         "imagenet": dict(
@@ -332,7 +332,7 @@ class ResNet50_IBN(ResNet_IBN):
 @IMAGE_CLASSIFICATION.register(name="resnet101_ibn_a")
 @BACKBONES.register(name="resnet101_ibn_a")
 class ResNet101_IBN(ResNet_IBN):
-    """ResNet-101 with Instance-Batch Normalization model."""
+    """ResNet-101 with Detection-Batch Normalization model."""
     
     model_zoo = {
         "imagenet": dict(
@@ -371,7 +371,7 @@ class ResNet101_IBN(ResNet_IBN):
 @IMAGE_CLASSIFICATION.register(name="resnet152_ibn_a")
 @BACKBONES.register(name="resnet152_ibn_a")
 class ResNet152_IBN(ResNet_IBN):
-    """ResNet-152 with Instance-Batch Normalization model."""
+    """ResNet-152 with Detection-Batch Normalization model."""
     
     model_zoo = {
         "imagenet": dict(

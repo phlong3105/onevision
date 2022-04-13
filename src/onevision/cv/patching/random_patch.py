@@ -47,6 +47,9 @@ def random_patch_numpy_image_box(
     """Randomly place patches of small images over a large background image and
     generate accompany bounding boxes. Also, add some basic augmentation ops.
     
+    References:
+        https://datahacker.rs/012-blending-and-pasting-images-using-opencv/
+    
     Args:
         canvas (TensorOrArray[C, H, W]):
             Background image to place patches over.
@@ -109,13 +112,18 @@ def random_patch_numpy_image_box(
         raise ValueError(f"`gamma` must be between 0.0 and 1.0.")
     
     if mask is not None:
+        # for i, (p, m) in enumerate(zip(patch, mask)):
+        #     cv2.imwrite(f"{i}_image.png", p[:, :, ::-1])
+        #     cv2.imwrite(f"{i}_mask.png",  m[:, :, ::-1])
         patch = [cv2.bitwise_and(p, m) for p, m in zip(patch, mask)]
+        # for i, p in enumerate(patch):
+        #     cv2.imwrite(f"{i}_patch.png", p[:, :, ::-1])
 
     if isinstance(id, (list, tuple)):
         if len(id) != len(patch):
             raise ValueError(f"`id` and `patch` must have the same length. "
                              f"But got: {len(id)} != {len(patch)}.")
-
+    
     canvas = copy(canvas)
     canvas = adjust_gamma(canvas, 2.0)
     h, w   = get_image_size(canvas)
@@ -131,7 +139,8 @@ def random_patch_numpy_image_box(
         # p          = ndimage.rotate(p, randint(angle[0], angle[1]))
         p          = crop_zero_region(p)
         p_h, p_w   = get_image_size(p)
-
+        # cv2.imwrite(f"{i}_rotate.png", p[:, :, ::-1])
+        
         # Random place patch in canvas. Set ROI's x, y position.
         tries     = 0
         iou_thres = overlap
@@ -151,11 +160,11 @@ def random_patch_numpy_image_box(
             if max_iou <= iou_thres:
                 box[i] = b
                 break
-
+            
             tries += 1
             if tries == 10:
                 iou_thres += 0.1
-
+        
         # Blend patch into canvas
         p_blur    = cv2.medianBlur(p, 3)  # Blur to remove noise around the edges of objects
         p_gray    = cv2.cvtColor(p_blur, cv2.COLOR_RGB2GRAY)
@@ -165,6 +174,12 @@ def random_patch_numpy_image_box(
         fg        = cv2.bitwise_and(p,   p,   mask=mask)
         dst       = cv2.add(bg, fg)
         roi[:]    = dst
+        # cv2.imwrite(f"{i}_gray.png", p_gray)
+        # cv2.imwrite(f"{i}_threshold.png", mask)
+        # cv2.imwrite(f"{i}_maskinv.png", mask_inv)
+        # cv2.imwrite(f"{i}_bg.png", bg[:, :, ::-1])
+        # cv2.imwrite(f"{i}_fg.png", fg[:, :, ::-1])
+        # cv2.imwrite(f"{i}_dst.png", dst[:, :, ::-1])
     
     # Adjust brightness via Gamma correction
     g      = uniform(gamma[0], gamma[1])

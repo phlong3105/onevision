@@ -122,7 +122,7 @@ def train(
     # Loggers
     data_dict = None
     if RANK in [-1, 0]:
-        loggers = Loggers(save_dir, weights, opt, hyp, LOGGER)  # loggers instance
+        loggers = Loggers(save_dir, weights, opt, hyp, LOGGER)  # loggers detection
         if loggers.wandb:
             data_dict = loggers.wandb.data_dict
             if resume:

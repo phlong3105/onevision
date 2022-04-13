@@ -275,13 +275,12 @@ class FrameWriter:
 
 		if self.save_image:
 			if image_file is not None:
-				image_file = (image_file[1:] if image_file.startswith("\\")
-							  else image_file)
+				image_file = (image_file[1:] if image_file.startswith("\\") else image_file)
 				image_name = os.path.splitext(image_file)[0]
 			else:
 				image_name = f"{self.index}"
-			output_file = os.path.join(self.dst, f"{image_name}.png")
-			parent_dir  = str(Path(output_file).parent)
+			parent_dir  = self.dst.split(".")[0]
+			output_file = os.path.join(parent_dir, f"{image_name}.png")
 			create_dirs(paths=[parent_dir])
 			cv2.imwrite(output_file, image)
 		if self.save_video:

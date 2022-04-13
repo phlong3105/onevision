@@ -378,7 +378,7 @@ def draw_semantic_mask(
     image       : Optional[np.ndarray] = None,
     encoding    : str                  = "color",
 ) -> np.ndarray:
-    """Create semantic segmentation image from a list of instances.
+    """Create semantic segmentation image from a list of detections.
 
     Args:
         data (VisionData):

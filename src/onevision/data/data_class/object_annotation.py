@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""Data class for object detection and instance segmentation tasks.
+"""Data class for object detection and detection segmentation tasks.
 """
 
 import uuid
@@ -29,7 +29,7 @@ class ObjectAnnotation:
 	"""ObjectAnnotation is a data class used in both ground-truth (i.e,
 	dateset annotations) and model predictions (i.e., outputs). We develop a
 	common interface and attributes so that the same object can be used in
-	several task, such as: detection, tracking, instance seg., etc.
+	several task, such as: detection, tracking, detection seg., etc.
 
 	Attributes:
 		id (int, str, optional):

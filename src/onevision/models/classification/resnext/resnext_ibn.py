@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""ResNext with Instance-Batch Normalization models.
+"""ResNext with Detection-Batch Normalization models.
 """
 
 from __future__ import annotations
@@ -35,7 +35,7 @@ __all__ = [
 # MARK: - Modules
 
 class IBN(nn.Module):
-    """Instance-Batch Normalization layer from `Two at Once: Enhancing Learning
+    """Detection-Batch Normalization layer from `Two at Once: Enhancing Learning
     and Generalization Capacities via IBN-Net
     - <https://arxiv.org/pdf/1807.09441.pdf>`
     
@@ -43,7 +43,7 @@ class IBN(nn.Module):
         planes (int):
             Number of channels for the input image.
         ratio (float):
-            Ratio of instance normalization in the IBN layer.
+            Ratio of detection normalization in the IBN layer.
     """
     
     # MARK: Magic Functions
@@ -161,7 +161,7 @@ cfgs = {
 @IMAGE_CLASSIFICATION.register(name="resnext_ibn")
 @BACKBONES.register(name="resnext_ibn")
 class ResNeXt_IBN(ImageClassifier):
-    """ResNeXt with Instance-Batch Normalization model.
+    """ResNeXt with Detection-Batch Normalization model.
     
     Args:
         basename (str, optional):
@@ -348,7 +348,7 @@ class ResNeXt_IBN(ImageClassifier):
 @IMAGE_CLASSIFICATION.register(name="resnext50_ibn_a")
 @BACKBONES.register(name="resnext50_ibn_a")
 class ResNeXt50_IBN(ResNeXt_IBN):
-    """ResNeXt-50 with Instance-Batch Normalization model."""
+    """ResNeXt-50 with Detection-Batch Normalization model."""
     
     model_zoo = {}
     
@@ -379,7 +379,7 @@ class ResNeXt50_IBN(ResNeXt_IBN):
 @IMAGE_CLASSIFICATION.register(name="resnext101_ibn_a")
 @BACKBONES.register(name="resnext101_ibn_a")
 class ResNeXt101_IBN(ResNeXt_IBN):
-    """ResNeXt-101 with Instance-Batch Normalization model."""
+    """ResNeXt-101 with Detection-Batch Normalization model."""
     
     model_zoo = {
         "imagenet": dict(
@@ -415,7 +415,7 @@ class ResNeXt101_IBN(ResNeXt_IBN):
 @IMAGE_CLASSIFICATION.register(name="resnext152_ibn_a")
 @BACKBONES.register(name="resnext152_ibn_a")
 class ResNeXt152_IBN(ResNeXt_IBN):
-    """ResNeXt-152 with Instance-Batch Normalization model."""
+    """ResNeXt-152 with Detection-Batch Normalization model."""
     
     model_zoo = {}
     

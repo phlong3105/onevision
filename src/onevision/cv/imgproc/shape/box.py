@@ -41,6 +41,7 @@ __all__ = [
     "generate_box",
     "get_box_center",
     "get_box_corners",
+    "get_box_corners_points",
     "get_enclosing_box",
     "hflip_box",
     "htranslate_box",
@@ -720,7 +721,7 @@ def get_box_corners(box: TensorOrArray) -> TensorOrArray:
             with `0 <= x1 < x2` and `0 <= y1 < y2`.
     
     Returns:
-        center (Tensor[*, 8], np.ndarray[*, 8]):
+        corners (Tensor[*, 8], np.ndarray[*, 8]):
             Shape `N x 8` containing N bounding boxes each described by their
             corner co-ordinates (x1 y1 x2 y2 x3 y3 x4 y4).
     """
@@ -739,6 +740,46 @@ def get_box_corners(box: TensorOrArray) -> TensorOrArray:
         return torch.stack((x1, y1, x2, y2, x3, y3, x4, y4))
     else:
         return np.hstack((x1, y1, x2, y2, x3, y3, x4, y4))
+
+
+def get_box_corners_points(box: TensorOrArray) -> TensorOrArray:
+    """Get corners of bounding boxes as points.
+    
+    Args:
+        box (TensorOrArray[*, 4]):
+            Bounding boxes. They are expected to be in (x1, y1, x2, y2) format
+            with `0 <= x1 < x2` and `0 <= y1 < y2`.
+    
+    Returns:
+        corners (Tensor, np.ndarray):
+    """
+    if box.ndim == 2:
+        width  = (box[:, 2] - box[:, 0]).reshape(-1, 1)
+        height = (box[:, 3] - box[:, 1]).reshape(-1, 1)
+        x1     = box[:, 0].reshape(-1, 1)
+        y1     = box[:, 1].reshape(-1, 1)
+        x2     = x1 + width
+        y2     = y1
+        x3     = x1
+        y3     = y1 + height
+        x4     = box[:, 2].reshape(-1, 1)
+        y4     = box[:, 3].reshape(-1, 1)
+    else:
+        width  = box[2] - box[0]
+        height = box[3] - box[1]
+        x1     = box[0]
+        y1     = box[1]
+        x2     = x1 + width
+        y2     = y1
+        x3     = x1
+        y3     = y1 + height
+        x4     = box[2]
+        y4     = box[3]
+        
+    if isinstance(box, Tensor):
+        return torch.tensor([[x1, y1], [x2, y2], [x3, y3], [x4, y4]])
+    else:
+        return np.array([[x1, y1], [x2, y2], [x3, y3], [x4, y4]], np.int32)
 
 
 def get_enclosing_box(box: TensorOrArray) -> TensorOrArray:

@@ -67,13 +67,11 @@ __all__ = [
 
 # MARK: - Functional
 
-def _cast_squeeze_in(
-    image: np.ndarray, req_dtypes: list[Any]
-) -> tuple[np.ndarray, bool, bool, Any]:
+def _cast_squeeze_in(image: np.ndarray, req_dtypes: list[Any]) -> tuple[np.ndarray, bool, bool, Any]:
     need_expand = False
     # make image HWC
     if image.ndim == 4:
-        image = np.squeeze(image, axis=0)
+        image       = np.squeeze(image, axis=0)
         need_expand = True
     image = to_channel_last(image)
 
@@ -86,14 +84,12 @@ def _cast_squeeze_in(
     return image, need_cast, need_expand, out_dtype
 
 
-def _cast_squeeze_out(
-    image: np.ndarray, need_cast: bool, need_expand: bool, out_dtype: Any
-) -> np.ndarray:
+def _cast_squeeze_out(image: np.ndarray, need_cast: bool, need_expand: bool, out_dtype: Any) -> np.ndarray:
     if need_expand:
         image = np.expand_dims(image, axis=0)
 
     if need_cast:
-        if out_dtype in (torch.uint8, torch.int8, torch.int16, torch.int32, torch.int64):
+        if out_dtype in (np.uint8, np.int8, np.int16, np.int32, np.int64):
             # it is better to round before cast
             image = np.round(image)
         image = image.astype(out_dtype)
@@ -251,9 +247,7 @@ def resize_numpy_image(
     if cv_interpolation == cv2.INTER_CUBIC and out_dtype == np.uint8:
         image = np.clip(image, 0, 255)
     
-    image = _cast_squeeze_out(
-        image, need_cast=need_cast, need_expand=need_expand, out_dtype=out_dtype
-    )
+    image = _cast_squeeze_out(image, need_cast=need_cast, need_expand=need_expand, out_dtype=out_dtype)
     
     return image
 

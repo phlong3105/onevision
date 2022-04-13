@@ -94,7 +94,7 @@ Where:
                        box.
     <score>          : Fscore in the DETECTION result file indicates the
                        confidence of the predicted bounding box enclosing an
-                       object instance.Fscore in GROUNDTRUTH file is set to
+                       object detection.Fscore in GROUNDTRUTH file is set to
                        1 or 0. 1 indicates the bounding box is considered in
                        evaluation, while 0 indicates the bounding box will be
                        ignored.
