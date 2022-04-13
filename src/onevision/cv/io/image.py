@@ -33,13 +33,14 @@ from onevision.cv.utils import VisionBackend
 from onevision.file import create_dirs
 from onevision.type import Arrays
 from onevision.type import to_4d_array
-from onevision.utils import error_console
 
+"""
+from onevision.utils import error_console
 try:
     import pyvips
 except ImportError:
     error_console.log(f"Cannot import `pyvips`.")
-    
+"""
     
 __all__ = [
 	"read_image",
@@ -90,13 +91,14 @@ def read_image_cv(path: str) -> np.ndarray:
 	image = np.ascontiguousarray(image)
 	return image
 
-
+'''
 def read_image_libvips(path: str) -> np.ndarray:
 	"""Read image using libvips."""
 	image   = pyvips.Image.new_from_file(path, access="sequential")
 	mem_img = image.write_to_memory()
 	image   = np.frombuffer(mem_img, dtype=np.uint8).reshape(image.height, image.width, 3)
 	return image
+'''
 
 
 def read_image_pil(path: str) -> np.ndarray:
@@ -115,7 +117,8 @@ def read_image(path: str, backend: Union[VisionBackend, str, int] = "cv") -> np.
 	if backend == VisionBackend.CV:
 		return read_image_cv(path)
 	elif backend == VisionBackend.LIBVIPS:
-		return read_image_libvips(path)
+		pass
+		# return read_image_libvips(path)
 	elif backend == VisionBackend.PIL:
 		return read_image_pil(path)
 	else:
