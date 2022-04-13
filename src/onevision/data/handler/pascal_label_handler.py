@@ -23,12 +23,14 @@ from onevision.factory import LABEL_HANDLERS
 from onevision.file import dump
 from onevision.file import is_xml_file
 from onevision.file import load
-from onevision.utils import error_console
 
+"""
+from onevision.utils import error_console
 try:
 	import pyvips
 except ImportError:
 	error_console.log(f"Cannot import `pyvips`.")
+"""
 
 __all__ = [
 	"PascalLabelHandler"
