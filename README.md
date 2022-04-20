@@ -7,7 +7,7 @@ metrics, ..., datasets, and models.
 
 # Contents
 
-[Installation]](#installation)
+- [Installation](#installation)
 
 # Installation
 
