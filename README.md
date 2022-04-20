@@ -5,8 +5,6 @@ OneVision: One Computer Vision Library To Rule Them All
 It includes supporting functions, data types, data classes, layers, losses, 
 metrics, ..., datasets, and models.
 
-----
-
 # Contents
 
 [Installation]](#installation)
