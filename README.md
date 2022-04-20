@@ -20,9 +20,9 @@ metrics, ..., datasets, and models.
 ### Directory
 - Here is the directories' hierarchy:
 ```text
-one
- |__ datasets (this folder contains the actual raw data)
- |__ onevision
+one                   # root directory
+ |__ datasets         # contains raw data
+ |__ onevision        
  |__ projects
  |      |__ project1
  |      |__ project2
