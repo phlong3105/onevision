@@ -14,12 +14,11 @@ metrics, ..., datasets, and models.
 # Installation
 
 ### Prerequisite
-- We recommend to use `Python 3.9+` and `PyTorch (>= v1.11.0)` with `conda` environment.
-- We use `PyCharm` as the main editor.
+- Base environment: `Python 3.9+` and `PyTorch (>= v1.11.0)` with `conda`.
+- Editor: `PyCharm`.
 
 ### Directory
-
-- Here is the recommendation of the directories:
+- Here is the directories' hierarchy:
 ```text
 one
  |__ datasets (this folder contains the actual raw data)
@@ -32,5 +31,4 @@ one
 ```
 
 ### Easy Installation
-
 To be updated
