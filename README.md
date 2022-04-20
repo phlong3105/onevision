@@ -13,11 +13,11 @@ metrics, ..., datasets, and models.
 
 # Installation
 
-## Prerequisite
+### Prerequisite
 - We recommend to use `Python 3.9+` and `PyTorch (>= v1.11.0)` with `conda` environment.
 - We use `PyCharm` as the main editor.
 
-## Directory
+### Directory
 
 - Here is the recommendation of the directories:
 ```text
