@@ -6,12 +6,12 @@ It includes supporting functions, data types, data classes, layers, losses,
 metrics, ..., datasets, and models.
 
 
-# Contents
+## Contents
 
 - [Installation](#installation)
 
 
-# Installation
+## Installation
 
 ### Prerequisite
 - We recommend to use `Python 3.9+` and `PyTorch (>= v1.11.0)` with `conda` environment.
@@ -31,6 +31,6 @@ one
  |__ tools
 ```
 
-## Easy Installation
+### Easy Installation
 
 To be updated
