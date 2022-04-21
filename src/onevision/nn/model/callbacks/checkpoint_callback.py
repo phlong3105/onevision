@@ -161,8 +161,7 @@ class CheckpointCallback(Callback):
 		
 		Args:
 			model_dir (str):
-				Model's dir. Checkpoints will be save to
-				`../<model_dir>/<version>/weights/`.
+				Model's dir. Checkpoints will be save to `../<model_dir>/<version>/weights/`.
 			version (int, str, optional):
 				Experiment version. If version is not specified the logger
 				inspects the save directory for existing versions, then
@@ -176,7 +175,7 @@ class CheckpointCallback(Callback):
 			version = f"version_{version}"
 		version = version.lower()
 		
-		self.checkpoint_dir = os.path.join(model_dir, version, "")
+		self.checkpoint_dir = os.path.join(model_dir, version, "weights")
 		console.log(f"Checkpoint directory at: {self.checkpoint_dir}.")
 
 	def init_monitor_mode(self, monitor: Optional[str], mode: str):
@@ -285,9 +284,7 @@ class CheckpointCallback(Callback):
 	
 	# MARK: Loop
 	
-	def on_pretrain_routine_start(
-		self, trainer: "pl.Trainer", pl_module: "pl.LightningModule"
-	):
+	def on_pretrain_routine_start(self, trainer: "pl.Trainer", pl_module: "pl.LightningModule"):
 		"""When pretrain routine starts we build the `checkpoint_dir` on the
 		fly.
 
@@ -307,9 +304,7 @@ class CheckpointCallback(Callback):
 		if self.save_on_train_epoch_end is None:
 			self.save_on_train_epoch_end = trainer.val_check_interval == 1.0
 	
-	def on_train_start(
-		self, trainer: "pl.Trainer", pl_module: "pl.LightningModule"
-	):
+	def on_train_start(self, trainer: "pl.Trainer", pl_module: "pl.LightningModule"):
 		"""Called when the train begins.
 
 		Args:
@@ -398,9 +393,7 @@ class CheckpointCallback(Callback):
 			self._save_checkpoint(trainer=trainer)
 		trainer.fit_loop.global_step += 1
 	
-	def on_validation_end(
-		self, trainer: "pl.Trainer", pl_module: "pl.LightningModule"
-	):
+	def on_validation_end(self, trainer: "pl.Trainer", pl_module: "pl.LightningModule"):
 		"""Save a checkpoint at the end of the validation stage.
 
 		Args:
@@ -418,9 +411,7 @@ class CheckpointCallback(Callback):
 			return
 		self._save_checkpoint(trainer=trainer)
 	
-	def on_train_end(
-		self, trainer: "pl.Trainer", pl_module: "pl.LightningModule"
-	):
+	def on_train_end(self, trainer: "pl.Trainer", pl_module: "pl.LightningModule"):
 		"""Save a checkpoint when training stops.
 
 		This will only save a checkpoint if `save_last` is also enabled as the
@@ -593,13 +584,9 @@ class CheckpointCallback(Callback):
 		# NOTE: Callback supports multiple simultaneous modes, here we call
 		#  each mode sequentially
 		# Mode 1: Save best checkpoint
-		self._save_best_checkpoint(
-			trainer=trainer, monitor_candidates=monitor_candidates
-		)
+		self._save_best_checkpoint(trainer=trainer, monitor_candidates=monitor_candidates)
 		# Mode 2: Save last checkpoint
-		self._save_last_checkpoint(
-			trainer=trainer, monitor_candidates=monitor_candidates
-		)
+		self._save_last_checkpoint(trainer=trainer, monitor_candidates=monitor_candidates)
 		
 		# NOTE: Notify loggers
 		if trainer.is_global_zero and trainer.logger:
@@ -700,11 +687,7 @@ class CheckpointCallback(Callback):
 		)
 		
 		# NOTE: Save
-		if (
-			self.last_checkpoint_path != ""
-			and self.last_checkpoint_path != filepath
-			and trainer.should_rank_save_checkpoint
-		):
+		if self.last_checkpoint_path != "" and self.last_checkpoint_path != filepath:
 			self._del_model(trainer=trainer, filepath=self.last_checkpoint_path)
 		
 		self.last_checkpoint_path    = filepath
@@ -713,10 +696,7 @@ class CheckpointCallback(Callback):
 		
 		if self.verbose:
 			current = monitor_candidates.get(self.monitor, None)
-			if (
-				current is None
-				or (isinstance(current, Tensor) and torch.isnan(current))
-			):
+			if current is None or (isinstance(current, Tensor) and torch.isnan(current)):
 				current = float("inf" if self.mode == "min" else "-inf")
 				current = torch.tensor(current)
 			current = current.cpu()
@@ -750,9 +730,7 @@ class CheckpointCallback(Callback):
 			trainer.dev_debugger.track_checkpointing_history(filepath=filepath)
 		
 		# NOTE: Delegate the saving to the trainer
-		trainer.save_checkpoint(
-			filepath=filepath, weights_only=self.save_weights_only
-		)
+		trainer.save_checkpoint(filepath=filepath, weights_only=self.save_weights_only)
 	
 	# noinspection PyMethodMayBeStatic
 	def _del_model(self, trainer: "pl.Trainer", filepath: str):
@@ -764,10 +742,7 @@ class CheckpointCallback(Callback):
 			filepath (str):
 				Checkpoint path to delete.
 		"""
-		if (
-			trainer.should_rank_save_checkpoint
-			and os.path.exists(path=filepath)
-		):
+		if trainer.should_rank_save_checkpoint and os.path.exists(path=filepath):
 			os.remove(path=filepath)
 			# if self.verbose:
 				# console.log(f"[Epoch {trainer.current_epoch}] Removed checkpoint: {filepath}")
@@ -841,9 +816,7 @@ class CheckpointCallback(Callback):
 			else:
 				raise ValueError(m)
 	
-	def _is_valid_monitor_key(
-		self, metrics: dict[str, Union[int, float, Tensor]]
-	) -> bool:
+	def _is_valid_monitor_key(self, metrics: dict[str, Union[int, float, Tensor]]) -> bool:
 		"""Check if model's metrics has `monitor` key.
 		
 		Args:
@@ -878,17 +851,14 @@ class CheckpointCallback(Callback):
 		
 		if trainer.logger is not None:
 			if trainer.weights_save_path != trainer.default_root_dir:
-				# Fuser has changed `weights_save_path`, it overrides
-				# anything
+				# Fuser has changed `weights_save_path`, it overrides anything
 				checkpoint_dir = trainer.weights_save_path
 			else:
-				checkpoint_dir = (
-					trainer.logger.save_dir or trainer.default_root_dir
-				)
+				checkpoint_dir = (trainer.logger.save_dir or trainer.default_root_dir)
 		else:
 			checkpoint_dir = trainer.weights_save_path
 		
-		checkpoint_dir = trainer.training_type_plugin.broadcast(checkpoint_dir)
+		checkpoint_dir      = trainer.training_type_plugin.broadcast(checkpoint_dir)
 		self.checkpoint_dir = checkpoint_dir
 
 	def _format_checkpoint_path(
@@ -941,9 +911,7 @@ class CheckpointCallback(Callback):
 		return os.path.join(self.checkpoint_dir, filename)
 
 	# noinspection PyMethodMayBeStatic
-	def _file_exists(
-		self, filepath: Union[str, Path], trainer: "pl.Trainer"
-	) -> bool:
+	def _file_exists(self, filepath: Union[str, Path], trainer: "pl.Trainer") -> bool:
 		"""Checks if a file exists on rank 0 and broadcasts the result to all
 		other ranks, preventing the internal state to diverge between ranks.
 		

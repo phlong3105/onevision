@@ -21,8 +21,6 @@ from onevision.cv import imshow_plt
 from onevision.factory import IMAGE_ENHANCEMENT
 from onevision.factory import LOW_LIGHT_IMAGE_ENHANCEMENT
 from onevision.factory import MODELS
-from onevision.models.enhancement.retinexnet import Phase
-from onevision.models.enhancement.retinexnet import RetinexNet
 from onevision.models.enhancement.retinexnet.loss import DecomLoss
 from onevision.models.enhancement.retinexnet.loss import EnhanceLoss
 from onevision.models.enhancement.retinexnet.loss import RetinexLoss

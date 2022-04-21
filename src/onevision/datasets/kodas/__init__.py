@@ -6,5 +6,5 @@
 
 from __future__ import annotations
 
-from .kodas2019lol import *
-from .kodas2020det2d import *
+from .kodas19lol import *
+from .kodas20forward import *

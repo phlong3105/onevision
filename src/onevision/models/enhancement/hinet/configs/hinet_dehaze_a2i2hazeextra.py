@@ -41,8 +41,7 @@ callbacks = [
 	{
 		"name": "checkpoint_callback",
 		"model_dir": model_dir,
-		# Model's dir. The checkpoints will be save to
-		# `../<model_dir>/<version>/weights/`.
+		# Model's dir. The checkpoints will be save to `../<model_dir>/<version>/weights/`.
 		"version": version,
 		# Experiment version. If version is not specified the logger inspects
 		# the save directory for existing versions, then automatically assigns
@@ -140,12 +139,13 @@ tb_logger = {
 }
 
 trainer = {
+	"accelerator": "gpu",
+	# Supports passing different accelerator types ("cpu", "gpu", "tpu", "ipu", "hpu", "auto")
+	# as well as custom accelerator instances. Default: `gpu`.
 	"accumulate_grad_batches": None,
-	# Accumulates grads every k batches or as set up in the dict.
-	# Default: `None`.
+	# Accumulates grads every k batches or as set up in the dict. Default: `None`.
 	"amp_backend": "native",
-	# Mixed precision backend to use (`native` or `apex`).
-	# Default: `native`.
+	# Mixed precision backend to use (`native` or `apex`). Default: `native`.
 	"amp_level": None,
 	# Optimization level to use (O1, O2, etc...). By default it will be set
 	# to "O2" if `amp_backend` is set to `apex`.

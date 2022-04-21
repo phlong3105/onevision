@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-qt.qpa.plugin: Could not load the Qt platform plugin "xcb" in
 
 """Add-in to the `pytorch_lightning.Trainer` class.
 """
@@ -8,13 +8,16 @@ from __future__ import annotations
 
 import pytorch_lightning as pl
 import torch
+from pytorch_lightning.accelerators import GPUAccelerator
+from pytorch_lightning.accelerators import HPUAccelerator
 from pytorch_lightning.accelerators import IPUAccelerator
+from pytorch_lightning.accelerators import TPUAccelerator
+from pytorch_lightning.utilities import _HPU_AVAILABLE
 from pytorch_lightning.utilities import _IPU_AVAILABLE
 from pytorch_lightning.utilities import _TPU_AVAILABLE
-from pytorch_lightning.utilities import DeviceType
+from pytorch_lightning.utilities.warnings import PossibleUserWarning
 
 from onevision.utils import console
-from onevision.utils import error_console
 
 __all__ = [
     "Trainer"
@@ -41,36 +44,37 @@ class Trainer(pl.Trainer):
 
     def _log_device_info(self):
         console.log(f"GPU available: {torch.cuda.is_available()}, "
-                    f"used: {self._device_type == DeviceType.GPU}")
-
-        num_tpu_cores = self.tpu_cores if (
-	        self.tpu_cores is not None and self._device_type == DeviceType.TPU
-        ) else 0
-        console.log(f"TPU available: {_TPU_AVAILABLE}, "
-                    f"using: {num_tpu_cores} TPU cores")
-
-        num_ipus = self.ipus if self.ipus is not None else 0
-        console.log(f"IPU available: {_IPU_AVAILABLE}, "
-                    f"using: {num_ipus} IPUs")
-
-        if torch.cuda.is_available() and self._device_type != DeviceType.GPU:
-            error_console.log(
-                "GPU available but not used. Set the gpus flag in your trainer "
-                "`Trainer(gpus=1)` or script `--gpus=1`."
+                    f"used: {isinstance(self.accelerator, GPUAccelerator)}")
+    
+        num_tpu_cores = self.num_devices if isinstance(self.accelerator, TPUAccelerator) else 0
+        console.log(f"TPU available: {_TPU_AVAILABLE}, using: {num_tpu_cores} TPU cores")
+    
+        num_ipus = self.num_devices if isinstance(self.accelerator, IPUAccelerator) else 0
+        console.log(f"IPU available: {_IPU_AVAILABLE}, using: {num_ipus} IPUs")
+    
+        num_hpus = self.num_devices if isinstance(self.accelerator, HPUAccelerator) else 0
+        console.log(f"HPU available: {_HPU_AVAILABLE}, using: {num_hpus} HPUs")
+    
+        if torch.cuda.is_available() and not isinstance(self.accelerator, GPUAccelerator):
+            console.log(
+                "GPU available but not used. Set `accelerator` and `devices` using"
+                f" `Trainer(accelerator='gpu', devices={GPUAccelerator.auto_device_count()})`.",
             )
-
-        if _TPU_AVAILABLE and self._device_type != DeviceType.TPU:
-            error_console.log(
-                "TPU available but not used. Set the `tpu_cores` flag in your "
-                "trainer `Trainer(tpu_cores=8)` or script `--tpu_cores=8`."
+    
+        if _TPU_AVAILABLE and not isinstance(self.accelerator, TPUAccelerator):
+            console.log(
+                "TPU available but not used. Set `accelerator` and `devices` using"
+                f" `Trainer(accelerator='tpu', devices={TPUAccelerator.auto_device_count()})`."
             )
-
-        if (
-	        _IPU_AVAILABLE
-	        and self._device_type != DeviceType.IPU
-	        and not isinstance(self.accelerator, IPUAccelerator)
-        ):
-            error_console.log(
-                "IPU available but not used. Set the `ipus` flag in your "
-                "trainer `Trainer(ipus=8)` or script `--ipus=8`."
+    
+        if _IPU_AVAILABLE and not isinstance(self.accelerator, IPUAccelerator):
+            console.log(
+                "IPU available but not used. Set `accelerator` and `devices` using"
+                f" `Trainer(accelerator='ipu', devices={IPUAccelerator.auto_device_count()})`."
+            )
+    
+        if _HPU_AVAILABLE and not isinstance(self.accelerator, HPUAccelerator):
+            console.log(
+                "HPU available but not used. Set `accelerator` and `devices` using"
+                f" `Trainer(accelerator='hpu', devices={HPUAccelerator.auto_device_count()})`."
             )

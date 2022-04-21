@@ -6,4 +6,4 @@
 
 from __future__ import annotations
 
-from .visdrone2019det import *
+from .visdrone19det import *

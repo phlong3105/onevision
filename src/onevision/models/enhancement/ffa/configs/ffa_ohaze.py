@@ -146,12 +146,13 @@ tb_logger = {
 }
 
 trainer = {
+	"accelerator": "gpu",
+	# Supports passing different accelerator types ("cpu", "gpu", "tpu", "ipu", "hpu", "auto")
+	# as well as custom accelerator instances. Default: `gpu`.
 	"accumulate_grad_batches": None,
-	# Accumulates grads every k batches or as set up in the dict.
-	# Default: `None`.
+	# Accumulates grads every k batches or as set up in the dict. Default: `None`.
 	"amp_backend": "native",
-	# Mixed precision backend to use (`native` or `apex`).
-	# Default: `native`.
+	# Mixed precision backend to use (`native` or `apex`). Default: `native`.
 	"amp_level": None,
 	# Optimization level to use (O1, O2, etc...). By default it will be set
 	# to "O2" if `amp_backend` is set to `apex`.

@@ -6,4 +6,4 @@
 
 from __future__ import annotations
 
-from .katech2020bbox import *
+from .katech20bbox import *

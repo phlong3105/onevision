@@ -450,7 +450,7 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
         else:
             self.pretrained_dir = None
             
-        if model_dir is not None and os.path.isdir(model_dir):
+        if model_dir is not None:
             self.model_dir = model_dir
         elif self.pretrained_dir is not None and os.path.isdir(self.pretrained_dir):
             self.model_dir = os.path.join(self.pretrained_dir, self.basename, self.name)
@@ -702,9 +702,7 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
         pass
     
     @abstractmethod
-    def forward_features(
-        self, x: Tensor, out_indexes: Optional[Indexes] = None
-    ) -> Tensors:
+    def forward_features(self, x: Tensor, out_indexes: Optional[Indexes] = None) -> Tensors:
         """Forward pass for features extraction. Commonly used in image
         classifier or backbone.
 
@@ -743,9 +741,7 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
         """Called in the training loop at the very beginning of the epoch."""
         self.epoch_step = 0
     
-    def training_step(
-        self, batch: Any, batch_idx: int, *args, **kwargs
-    ) -> Optional[StepOutput]:
+    def training_step(self, batch: Any, batch_idx: int, *args, **kwargs) -> Optional[StepOutput]:
         """Training step.
 
         Args:
@@ -765,9 +761,7 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
         yhat, loss  = self.forward_loss(x=x, y=y, *args, **kwargs)
         return {"loss": loss, "x": x, "y": y, "yhat": yhat}
     
-    def training_step_end(
-        self, outputs: Optional[StepOutput], *args, **kwargs
-    ) -> Optional[StepOutput]:
+    def training_step_end(self, outputs: Optional[StepOutput], *args, **kwargs) -> Optional[StepOutput]:
         """Use this when training with dp or ddp2 because training_step() will
         operate on only part of the batch. However, this is still optional and
         only needed for things like softmax or NCE loss.
@@ -828,9 +822,7 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
         """Called in the validation loop at the very beginning of the epoch."""
         self.epoch_step = 0
         
-    def validation_step(
-        self, batch: Any, batch_idx: int, *args, **kwargs
-    ) -> Optional[StepOutput]:
+    def validation_step(self, batch: Any, batch_idx: int, *args, **kwargs) -> Optional[StepOutput]:
         """Validation step.
 
         Args:
@@ -849,9 +841,7 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
         yhat, loss  = self.forward_loss(x=x, y=y, *args, **kwargs)
         return {"loss": loss, "x": x, "y": y, "yhat": yhat}
         
-    def validation_step_end(
-        self, outputs: Optional[StepOutput], *args, **kwargs
-    ) -> Optional[StepOutput]:
+    def validation_step_end(self, outputs: Optional[StepOutput], *args, **kwargs) -> Optional[StepOutput]:
         """Use this when validating with dp or ddp2 because `validation_step`
         will operate on only part of the batch. However, this is still optional
         and only needed for things like softmax or NCE loss.
@@ -929,9 +919,7 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
         """Called in the test loop at the very beginning of the epoch."""
         self.epoch_step = 0
     
-    def test_step(
-        self, batch: Any, batch_idx: int, *args, **kwargs
-    ) -> Optional[StepOutput]:
+    def test_step(self, batch: Any, batch_idx: int, *args, **kwargs) -> Optional[StepOutput]:
         """Test step.
 
         Args:
@@ -950,9 +938,7 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
         yhat, loss  = self.forward_loss(x=x, y=y, *args, **kwargs)
         return {"loss": loss, "x": x, "y": y, "yhat": yhat}
     
-    def test_step_end(
-        self, outputs: Optional[StepOutput], *args, **kwargs
-    ) -> Optional[StepOutput]:
+    def test_step_end(self, outputs: Optional[StepOutput], *args, **kwargs) -> Optional[StepOutput]:
         """Use this when testing with dp or ddp2 because `test_step` will
         operate on only part of the batch. However, this is still optional and
         only needed for things like softmax or NCE loss.
@@ -1117,9 +1103,7 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
 
     # MARK: Log
     
-    def tb_log_scalar(
-        self, tag: str, data: Optional[Any], step: Union[str, int] = "step"
-    ):
+    def tb_log_scalar(self, tag: str, data: Optional[Any], step: Union[str, int] = "step"):
         """Log scalar values using tensorboard."""
         if data is None:
             return
@@ -1128,9 +1112,7 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
         if self.trainer.is_global_zero:
             self.logger.experiment.add_scalar(tag, data, step)
     
-    def tb_log_class_metrics(
-        self, tag: str, data: Optional[Any], step: Union[str, int] = "step"
-    ):
+    def tb_log_class_metrics(self, tag: str, data: Optional[Any], step: Union[str, int] = "step"):
         """Log class metrics using tensorboard."""
         if data is None:
             return
@@ -1143,9 +1125,7 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
                 n = f"{tag}/{n}"
                 self.logger.experiment.add_scalar(n, a, step)
         
-    def ckpt_log_scalar(
-        self, tag: str, data: Optional[Any], prog_bar: bool = False
-    ):
+    def ckpt_log_scalar(self, tag: str, data: Optional[Any], prog_bar: bool = False):
         """Log for model checkpointing."""
         if data is None:
             return

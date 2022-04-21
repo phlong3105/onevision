@@ -27,6 +27,7 @@ one                   # root directory
  |      |__ project1
  |      |__ project2
  |      |__ ..
+ |
  |__ tools
 ```
 

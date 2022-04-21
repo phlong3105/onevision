@@ -39,19 +39,18 @@ class RichProgressBar(callbacks.RichProgressBar):
 	# MARK: Configure
 	
 	def _init_progress(self, trainer):
-		if self.is_enabled and (
-			self.progress is None or self._progress_stopped):
+		if self.is_enabled and (self.progress is None or self._progress_stopped):
 			self._reset_progress_bar_ids()
 			self._console = console
-			# self._console: Console = Console()
+			# self._console: Console = Console(**self._console_kwargs)
 			self._console.clear_live()
 			self._metric_component = MetricsTextColumn(trainer, self.theme.metrics)
 			self.progress = CustomProgress(
 				*self.configure_columns(trainer),
 				self._metric_component,
-				refresh_per_second = self.refresh_rate_per_second,
-				disable            = self.is_disabled,
-				console            = self._console,
+				auto_refresh = False,
+				disable      = self.is_disabled,
+				console      = self._console,
 			)
 			self.progress.start()
 			# progress has started

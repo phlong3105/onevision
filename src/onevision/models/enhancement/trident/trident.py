@@ -17,14 +17,14 @@ from torch import nn
 from torch import Tensor
 from torchvision.ops import DeformConv2d
 
-from onevision import DUB
-from onevision import InversePixelShuffle
-from onevision import RWAB
 from onevision.factory import DEHAZE
 from onevision.factory import IMAGE_ENHANCEMENT
 from onevision.factory import MODELS
 from onevision.models.classification import DPN92
 from onevision.models.enhancement.image_enhancer import ImageEnhancer
+from onevision.nn import DUB
+from onevision.nn import InversePixelShuffle
+from onevision.nn import RWAB
 from onevision.type import Indexes
 from onevision.type import Pretrained
 

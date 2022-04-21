@@ -53,15 +53,14 @@ def main():
     config.trainer.amp_backend      = host.amp_backend
     config.trainer.strategy         = host.strategy
     config.trainer.gpus             = host.gpus
-    config.trainer.auto_select_gpus = (True if isinstance(host.gpus, int)
-                                       else False)
+    config.trainer.auto_select_gpus = (True if isinstance(host.gpus, int) else False)
     
     # Data
     dm = DATAMODULES.build_from_dict(cfg=config.data)
     dm.prepare_data()
 
     # Model
-    config.model.classlabels = dm.classlabels
+    config.model.class_labels = dm.class_labels
     model                     = MODELS.build_from_dict(cfg=config.model)
     
     print_dict(config, title=host.config.model_fullname)
@@ -123,8 +122,7 @@ def train(model: BaseModel, dm: DataModule, config: Munch) -> BaseModel:
     
     # NOTE: Callbacks
     callbacks            = CALLBACKS.build_from_dictlist(cfgs=_cfg.callbacks)
-    enable_checkpointing = any(isinstance(cb, CheckpointCallback)
-                               for cb in callbacks)
+    enable_checkpointing = any(isinstance(cb, CheckpointCallback) for cb in callbacks)
     
     # NOTE: Logger
     tb_logger = TensorBoardLogger(**_cfg.tb_logger)
@@ -135,8 +133,7 @@ def train(model: BaseModel, dm: DataModule, config: Munch) -> BaseModel:
     trainer_cfg.callbacks            = callbacks
     trainer_cfg.enable_checkpointing = enable_checkpointing
     trainer_cfg.logger               = tb_logger
-    trainer_cfg.num_sanity_val_steps = (0 if (ckpt is not None)
-                                        else trainer_cfg.num_sanity_val_steps)
+    trainer_cfg.num_sanity_val_steps = (0 if (ckpt is not None) else trainer_cfg.num_sanity_val_steps)
     
     trainer               = Trainer(**trainer_cfg)
     trainer.current_epoch = get_epoch(ckpt=ckpt)
