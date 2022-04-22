@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Install: 
-# chmod +x install_env_linux.sh
-# ./install_env_linux.sh
+# chmod +x setup_ubuntu.sh
+# ./setup_ubuntu.sh
 
 script_path=$(readlink -f "$0")
 current_dir=$(dirname "$script_path")
