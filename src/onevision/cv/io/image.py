@@ -117,8 +117,8 @@ def read_image(path: str, backend: Union[VisionBackend, str, int] = "cv") -> np.
 	if backend == VisionBackend.CV:
 		return read_image_cv(path)
 	elif backend == VisionBackend.LIBVIPS:
-		pass
 		# return read_image_libvips(path)
+		pass
 	elif backend == VisionBackend.PIL:
 		return read_image_pil(path)
 	else:

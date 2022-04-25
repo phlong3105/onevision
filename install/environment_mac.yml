@@ -39,6 +39,8 @@ dependencies:
           # The Cython language is a superset of the Python language that
           # additionally supports calling C functions and declaring C types on
           # variables and class attributes.
+        - ffmpeg-python
+          # Python bindings for FFmpeg.
         - filterpy
           # FilterPy is a Python library that implements a number of Bayesian
           # filtering, most notably Kalman filtering.
@@ -70,8 +72,10 @@ dependencies:
           # Ninja is a small build system with a focus on speed.
         - numpy
           # NumPy is the fundamental package for array computing with Python.
-        - opencv-python==4.4.0.46                 ; sys_platform=="win32" or sys_platform=="linux"
-        - opencv-contrib-python==4.4.0.46         ; sys_platform=="win32" or sys_platform=="linux"
+        - opencv-python==4.4.0.46
+        - opencv-contrib-python==4.4.0.46
+        # - opencv-python==4.4.0.46                 ; sys_platform=="win32" or sys_platform=="linux"
+        # - opencv-contrib-python==4.4.0.46         ; sys_platform=="win32" or sys_platform=="linux"
         - opencv-python-headless==4.4.0.46        ; sys_platform=="darwin"
         - opencv-contrib-python-headless==4.4.0.46; sys_platform=="darwin"
           # OpenCV library

@@ -4,14 +4,19 @@
 """
 """
 
-from __future__ import annotations
+import cv2
 
-import os
-import sys
+from onevision import FFmpegVideoLoader
+from onevision import FFmpegVideoWriter
 
-root               = os.path.dirname(os.path.dirname(__file__))  # workspaces/one/onecv
-onevision_src_root = os.path.join(root, "src")
-if onevision_src_root not in sys.path:
-    sys.path.append(onevision_src_root)  # add ROOT to PATH
+video_loader = FFmpegVideoLoader(data="../data/demo.mp4")
+video_writer = FFmpegVideoWriter(dst="../data/results.mp4",	shape=video_loader.shape)
 
-print(os.environ["DATASETS_DIR"])
+for imgs, idxes, files, rel_paths in video_loader:
+	for img in imgs:
+		cv2.imshow("Image", img)
+		video_writer.write(img)
+		if cv2.waitKey(1) == 27:
+			video_loader.close()
+			cv2.destroyAllWindows()
+			break
