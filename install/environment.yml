@@ -45,6 +45,8 @@ dependencies:
           # The Cython language is a superset of the Python language that
           # additionally supports calling C functions and declaring C types on
           # variables and class attributes.
+        - ffmpeg-python
+          # Python bindings for FFmpeg.
         - filterpy
           # FilterPy is a Python library that implements a number of Bayesian
           # filtering, most notably Kalman filtering.
@@ -95,7 +97,7 @@ dependencies:
           # Python interface to Graphviz's Dot language.
         - PyQt5
           # Qt UI.
-        - pytorch-lightning==1.5.10
+        - pytorch-lightning>=1.6.1
           # Pytorch lightning.
         - pyvips
           # A fast image processing library with low memory needs.

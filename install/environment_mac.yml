@@ -39,6 +39,8 @@ dependencies:
           # The Cython language is a superset of the Python language that
           # additionally supports calling C functions and declaring C types on
           # variables and class attributes.
+        - ffmpeg-python
+          # Python bindings for FFmpeg.
         - filterpy
           # FilterPy is a Python library that implements a number of Bayesian
           # filtering, most notably Kalman filtering.

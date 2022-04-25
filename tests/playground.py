@@ -4,14 +4,9 @@
 """
 """
 
-from __future__ import annotations
+import ffmpeg
 
-import os
-import sys
-
-root               = os.path.dirname(os.path.dirname(__file__))  # workspaces/one/onecv
-onevision_src_root = os.path.join(root, "src")
-if onevision_src_root not in sys.path:
-    sys.path.append(onevision_src_root)  # add ROOT to PATH
-
-print(os.environ["DATASETS_DIR"])
+stream = ffmpeg.input("../data/demo.mp4")
+stream = ffmpeg.hflip(stream)
+stream = ffmpeg.output(stream, "../data/output.mp4")
+ffmpeg.run(stream)
