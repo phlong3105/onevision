@@ -19,13 +19,21 @@ metrics, ..., datasets, and models.
 
 
 ## <div align="center">Installation</div>
-### Prerequisite
-- OS: `Ubuntu 20.04/22.04` (fully supports), `Windows 10 and MacOS` (partially supports).
-- Base environment: `Python 3.9+` and `PyTorch (>= v1.11.0)` with `conda`.
-- Editor: `PyCharm`.
 
-### Directory
-- Here is the directories' hierarchy:
+<details open>
+<summary>Prerequisite</summary>
+
+- OS: [**Ubuntu 20.04 / 22.04**](https://ubuntu.com/download/desktop) (fully supports), `Windows 10 and MacOS` (partially supports).
+- Environment: 
+  [**Python>=3.9.0**](https://www.python.org/) 
+  and [**PyTorch>=1.11.0**](https://pytorch.org/get-started/locally/) 
+  with [**anaconda**](https://www.anaconda.com/products/distribution).
+- Editor: [**PyCharm**](https://www.jetbrains.com/pycharm/download).
+</details>
+
+<details open>
+<summary>Directory</summary>
+
 ```text
 one                   # root directory
  |__ datasets         # contains raw data
@@ -37,8 +45,11 @@ one                   # root directory
  |
  |__ tools
 ```
+</details>
 
-### Easy Installation 
+<details open>
+<summary>Easy Installation </summary>
+
 ```shell
 cd <to-workspace-dir>
 mkdir -p one
@@ -56,6 +67,7 @@ sudo ./install.sh  # Install package using `sudo`. When prompt to input the
 cd mish-cuda
 python setup.py build install
 ```
+</details>
 
 
 ## <div align="center">How To Use</div>
@@ -67,12 +79,12 @@ If you find our work useful, please cite the following:
 
 ```text
 @misc{Pham2022,  
-    author = {Long Hoang Pham},  
-    title = {OneVision: One Computer Vision Library To Rule Them All},  
-    publisher = {GitHub},
-    journal = {GitHub repository},
+    author       = {Long Hoang Pham},  
+    title        = {OneVision: One Computer Vision Library To Rule Them All},  
+    publisher    = {GitHub},
+    journal      = {GitHub repository},
     howpublished = {\url{https://github.com/phlong3105/onevision}},
-    year = {2022},
+    year         = {2022},
 }
 ```
 
