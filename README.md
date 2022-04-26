@@ -18,7 +18,7 @@ metrics, ..., datasets, and models.
 - [Contact](#contact)
 
 
-# Installation
+## <div align="center"> Installation </div>
 ### Prerequisite
 - OS: `Ubuntu 20.04/22.04` (fully supports), `Windows 10 and MacOS` (partially supports).
 - Base environment: `Python 3.9+` and `PyTorch (>= v1.11.0)` with `conda`.
@@ -58,11 +58,11 @@ python setup.py build install
 ```
 
 
-# Usage
+## <div align="center"> Usage </div>
 To be updated.
 
 
-# Citation
+## <div align="center"> Citation </div>
 If you find our work useful, please cite the following:
 
 ```text
@@ -77,5 +77,5 @@ If you find our work useful, please cite the following:
 ```
 
 
-# Contact
+## <div align="center"> Contact </div>
 If you have any questions, feel free to contact `Long Pham` ([phlong@skku.edu](phlong@skku.edu))
