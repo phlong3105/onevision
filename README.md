@@ -1,4 +1,4 @@
-OneVision: One Computer Vision Library To Rule Them All
+![Logo](docs/one_32.png) OneVision: One Computer Vision Library To Rule Them All
 =============================
 
 `onevision` is a foundational library for computer vision research. 
@@ -15,7 +15,7 @@ metrics, ..., datasets, and models.
 
 # Installation
 ### Prerequisite
-- OS: `Ubuntu 20.04/22.04` (fully supports), `Windows 10 and MacOS` (partially supports)
+- OS: `Ubuntu 20.04/22.04` (fully supports), `Windows 10 and MacOS` (partially supports).
 - Base environment: `Python 3.9+` and `PyTorch (>= v1.11.0)` with `conda`.
 - Editor: `PyCharm`.
 
