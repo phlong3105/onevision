@@ -1,10 +1,15 @@
-![Logo](docs/one_32.png) OneVision: One Computer Vision Library To Rule Them All
-=============================
 
+<div align="center">
+
+<img src="docs/one_32.png" width="32"> 
+
+OneVision: One Computer Vision Library To Rule Them All
+=============================
 `onevision` is a foundational library for computer vision research. 
 It includes supporting functions, data types, data classes, layers, losses, 
 metrics, ..., datasets, and models.
 
+</div>
 
 # Contents
 - [Installation](#installation)
