@@ -9,7 +9,6 @@ It includes supporting functions, data types, data classes, layers, losses,
 metrics, ..., datasets, and models.
 
 <p align="center">
-  <a href="https://www.pytorchlightning.ai/">Website</a> •
   <a href="#installation">Installation</a> •
   <a href="#how-to-use">How To Use</a> •
   <a href="#citation">Citation</a> •
@@ -19,7 +18,7 @@ metrics, ..., datasets, and models.
 </div>
 
 
-## <div align="center"> Installation </div>
+## <div align="center">Installation</div>
 ### Prerequisite
 - OS: `Ubuntu 20.04/22.04` (fully supports), `Windows 10 and MacOS` (partially supports).
 - Base environment: `Python 3.9+` and `PyTorch (>= v1.11.0)` with `conda`.
@@ -59,11 +58,11 @@ python setup.py build install
 ```
 
 
-## <div align="center"> How To Use </div>
+## <div align="center">How To Use</div>
 To be updated.
 
 
-## <div align="center"> Citation </div>
+## <div align="center">Citation</div>
 If you find our work useful, please cite the following:
 
 ```text
@@ -78,5 +77,5 @@ If you find our work useful, please cite the following:
 ```
 
 
-## <div align="center"> Contact </div>
+## <div align="center">Contact</div>
 If you have any questions, feel free to contact `Long Pham` ([phlong@skku.edu](phlong@skku.edu))
