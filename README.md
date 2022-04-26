@@ -1,6 +1,5 @@
 
 <div align="center">
-
 <img src="docs/one_32.png" width="32"> 
 
 OneVision: One Computer Vision Library To Rule Them All
@@ -9,13 +8,15 @@ OneVision: One Computer Vision Library To Rule Them All
 It includes supporting functions, data types, data classes, layers, losses, 
 metrics, ..., datasets, and models.
 
-</div>
+<p align="center">
+  <a href="https://www.pytorchlightning.ai/">Website</a> •
+  <a href="#installation">Installation</a> •
+  <a href="#how-to-use">How To Use</a> •
+  <a href="#citation">Citation</a> •
+  <a href="#contact">contact</a> •
+</p>
 
-# Contents
-- [Installation](#installation)
-- [Usage](#usage)
-- [Citation](#citation)
-- [Contact](#contact)
+</div>
 
 
 ## <div align="center"> Installation </div>
@@ -58,7 +59,7 @@ python setup.py build install
 ```
 
 
-## <div align="center"> Usage </div>
+## <div align="center"> How To Use </div>
 To be updated.
 
 
