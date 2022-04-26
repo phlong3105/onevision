@@ -1,7 +1,7 @@
 
 <div align="center">
 
-OneVision <img src="docs/one_32.png" width="32"> : One Computer Vision Library To Rule Them All
+OneVision <img src="docs/one_32.png" width="32"> : One Vision Library To Rule Them All
 =============================
 `onevision` is a foundational library for computer vision research. 
 It includes supporting functions, data types, data classes, layers, losses, 
@@ -81,7 +81,7 @@ If you find our work useful, please cite the following:
 ```text
 @misc{Pham2022,  
     author       = {Long Hoang Pham},  
-    title        = {OneVision: One Computer Vision Library To Rule Them All},  
+    title        = {OneVision: One Vision Library To Rule Them All},  
     publisher    = {GitHub},
     journal      = {GitHub repository},
     howpublished = {\url{https://github.com/phlong3105/onevision}},
