@@ -13,7 +13,7 @@ metrics, ..., datasets, and models.
   <a href="#installation">Installation</a> •
   <a href="#how-to-use">How To Use</a> •
   <a href="#citation">Citation</a> •
-  <a href="#contact">contact</a> •
+  <a href="#contact">Contact</a>
 </p>
 
 </div>
