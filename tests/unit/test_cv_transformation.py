@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""
+"""Test CV transformation operations.
 """
 
 from __future__ import annotations
@@ -12,7 +12,6 @@ import cv2
 import torch
 
 from onevision import adjust_gamma
-from onevision import affine
 from onevision import read_image_cv
 from onevision import rotate_image_box
 from onevision import to_channel_first

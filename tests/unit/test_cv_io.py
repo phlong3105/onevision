@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""Test FFmpeg video loader and video writer.
+"""Test CV IO operations.
 """
 
 import cv2
