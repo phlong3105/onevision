@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 from .class_label import *
+from .detection import *
 from .image_augment import *
 from .image_info import *
 from .object_annotation import *

@@ -24,7 +24,7 @@ __all__ = [
 ]
 
 
-# MARK: - Find
+# MARK: - Functional
 
 def majority_voting(object_labels: list[dict]) -> dict:
     """Get label that has max appearances in the object's labels list."""
@@ -45,7 +45,7 @@ def majority_voting(object_labels: list[dict]) -> dict:
     return unique_labels[max_id]
 
 
-# MARK: - ClassLabels
+# MARK: - Modules
 
 class ClassLabels:
     """ClassLabels object is a wrapper around a list of label dictionaries.

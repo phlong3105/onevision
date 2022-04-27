@@ -85,9 +85,7 @@ class VisionData:
 	panoptic_info   : Optional[ImageInfo]    = None
 	eimage          : Optional[np.ndarray]   = None
 	eimage_info     : Optional[ImageInfo]    = None
-	objects         : list[ObjectAnnotation] = field(
-		default_factory=_make_default_objects
-	)
+	objects         : list[ObjectAnnotation] = field(default_factory=_make_default_objects)
 	
 	# MARK: Properties
 	
