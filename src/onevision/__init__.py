@@ -35,9 +35,9 @@ from .data import *
 from .imgproc import *
 from .io import *
 from .math import *
-from .models import *
 from .nn import *
 from .utils import *
+from .vision import *
 
 __author__  = "Long H. Pham"
 __version__ = "0.2.0"

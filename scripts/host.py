@@ -13,8 +13,9 @@ from pytorch_lightning.plugins import DDPPlugin
 
 from onevision import datasets_dir
 from onevision import Phase
-from onevision.models import hinet_dehaze_a2i2hazeextra
-from onevision.models import zerodce_lol199
+from onevision import hinet_dehaze_a2i2hazeextra
+from onevision import zerodce_lol199
+
 
 hosts = {
 	"lp-desktop-windows": Munch(
