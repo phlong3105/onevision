@@ -12,7 +12,7 @@ from __future__ import annotations
 
 import os
 
-from onevision.cv import VisionBackend
+from onevision.core import VisionBackend
 from onevision.utils import pretrained_dir
 
 __all__ = [

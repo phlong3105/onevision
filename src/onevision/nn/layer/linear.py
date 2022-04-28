@@ -11,7 +11,7 @@ import torch.nn.functional as F
 from torch import nn as nn
 from torch import Tensor
 
-from onevision.factory import LINEAR_LAYERS
+from onevision.core import LINEAR_LAYERS
 
 __all__ = [
     "Linear"

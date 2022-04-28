@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from pytorch_lightning import loggers
 
-from onevision.factory import LOGGERS
+from onevision.core import LOGGERS
 
 # MARK: - Builder
 

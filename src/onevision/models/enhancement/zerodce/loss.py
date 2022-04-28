@@ -11,12 +11,12 @@ from typing import Optional
 from torch import nn
 from torch import Tensor
 
+from onevision.core import Tensors
+from onevision.core import Weights
 from onevision.nn import ColorConstancyLoss
 from onevision.nn import ExposureControlLoss
 from onevision.nn import IlluminationSmoothnessLoss
 from onevision.nn import SpatialConsistencyLoss
-from onevision.type import Tensors
-from onevision.type import Weights
 
 __all__ = [
 	"CombinedLoss",

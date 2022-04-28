@@ -10,10 +10,10 @@ import numpy as np
 import torch
 from torch import Tensor
 
+from onevision.core import AUGMENTS
 from onevision.data.augment.base import BaseAugment
 from onevision.data.augment.utils import apply_transform_op
 from onevision.data.data_class import ObjectAnnotation
-from onevision.factory import AUGMENTS
 
 __all__ = [
     "ImageBoxAugment",

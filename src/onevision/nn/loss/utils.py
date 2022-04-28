@@ -14,8 +14,8 @@ import torch
 import torch.nn.functional as F
 from torch import Tensor
 
-from onevision.type import Tensors
-from onevision.type import Weights
+from onevision.core import Tensors
+from onevision.core import Weights
 
 __all__ = [
     "convert_to_one_hot",

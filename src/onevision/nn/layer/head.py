@@ -13,7 +13,7 @@ from torch import nn as nn
 from torch import Tensor
 from torch.nn import functional as F
 
-from onevision.factory import HEADS
+from onevision.core import HEADS
 from onevision.nn.layer.linear import Linear
 from onevision.nn.layer.pool import SelectAdaptivePool2d
 

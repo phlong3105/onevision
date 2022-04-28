@@ -12,7 +12,7 @@ from typing import Optional
 
 from torch import Tensor
 
-from onevision.type import Callable
+from onevision.core import Callable
 from onevision.utils import console
 
 __all__ = [

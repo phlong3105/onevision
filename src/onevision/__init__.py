@@ -30,15 +30,13 @@ from shutil import copyfile
 
 from munch import Munch
 
-from .cv import *
+from .core import *
 from .data import *
-from .datasets import *
-from .factory import *
-from .file import *
+from .imgproc import *
+from .io import *
 from .math import *
 from .models import *
 from .nn import *
-from .type import *
 from .utils import *
 
 __author__  = "Long H. Pham"

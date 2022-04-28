@@ -14,9 +14,9 @@ from typing import Union
 
 from PIL import Image
 
-from onevision.cv import get_exif_size
-from onevision.type import Int2Or3T
-from onevision.type import Int3T
+from onevision.core import get_exif_size
+from onevision.core import Int2Or3T
+from onevision.core import Int3T
 
 """
 from onevision.utils import error_console

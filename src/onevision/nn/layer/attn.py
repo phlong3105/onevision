@@ -13,11 +13,11 @@ import torch
 from torch import nn
 from torch import Tensor
 
-from onevision.factory import ATTN_LAYERS
+from onevision.core import ATTN_LAYERS
+from onevision.core import Callable
+from onevision.core import Int2T
+from onevision.core import to_2tuple
 from onevision.nn.layer.act import create_act_layer
-from onevision.type import Callable
-from onevision.type import Int2T
-from onevision.type import to_2tuple
 
 __all__ = [
 	"ChannelAttentionBlock",

@@ -9,7 +9,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Union
 
-from onevision.file import load
+from onevision.io import load
 
 __all__ = [
 	"Augment",

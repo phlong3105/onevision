@@ -16,10 +16,10 @@ import torch.nn.functional as F
 from torch import nn as nn
 from torch import Tensor
 
-from onevision.factory import PLUGIN_LAYERS
-from onevision.type import Int2T
-from onevision.type import ListOrTupleAnyT
-from onevision.type import Padding4T
+from onevision.core import Int2T
+from onevision.core import ListOrTupleAnyT
+from onevision.core import Padding4T
+from onevision.core import PLUGIN_LAYERS
 
 __all__ = [
     "Concat",

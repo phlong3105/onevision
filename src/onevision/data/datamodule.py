@@ -14,12 +14,12 @@ from typing import Optional
 import pytorch_lightning as pl
 from torch.utils.data import DataLoader
 
-from onevision.cv import VISION_BACKEND
-from onevision.cv import VisionBackend
-from onevision.type import Devices
-from onevision.type import EvalDataLoaders
-from onevision.type import Int3T
-from onevision.type import TrainDataLoaders
+from onevision.core import Devices
+from onevision.core import EvalDataLoaders
+from onevision.core import Int3T
+from onevision.core import TrainDataLoaders
+from onevision.core import VISION_BACKEND
+from onevision.core import VisionBackend
 from onevision.utils import console
 from onevision.utils import Table
 

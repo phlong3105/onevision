@@ -10,7 +10,7 @@ from pytorch_lightning.callbacks import ModelSummary
 from pytorch_lightning.utilities.imports import _RICH_AVAILABLE
 from pytorch_lightning.utilities.model_summary import get_human_readable_count
 
-from onevision.factory import CALLBACKS
+from onevision.core import CALLBACKS
 from onevision.utils import console
 
 if _RICH_AVAILABLE:

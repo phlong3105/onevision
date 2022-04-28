@@ -11,7 +11,7 @@ import torch.nn.functional as F
 from torch import nn
 from torch import Tensor
 
-from onevision.factory import DROP_LAYERS
+from onevision.core import DROP_LAYERS
 
 __all__ = [
     "drop_block_2d",

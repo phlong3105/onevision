@@ -12,7 +12,6 @@ import torch.nn as nn
 
 from onevision.models.detection.scaled_yolov4.models.common import Conv
 from onevision.models.detection.scaled_yolov4.models.common import DWConv
-from onevision.models.detection.scaled_yolov4.utils.google_utils import attempt_download
 
 
 class CrossConv(nn.Module):

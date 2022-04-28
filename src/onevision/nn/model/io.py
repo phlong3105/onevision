@@ -17,10 +17,10 @@ from torch import nn
 from torch import Tensor
 from torch.hub import load_state_dict_from_url
 
-from onevision.file import get_latest_file
-from onevision.file import is_torch_saved_file
-from onevision.file import is_url
-from onevision.type import intersect_ordered_dicts
+from onevision.core import intersect_ordered_dicts
+from onevision.io import get_latest_file
+from onevision.io import is_torch_saved_file
+from onevision.io import is_url
 from onevision.utils import console
 
 __all__ = [

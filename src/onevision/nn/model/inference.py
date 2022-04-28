@@ -19,18 +19,18 @@ import torch
 from torch import Tensor
 from torchvision.transforms import functional as F
 
-from onevision.cv import get_image_hw
-from onevision.cv import ImageLoader
-from onevision.cv import ImageWriter
-from onevision.cv import InterpolationMode
-from onevision.cv import resize
-from onevision.cv import to_image
-from onevision.factory import INFERENCES
-from onevision.file import create_dirs
+from onevision.core import Arrays
+from onevision.core import get_image_hw
+from onevision.core import INFERENCES
+from onevision.core import Int2T
+from onevision.core import Int3T
+from onevision.core import to_image
+from onevision.imgproc import InterpolationMode
+from onevision.imgproc import resize
+from onevision.io import create_dirs
+from onevision.io import ImageLoader
+from onevision.io import ImageWriter
 from onevision.nn.model.utils import get_next_version
-from onevision.type import Arrays
-from onevision.type import Int2T
-from onevision.type import Int3T
 from onevision.utils import console
 from onevision.utils import progress_bar
 from onevision.utils import select_device

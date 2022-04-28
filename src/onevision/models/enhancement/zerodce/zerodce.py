@@ -28,16 +28,16 @@ import torch.nn.functional as F
 from torch import nn
 from torch import Tensor
 
-from onevision.factory import ACT_LAYERS
-from onevision.factory import IMAGE_ENHANCEMENT
-from onevision.factory import LOW_LIGHT_IMAGE_ENHANCEMENT
-from onevision.factory import MODELS
+from onevision.core import ACT_LAYERS
+from onevision.core import IMAGE_ENHANCEMENT
+from onevision.core import Indexes
+from onevision.core import LOW_LIGHT_IMAGE_ENHANCEMENT
+from onevision.core import MODELS
+from onevision.core import Pretrained
+from onevision.core import Tensors
+from onevision.core import to_2tuple
 from onevision.models.enhancement.image_enhancer import ImageEnhancer
 from onevision.models.enhancement.zerodce.loss import CombinedLoss
-from onevision.type import Indexes
-from onevision.type import Pretrained
-from onevision.type import Tensors
-from onevision.type import to_2tuple
 
 __all__ = [
     "ZeroDCE",

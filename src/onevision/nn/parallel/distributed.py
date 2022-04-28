@@ -16,7 +16,7 @@ from pytorch_lightning.plugins import DDPPlugin
 from torch import distributed as dist
 from torch import nn
 
-from onevision.type import Callable
+from onevision.core import Callable
 from onevision.utils import console
 
 __all__ = [

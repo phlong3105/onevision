@@ -12,13 +12,13 @@ import torch
 import torch.nn as nn
 from torch import Tensor
 
-from onevision.factory import ATTN_POOL_LAYERS
+from onevision.core import ATTN_POOL_LAYERS
+from onevision.core import Int2T
+from onevision.core import to_2tuple
 from onevision.nn.layer.embed import apply_rot_embed
 from onevision.nn.layer.embed import rot
 from onevision.nn.layer.embed import RotaryEmbedding
 from onevision.nn.layer.weight_init import trunc_normal_
-from onevision.type import Int2T
-from onevision.type import to_2tuple
 
 __all__ = [
     "apply_rot_embed_list",

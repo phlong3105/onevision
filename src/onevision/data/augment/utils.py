@@ -12,14 +12,14 @@ from typing import Optional
 from torchvision.transforms import functional as F
 from torchvision.transforms import InterpolationMode
 
-from onevision.cv import adjust_hsv
-from onevision.cv import hflip_image_box
-from onevision.cv import image_box_random_perspective
-from onevision.cv import lowhighres_images_random_crop
-from onevision.cv import vflip_image_box
-from onevision.type import ListOrTupleAnyT
-from onevision.type import TensorOrArray
-from onevision.type import TensorsOrArrays
+from onevision.core import ListOrTupleAnyT
+from onevision.core import TensorOrArray
+from onevision.core import TensorsOrArrays
+from onevision.imgproc import adjust_hsv
+from onevision.imgproc import lowhighres_images_random_crop
+from onevision.imgproc import image_box_random_perspective
+from onevision.imgproc import hflip_image_box
+from onevision.imgproc import vflip_image_box
 
 __all__ = [
     "apply_transform_op",

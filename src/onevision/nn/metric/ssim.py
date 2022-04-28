@@ -10,8 +10,8 @@ import torch
 import torch.nn as nn
 from torch import Tensor
 
-from onevision.cv import filter2d
-from onevision.cv import get_gaussian_kernel2d
+from onevision.imgproc import filter2d
+from onevision.imgproc import get_gaussian_kernel2d
 
 __all__ = [
     "ssim",

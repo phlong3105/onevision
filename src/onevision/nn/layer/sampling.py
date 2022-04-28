@@ -15,8 +15,8 @@ from torch import nn
 from torch import Tensor
 from torchvision.ops import DeformConv2d
 
-from onevision.factory import SAMPLING_LAYERS
-from onevision.type import Int2T
+from onevision.core import Int2T
+from onevision.core import SAMPLING_LAYERS
 
 __all__ = [
     "DeformableUpsampleBlock",

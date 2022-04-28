@@ -9,7 +9,7 @@ from __future__ import annotations
 import torch.nn
 from torchvision import transforms
 
-from onevision.factory import TRANSFORMS
+from onevision.core import TRANSFORMS
 
 # MARK: - Register
 

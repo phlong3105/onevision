@@ -5,7 +5,8 @@ import argparse
 import io
 
 import torch
-from flask import Flask, request
+from flask import Flask
+from flask import request
 from PIL import Image
 
 app = Flask(__name__)

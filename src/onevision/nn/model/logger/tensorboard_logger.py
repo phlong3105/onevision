@@ -25,8 +25,8 @@ from tensorboard.summary.writer.event_file_writer import _AsyncWriter
 from tensorboard.summary.writer.record_writer import RecordWriter
 from torch.utils import tensorboard
 
-from onevision.factory import LOGGERS
-from onevision.type import Callable
+from onevision.core import Callable
+from onevision.core import LOGGERS
 
 __all__ = [
     "TensorBoardLogger",

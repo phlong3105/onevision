@@ -15,16 +15,16 @@ import torch.nn.functional as F
 from torch import Tensor
 from torch.nn import Mish
 
-from onevision.factory import POOL_LAYERS
+from onevision.core import Int2T
+from onevision.core import Padding2T
+from onevision.core import Padding4T
+from onevision.core import POOL_LAYERS
+from onevision.core import to_2tuple
+from onevision.core import to_4tuple
 from onevision.nn.layer.conv_norm_act import ConvBnMish
 from onevision.nn.layer.padding import get_padding
 from onevision.nn.layer.padding import get_padding_value
 from onevision.nn.layer.padding import pad_same
-from onevision.type import Int2T
-from onevision.type import Padding2T
-from onevision.type import Padding4T
-from onevision.type import to_2tuple
-from onevision.type import to_4tuple
 
 __all__ = [
     "adaptive_avg_max_pool2d",

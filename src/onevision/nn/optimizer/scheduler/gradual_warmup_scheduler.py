@@ -13,7 +13,7 @@ from torch.optim import Optimizer
 from torch.optim.lr_scheduler import _LRScheduler
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 
-from onevision.factory import SCHEDULERS
+from onevision.core import SCHEDULERS
 
 __all__ = [
     "GradualWarmupScheduler"

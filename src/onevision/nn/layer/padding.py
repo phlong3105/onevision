@@ -13,8 +13,8 @@ import torch.nn.functional as F
 from torch import nn
 from torch import Tensor
 
-from onevision.factory import PADDING_LAYERS
-from onevision.type import Int2T
+from onevision.core import Int2T
+from onevision.core import PADDING_LAYERS
 
 __all__ = [
     "autopad", 

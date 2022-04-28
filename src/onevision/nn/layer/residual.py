@@ -15,12 +15,12 @@ from torch import nn
 from torch import Tensor
 from torch.nn import init
 
-from onevision.factory import RESIDUAL_BLOCKS
+from onevision.core import Callable
+from onevision.core import Int2T
+from onevision.core import Padding4T
+from onevision.core import RESIDUAL_BLOCKS
+from onevision.core import to_2tuple
 from onevision.nn.layer.act import create_act_layer
-from onevision.type import Callable
-from onevision.type import Int2T
-from onevision.type import Padding4T
-from onevision.type import to_2tuple
 
 __all__ = [
     "ResidualConvAct2d",

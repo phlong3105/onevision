@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 
 from onedetection.models.yolov5_v6_1.utils.general import LOGGER
+
 from wandb_utils import WandbLogger
 
 WANDB_ARTIFACT_PREFIX = 'wandb-artifact://'

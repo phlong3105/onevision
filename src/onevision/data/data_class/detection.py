@@ -14,23 +14,23 @@ from typing import Union
 import cv2
 import numpy as np
 
-from onevision.cv.imgproc.shape import box_xyxy_to_cxcyrh
-from onevision.cv.imgproc.shape import get_box_center
-from onevision.type import Color
+from onevision.core import Color
+from onevision.imgproc import get_box_center
+from onevision.imgproc import box_xyxy_to_cxcyrh
 
 __all__ = [
 	"Detection",
 ]
 
 
-# MARK: - Detection
+# MARK: - Modules
 
 class Detection:
 	"""Detection converted from raw numpy output from detector.
 	
 	Attributes:
-		id_ (int, str):
-			Object unique ID.
+		detection_id (int, str):
+			Unique detection identifier.
 		roi_id (int, str, optional):
 			Unique ID of the ROI that the object is in. Else `None`.
 			Default: `None`.
@@ -55,27 +55,27 @@ class Detection:
 	
 	def __init__(
 		self,
-		id_        : Union[int, str]	       = uuid.uuid4().int,
-		roi_id     : Optional[Union[int, str]] = None,
-		box        : Optional[np.ndarray]      = None,
-		polygon    : Optional[np.ndarray]      = None,
-		features   : Optional[np.ndarray]      = None,
-		confidence : Optional[float]           = None,
-		class_label: Optional[dict]            = None,
-		frame_index: Optional[int]             = None,
-		timestamp  : float                     = timer(),
+		detection_id: Union[int, str]	        = uuid.uuid4().int,
+		roi_id      : Optional[Union[int, str]] = None,
+		box         : Optional[np.ndarray]      = None,
+		polygon     : Optional[np.ndarray]      = None,
+		features    : Optional[np.ndarray]      = None,
+		confidence  : Optional[float]           = None,
+		class_label : Optional[dict]            = None,
+		frame_index : Optional[int]             = None,
+		timestamp   : float                     = timer(),
 		*args, **kwargs
 	):
 		super().__init__()
-		self.id_         = id_
-		self.roi_id      = roi_id
-		self.box         = box
-		self.polygon     = polygon
-		self.features    = features
-		self.confidence  = confidence
-		self.class_label = class_label
-		self.frame_index = frame_index
-		self.timestamp   = timestamp
+		self.detection_id = detection_id
+		self.roi_id       = roi_id
+		self.box          = box
+		self.polygon      = polygon
+		self.features     = features
+		self.confidence   = confidence
+		self.class_label  = class_label
+		self.frame_index  = frame_index
+		self.timestamp    = timestamp
 	
 	# MARK: Properties
 	

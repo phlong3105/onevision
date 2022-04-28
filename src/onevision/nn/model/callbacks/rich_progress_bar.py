@@ -19,7 +19,7 @@ from rich.progress import TextColumn
 from rich.progress import TimeElapsedColumn
 from rich.progress import TimeRemainingColumn
 
-from onevision.factory import CALLBACKS
+from onevision.core import CALLBACKS
 from onevision.utils import console
 from onevision.utils import GPUMemoryUsageColumn
 

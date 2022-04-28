@@ -15,8 +15,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch import Tensor
 
-from onevision.factory import NORM_LAYERS
-from onevision.type import Callable
+from onevision.core import Callable
+from onevision.core import NORM_LAYERS
 
 __all__ = [
     "EvoNormBatch2d",

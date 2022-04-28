@@ -14,15 +14,15 @@ import torch
 from torch import nn
 from torch import Tensor
 
-from onevision.factory import CONV_NORM_ACT_LAYERS
+from onevision.core import Callable
+from onevision.core import CONV_NORM_ACT_LAYERS
+from onevision.core import Int2T
+from onevision.core import Padding4T
+from onevision.core import to_2tuple
 from onevision.nn.layer.conv import create_conv2d
 from onevision.nn.layer.conv import CrossConv
 from onevision.nn.layer.norm_act import convert_norm_act
 from onevision.nn.layer.padding import autopad
-from onevision.type import Callable
-from onevision.type import Int2T
-from onevision.type import Padding4T
-from onevision.type import to_2tuple
 
 __all__ = [
     "ConvBnAct2d",

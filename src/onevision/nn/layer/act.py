@@ -14,10 +14,10 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch import Tensor
 
-from onevision.factory import ACT_LAYERS
-from onevision.type import Callable
-from onevision.type import Int2T
-from onevision.type import to_2tuple
+from onevision.core import ACT_LAYERS
+from onevision.core import Callable
+from onevision.core import Int2T
+from onevision.core import to_2tuple
 
 __all__ = [
     "create_act_layer",

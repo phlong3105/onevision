@@ -14,8 +14,8 @@ import torch
 from torch import Tensor
 from torchmetrics.metric import Metric
 
-from onevision.factory import METRICS
-from onevision.type import Callable
+from onevision.core import Callable
+from onevision.core import METRICS
 
 __all__ = [
     "MAP",

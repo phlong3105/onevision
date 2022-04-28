@@ -14,7 +14,7 @@ import cv2
 import numpy as np
 from munch import Munch
 
-from onevision.file import load
+from onevision.io import load
 from onevision.utils import console
 from onevision.utils import print_table
 

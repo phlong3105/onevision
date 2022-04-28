@@ -12,7 +12,7 @@ from typing import Callable
 import torch
 from torch import nn
 
-from onevision.file import is_weights_file
+from onevision.io import is_weights_file
 from onevision.utils import console
 
 __all__ = [

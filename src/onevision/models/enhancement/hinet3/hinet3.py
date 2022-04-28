@@ -13,17 +13,17 @@ import torch
 from torch import nn
 from torch import Tensor
 
-from onevision.factory import DEBLUR
-from onevision.factory import DENOISE
-from onevision.factory import DERAIN
-from onevision.factory import IMAGE_ENHANCEMENT
-from onevision.factory import MODELS
+from onevision.core import DEBLUR
+from onevision.core import DENOISE
+from onevision.core import DERAIN
+from onevision.core import IMAGE_ENHANCEMENT
+from onevision.core import Indexes
+from onevision.core import MODELS
+from onevision.core import Pretrained
+from onevision.core import Tensors
 from onevision.models.enhancement.image_enhancer import ImageEnhancer
 from onevision.nn import Conv3x3
 from onevision.nn import SAM
-from onevision.type import Indexes
-from onevision.type import Pretrained
-from onevision.type import Tensors
 
 __all__ = [
     "HINet3",

@@ -17,22 +17,22 @@ import torch.nn.functional as F
 from torch import nn
 from torch import Tensor
 
-from onevision.cv import imshow_plt
-from onevision.factory import IMAGE_ENHANCEMENT
-from onevision.factory import LOW_LIGHT_IMAGE_ENHANCEMENT
-from onevision.factory import MODELS
+from onevision.core import EpochOutput
+from onevision.core import ForwardOutput
+from onevision.core import IMAGE_ENHANCEMENT
+from onevision.core import Indexes
+from onevision.core import Int2T
+from onevision.core import LOW_LIGHT_IMAGE_ENHANCEMENT
+from onevision.core import MODELS
+from onevision.core import Pretrained
+from onevision.core import StepOutput
+from onevision.core import Tensors
+from onevision.core import to_2tuple
+from onevision.imgproc import imshow_plt
 from onevision.models.enhancement.retinexnet.loss import DecomLoss
 from onevision.models.enhancement.retinexnet.loss import EnhanceLoss
 from onevision.models.enhancement.retinexnet.loss import RetinexLoss
 from onevision.nn import BaseModel
-from onevision.type import EpochOutput
-from onevision.type import ForwardOutput
-from onevision.type import Indexes
-from onevision.type import Int2T
-from onevision.type import Pretrained
-from onevision.type import StepOutput
-from onevision.type import Tensors
-from onevision.type import to_2tuple
 
 __all__ = [
     "DecomNet",

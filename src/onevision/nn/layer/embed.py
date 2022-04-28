@@ -16,10 +16,10 @@ import torch
 from torch import nn as nn
 from torch import Tensor
 
-from onevision.factory import EMBED_LAYERS
-from onevision.type import Callable
-from onevision.type import Int2T
-from onevision.type import to_2tuple
+from onevision.core import Callable
+from onevision.core import EMBED_LAYERS
+from onevision.core import Int2T
+from onevision.core import to_2tuple
 
 __all__ = [
     "apply_rot_embed",

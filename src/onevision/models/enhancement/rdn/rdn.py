@@ -15,13 +15,13 @@ import torch
 from torch import nn
 from torch import Tensor
 
-from onevision.factory import IMAGE_ENHANCEMENT
-from onevision.factory import MODELS
-from onevision.factory import SUPER_RESOLUTION
+from onevision.core import IMAGE_ENHANCEMENT
+from onevision.core import Indexes
+from onevision.core import MODELS
+from onevision.core import Pretrained
+from onevision.core import SUPER_RESOLUTION
 from onevision.models.enhancement.image_enhancer import ImageEnhancer
 from onevision.nn import ResidualDenseBlock
-from onevision.type import Indexes
-from onevision.type import Pretrained
 
 __all__ = [
 	"RDN",

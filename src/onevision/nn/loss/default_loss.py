@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from torch import nn
 
-from onevision.factory import LOSSES
+from onevision.core import LOSSES
 
 # MARK: - Register
 

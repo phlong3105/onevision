@@ -11,13 +11,13 @@ from typing import Optional
 import torch
 from torch import Tensor
 
-from onevision.cv import get_image_hw
-from onevision.cv import get_num_channels
-from onevision.cv import to_tensor
+from onevision.core import AUGMENTS
+from onevision.core import get_image_hw
+from onevision.core import get_num_channels
+from onevision.core import to_tensor
 from onevision.data.augment.base import BaseAugment
 from onevision.data.augment.base import BaseAugmentModule
 from onevision.data.augment.utils import apply_transform_op
-from onevision.factory import AUGMENTS
 
 __all__ = [
     "PairedImagesAugmentModule",

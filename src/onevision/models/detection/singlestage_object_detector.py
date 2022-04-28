@@ -13,9 +13,9 @@ from typing import Optional
 from torch import nn
 from torch import Tensor
 
+from onevision.core import Indexes
+from onevision.core import Tensors
 from onevision.nn import BaseModel
-from onevision.type import Indexes
-from onevision.type import Tensors
 
 __all__ = [
     "SingleStageObjectDetector",

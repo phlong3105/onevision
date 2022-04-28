@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from pytorch_lightning import callbacks
 
-from onevision.factory import CALLBACKS
+from onevision.core import CALLBACKS
 
 # MARK: - Register
 

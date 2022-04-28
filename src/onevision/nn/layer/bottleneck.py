@@ -10,12 +10,12 @@ import torch
 import torch.nn as nn
 from torch import Tensor
 
-from onevision.factory import BOTTLENECK_LAYERS
+from onevision.core import BOTTLENECK_LAYERS
+from onevision.core import Int2T
 from onevision.nn.layer.act import Mish
 from onevision.nn.layer.conv_norm_act import ConvBnMish
 from onevision.nn.layer.conv_norm_act import DepthwiseConvBnMish
 from onevision.nn.layer.conv_norm_act import GhostConv
-from onevision.type import Int2T
 
 __all__ = [
     "Bottleneck",

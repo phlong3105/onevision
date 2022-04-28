@@ -19,8 +19,8 @@ from torchmetrics.functional.image.psnr import _psnr_compute
 from torchmetrics.functional.image.psnr import _psnr_update
 from torchmetrics.utilities import rank_zero_warn
 
-from onevision.cv import rgb_to_yuv
-from onevision.factory import METRICS
+from onevision.core import METRICS
+from onevision.imgproc import rgb_to_yuv
 
 __all__ = [
     "PeakSignalNoiseRatioY",

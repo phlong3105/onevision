@@ -9,9 +9,9 @@ from __future__ import annotations
 from torch import nn
 from torch import Tensor
 
+from onevision.core import Int2T
+from onevision.core import to_2tuple
 from onevision.nn.layer.attn import CAB
-from onevision.type import Int2T
-from onevision.type import to_2tuple
 
 __all__ = [
 	"OriginalResolutionBlock",

@@ -10,7 +10,7 @@ import torch
 from torch.nn import DataParallel
 from torch.nn.parallel import DistributedDataParallel
 
-from onevision.factory import MODULE_WRAPPERS
+from onevision.core import MODULE_WRAPPERS
 
 __all__ = [
     "is_module_wrapper",

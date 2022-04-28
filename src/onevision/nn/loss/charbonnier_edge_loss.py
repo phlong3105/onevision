@@ -12,11 +12,11 @@ from typing import Optional
 from torch import Tensor
 from torch.nn.modules.loss import _Loss
 
-from onevision.factory import LOSSES
+from onevision.core import LOSSES
+from onevision.core import Tensors
+from onevision.core import Weights
 from onevision.nn.loss.charbonnier_loss import CharbonnierLoss
 from onevision.nn.loss.edge_loss import EdgeLoss
-from onevision.type import Tensors
-from onevision.type import Weights
 
 __all__ = [
     "CharbonnierEdgeLoss",

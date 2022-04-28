@@ -12,8 +12,8 @@ import torch
 from torch import nn as nn
 from torch import Tensor
 
-from onevision.factory import NORM_LAYERS
-from onevision.type import Callable
+from onevision.core import Callable
+from onevision.core import NORM_LAYERS
 
 try:
     from inplace_abn.functions import inplace_abn, inplace_abn_sync

@@ -9,10 +9,10 @@ from __future__ import annotations
 import torch
 from torch import Tensor
 
-from onevision.cv import to_tensor
+from onevision.core import AUGMENTS
+from onevision.core import to_tensor
 from onevision.data.augment.base import BaseAugment
 from onevision.data.augment.utils import apply_transform_op
-from onevision.factory import AUGMENTS
 
 __all__ = [
     "LowHighResImagesAugment",

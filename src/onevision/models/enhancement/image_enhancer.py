@@ -13,10 +13,10 @@ from typing import Optional
 import torch.nn as nn
 from torch import Tensor
 
-from onevision.cv import imshow_plt
+from onevision.core import Indexes
+from onevision.core import Tensors
+from onevision.imgproc import imshow_plt
 from onevision.nn import BaseModel
-from onevision.type import Indexes
-from onevision.type import Tensors
 
 __all__ = [
     "ImageEnhancer"

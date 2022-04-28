@@ -16,9 +16,9 @@ from torch import nn
 from torch import Tensor
 from torchvision.transforms import InterpolationMode
 
-from onevision.factory import TRANSFORMS
-from onevision.file import load
-from onevision.type import Transforms_
+from onevision.core import TRANSFORMS
+from onevision.core import Transforms_
+from onevision.io import load
 
 __all__ = [
 	"BaseAugment",

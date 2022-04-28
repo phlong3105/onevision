@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import torchmetrics
 
-from onevision.factory import METRICS
+from onevision.core import METRICS
 
 # MARK: - Register (torchmetrics)
 

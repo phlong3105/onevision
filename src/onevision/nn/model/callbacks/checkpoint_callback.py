@@ -22,9 +22,9 @@ import torch
 from pytorch_lightning import Callback
 from torch import Tensor
 
-from onevision.factory import CALLBACKS
-from onevision.file import create_dirs
-from onevision.file import is_torch_saved_file
+from onevision.core import CALLBACKS
+from onevision.io import create_dirs
+from onevision.io import is_torch_saved_file
 from onevision.nn.model.utils import get_next_version
 from onevision.utils import console
 from onevision.utils import error_console

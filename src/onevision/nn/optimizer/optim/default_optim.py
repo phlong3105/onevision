@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from torch import optim
 
-from onevision.factory import OPTIMIZERS
+from onevision.core import OPTIMIZERS
 
 # MARK: - Register
 

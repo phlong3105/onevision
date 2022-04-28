@@ -15,12 +15,12 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch import Tensor
 
-from onevision.factory import NORM_ACT_LAYERS
+from onevision.core import Callable
+from onevision.core import NORM_ACT_LAYERS
 from onevision.nn.layer.act import create_act_layer
 from onevision.nn.layer.inplace_abn import InplaceAbn
 from onevision.nn.layer.norm import EvoNormBatch2d
 from onevision.nn.layer.norm import EvoNormSample2d
-from onevision.type import Callable
 
 __all__ = [
     "convert_norm_act",

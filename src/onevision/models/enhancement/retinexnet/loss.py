@@ -14,9 +14,9 @@ import torch.nn.functional as F
 from torch import nn
 from torch import Tensor
 
-from onevision.cv import avg_gradient
-from onevision.cv import gradient
-from onevision.factory import LOSSES
+from onevision.core import LOSSES
+from onevision.imgproc import avg_gradient
+from onevision.imgproc import gradient
 
 __all__ = [
 	"decom_loss",

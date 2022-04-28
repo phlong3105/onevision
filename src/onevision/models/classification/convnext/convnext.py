@@ -17,15 +17,15 @@ from torch import Size
 from torch import Tensor
 from torch.nn.init import trunc_normal_
 
-from onevision.factory import BACKBONES
-from onevision.factory import IMAGE_CLASSIFICATION
-from onevision.factory import MODELS
+from onevision.core import BACKBONES
+from onevision.core import IMAGE_CLASSIFICATION
+from onevision.core import Indexes
+from onevision.core import ListOrTupleAnyT
+from onevision.core import MODELS
+from onevision.core import Pretrained
+from onevision.core import Tensors
 from onevision.models.classification.image_classifier import ImageClassifier
 from onevision.nn import DropPath
-from onevision.type import Indexes
-from onevision.type import ListOrTupleAnyT
-from onevision.type import Pretrained
-from onevision.type import Tensors
 
 __all__ = [
     "ConvNeXt",

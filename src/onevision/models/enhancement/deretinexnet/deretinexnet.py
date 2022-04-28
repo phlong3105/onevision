@@ -13,14 +13,14 @@ from typing import Optional
 import torch
 from torch import Tensor
 
-from onevision.cv import imshow_plt
-from onevision.factory import IMAGE_ENHANCEMENT
-from onevision.factory import MODELS
+from onevision.core import ForwardOutput
+from onevision.core import IMAGE_ENHANCEMENT
+from onevision.core import MODELS
+from onevision.core import StepOutput
+from onevision.core import Tensors
+from onevision.imgproc import imshow_plt
 from onevision.models.enhancement.retinexnet import Phase
 from onevision.models.enhancement.retinexnet import RetinexNet
-from onevision.type import ForwardOutput
-from onevision.type import StepOutput
-from onevision.type import Tensors
 
 __all__ = [
     "DeRetinexNet",
