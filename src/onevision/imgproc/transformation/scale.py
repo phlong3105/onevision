@@ -19,12 +19,12 @@ from torchvision.transforms import functional as F
 from onevision.core import Float2T
 from onevision.core import FloatAnyT
 from onevision.core import get_image_size
+from onevision.core import InterpolationMode
 from onevision.core import pad_image
 from onevision.core import PaddingMode
 from onevision.core import TensorOrArray
 from onevision.core import TRANSFORMS
-from onevision.imgproc.shape.box import scale_box
-from onevision.imgproc.transformation.interpolation_mode import InterpolationMode
+from onevision.imgproc.spatial.box import scale_box
 from onevision.imgproc.transformation.resize import resize
 
 __all__ = [

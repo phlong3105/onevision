@@ -23,18 +23,17 @@ from torch import nn
 from torch import Tensor
 
 from onevision.core import BACKBONES
-from onevision.core import IMAGE_CLASSIFICATION
 from onevision.core import Indexes
 from onevision.core import Int2T
 from onevision.core import ListOrTupleAnyT
 from onevision.core import MODELS
 from onevision.core import Pretrained
 from onevision.core import Tensors
-from onevision.vision.classification.image_classifier import ImageClassifier
 from onevision.nn import BatchNormAct2d
 from onevision.nn import ConvBnAct
 from onevision.nn import create_classifier
 from onevision.nn import create_conv2d
+from onevision.vision.classification.image_classifier import ImageClassifier
 
 __all__ = [
     "DPN",
@@ -254,7 +253,6 @@ cfgs = {
 
 
 @MODELS.register(name="dpn")
-@IMAGE_CLASSIFICATION.register(name="dpn")
 @BACKBONES.register(name="dpn")
 class DPN(ImageClassifier):
     
@@ -433,7 +431,6 @@ class DPN(ImageClassifier):
 # MARK: - DPN68
 
 @MODELS.register(name="dpn68")
-@IMAGE_CLASSIFICATION.register(name="dpn68")
 @BACKBONES.register(name="dpn68")
 class DPN68(DPN):
     
@@ -467,7 +464,6 @@ class DPN68(DPN):
 # MARK: - DPN68b
 
 @MODELS.register(name="dpn68b")
-@IMAGE_CLASSIFICATION.register(name="dpn68b")
 @BACKBONES.register(name="dpn68b")
 class DPN68b(DPN):
     
@@ -501,7 +497,6 @@ class DPN68b(DPN):
 # MARK: - DPN92
 
 @MODELS.register(name="dpn92")
-@IMAGE_CLASSIFICATION.register(name="dpn92")
 @BACKBONES.register(name="dpn92")
 class DPN92(DPN):
     
@@ -535,7 +530,6 @@ class DPN92(DPN):
 # MARK: - DPN98
 
 @MODELS.register(name="dpn98")
-@IMAGE_CLASSIFICATION.register(name="dpn98")
 @BACKBONES.register(name="dpn98")
 class DPN98(DPN):
     
@@ -569,7 +563,6 @@ class DPN98(DPN):
 # MARK: - DPN107
 
 @MODELS.register(name="dpn107")
-@IMAGE_CLASSIFICATION.register(name="dpn107")
 @BACKBONES.register(name="dpn107")
 class DPN107(DPN):
     
@@ -603,7 +596,6 @@ class DPN107(DPN):
 # MARK: - DPN131
 
 @MODELS.register(name="dpn131")
-@IMAGE_CLASSIFICATION.register(name="dpn131")
 @BACKBONES.register(name="dpn131")
 class DPN131(DPN):
     

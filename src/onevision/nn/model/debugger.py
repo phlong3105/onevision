@@ -13,7 +13,7 @@ from typing import Optional
 from torch import Tensor
 
 from onevision.core import Callable
-from onevision.utils import console
+from onevision.core import console
 
 __all__ = [
     "Debugger"

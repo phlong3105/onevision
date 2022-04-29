@@ -20,8 +20,8 @@ from torchvision.transforms.functional import vflip
 from onevision.core import get_image_center4
 from onevision.core import TensorOrArray
 from onevision.core import TRANSFORMS
-from onevision.imgproc.shape.box import hflip_box
-from onevision.imgproc.shape.box import vflip_box
+from onevision.imgproc.spatial.box import hflip_box
+from onevision.imgproc.spatial.box import vflip_box
 
 __all__ = [
 	"hflip",

@@ -29,9 +29,7 @@ from torch import nn
 from torch import Tensor
 
 from onevision.core import ACT_LAYERS
-from onevision.core import IMAGE_ENHANCEMENT
 from onevision.core import Indexes
-from onevision.core import LOW_LIGHT_IMAGE_ENHANCEMENT
 from onevision.core import MODELS
 from onevision.core import Pretrained
 from onevision.core import Tensors
@@ -48,8 +46,6 @@ __all__ = [
 
 # noinspection PyDefaultArgument,PyMethodOverriding,PyMethodMayBeStatic
 @MODELS.register(name="zerodce")
-@IMAGE_ENHANCEMENT.register(name="zerodce")
-@LOW_LIGHT_IMAGE_ENHANCEMENT.register(name="zerodce")
 class ZeroDCE(ImageEnhancer):
     """
     

@@ -49,11 +49,11 @@ class Detect(nn.Module):
     stride = None  # strides computed during build
     onnx_dynamic = False  # ONNX export parameter
 
-    def __init__(self, nc=80, anchors=(), ch=(), inplace=True):  # detection layer
+    def __init__(self, nc=80, anchors=(), ch=(), inplace=True):  # measurement layer
         super().__init__()
         self.nc          = nc  # number of classes
         self.no          = nc + 5  # number of outputs per anchor
-        self.nl          = len(anchors)  # number of detection layers
+        self.nl          = len(anchors)  # number of measurement layers
         self.na          = len(anchors[0]) // 2  # number of anchors
         self.grid        = [torch.zeros(1)] * self.nl  # init grid
         self.anchor_grid = [torch.zeros(1)] * self.nl  # init anchor grid
@@ -185,7 +185,7 @@ class Model(nn.Module):
 
     def _clip_augmented(self, y):
         # Clip YOLOv5 augmented inference tails
-        nl    = self.model[-1].nl  # number of detection layers (P3-P5)
+        nl    = self.model[-1].nl  # number of measurement layers (P3-P5)
         g     = sum(4 ** x for x in range(nl))  # grid points
         e     = 1  # exclude layer count
         i     = (y[0].shape[1] // g) * sum(4 ** x for x in range(e))  # indices

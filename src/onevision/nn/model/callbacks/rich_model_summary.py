@@ -11,7 +11,7 @@ from pytorch_lightning.utilities.imports import _RICH_AVAILABLE
 from pytorch_lightning.utilities.model_summary import get_human_readable_count
 
 from onevision.core import CALLBACKS
-from onevision.utils import console
+from onevision.core import console
 
 if _RICH_AVAILABLE:
     from rich.table import Table

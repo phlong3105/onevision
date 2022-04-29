@@ -13,7 +13,6 @@ from torch import Tensor
 from torchvision.models.shufflenetv2 import InvertedResidual
 
 from onevision.core import BACKBONES
-from onevision.core import IMAGE_CLASSIFICATION
 from onevision.core import Indexes
 from onevision.core import ListOrTupleAnyT
 from onevision.core import MODELS
@@ -56,7 +55,6 @@ cfgs = {
 
 
 @MODELS.register(name="shufflenet_v2")
-@IMAGE_CLASSIFICATION.register(name="shufflenet_v2")
 @BACKBONES.register(name="shufflenet_v2")
 class ShuffleNetV2(ImageClassifier):
     """ShuffleNetV2.
@@ -202,7 +200,6 @@ class ShuffleNetV2(ImageClassifier):
 # MARK: - ShuffleNetV2_x0_5
 
 @MODELS.register(name="shufflenet_v2_x0_5")
-@IMAGE_CLASSIFICATION.register(name="shufflenet_v2_x0_5")
 @BACKBONES.register(name="shufflenet_v2_x0_5")
 class ShuffleNetV2_x0_5(ShuffleNetV2):
     """ShuffleNetV2 with 0.5x output channels, as described in `ShuffleNet V2:
@@ -241,7 +238,6 @@ class ShuffleNetV2_x0_5(ShuffleNetV2):
 # MARK: - ShuffleNetV2_x1_0
 
 @MODELS.register(name="ShuffleNetV2_x1_0")
-@IMAGE_CLASSIFICATION.register(name="ShuffleNetV2_x1_0")
 @BACKBONES.register(name="shufflenet_v2_x1_0")
 class ShuffleNetV2_x1_0(ShuffleNetV2):
     """ShuffleNetV2 with 1.0x output channels, as described in `ShuffleNet V2:
@@ -280,7 +276,6 @@ class ShuffleNetV2_x1_0(ShuffleNetV2):
 # MARK: - ShuffleNetV2_x1_5
 
 @MODELS.register(name="shufflenet_v2_x1_5")
-@IMAGE_CLASSIFICATION.register(name="shufflenet_v2_x1_5")
 @BACKBONES.register(name="shufflenet_v2_x1_5")
 class ShuffleNetV2_x1_5(ShuffleNetV2):
     """ShuffleNetV2 with 1.5x output channels, as described in `ShuffleNet V2:
@@ -312,7 +307,6 @@ class ShuffleNetV2_x1_5(ShuffleNetV2):
 # MARK: - ShuffleNetV2_x2_0
 
 @MODELS.register(name="shufflenet_v2_x2_0")
-@IMAGE_CLASSIFICATION.register(name="shufflenet_v2_x2_0")
 @BACKBONES.register(name="shufflenet_v2_x2_0")
 class ShuffleNetV2_x2_0(ShuffleNetV2):
     """ShuffleNetV2 with 2.0x output channels, as described in `ShuffleNet V2:

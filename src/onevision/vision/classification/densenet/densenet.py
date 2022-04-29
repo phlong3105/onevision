@@ -17,7 +17,6 @@ from torchvision.models.densenet import _DenseBlock
 from torchvision.models.densenet import _Transition
 
 from onevision.core import BACKBONES
-from onevision.core import IMAGE_CLASSIFICATION
 from onevision.core import Indexes
 from onevision.core import ListOrTupleAnyT
 from onevision.core import MODELS
@@ -60,7 +59,6 @@ cfgs = {
 
 
 @MODELS.register(name="densenet")
-@IMAGE_CLASSIFICATION.register(name="densenet")
 @BACKBONES.register(name="densenet")
 class DenseNet(ImageClassifier):
     """DenseNet backbone.
@@ -220,7 +218,6 @@ class DenseNet(ImageClassifier):
 # MARK: - DenseNet121
 
 @MODELS.register(name="densenet121")
-@IMAGE_CLASSIFICATION.register(name="densenet121")
 @BACKBONES.register(name="densenet121")
 class DenseNet121(DenseNet):
     """Densenet-121 model from `Densely Connected Convolutional Networks -
@@ -259,7 +256,6 @@ class DenseNet121(DenseNet):
 # MARK: - DenseNet161
 
 @MODELS.register(name="densenet161")
-@IMAGE_CLASSIFICATION.register(name="densenet161")
 @BACKBONES.register(name="densenet161")
 class DenseNet161(DenseNet):
     """Densenet-161 model from `"Densely Connected Convolutional Networks"
@@ -298,7 +294,6 @@ class DenseNet161(DenseNet):
 # MARK: - DenseNet169
 
 @MODELS.register(name="densenet169")
-@IMAGE_CLASSIFICATION.register(name="densenet169")
 @BACKBONES.register(name="densenet169")
 class DenseNet169(DenseNet):
     """Densenet-169 model from `Densely Connected Convolutional Networks -
@@ -337,7 +332,6 @@ class DenseNet169(DenseNet):
 # MARK: - DenseNet201
 
 @MODELS.register(name="densenet201")
-@IMAGE_CLASSIFICATION.register(name="densenet201")
 @BACKBONES.register(name="densenet201")
 class DenseNet201(DenseNet):
     """Densenet-201 model from `Densely Connected Convolutional Networks

@@ -1,24 +1,24 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""Object motion modelled by Kalman Filter with box as the matching feature.
+"""Modeling the motion of an individual tracked object.
 """
 
 from __future__ import annotations
 
+import abc
+from abc import abstractmethod
 from typing import Optional
 
 import numpy as np
 from filterpy.kalman import KalmanFilter
 
 from onevision.core import MOTIONS
-from onevision.data.data_class import Detection
-from onevision.vision.tracking.motion.base import Motion
+from onevision.data import Detection
 
 __all__ = [
-    "box_x_to_xyxy",
-    "box_xyxy_to_z",
     "KFBoxMotion",
+    "Motion",
 ]
 
 
@@ -66,19 +66,79 @@ def box_x_to_xyxy(x: np.ndarray, score: float = None) -> np.ndarray:
             x[0] + w / 2.0, x[1] + h / 2.0,
             score
         ]).reshape((1, 5))
-
+    
 
 # MARK: - Modules
+
+class Motion(metaclass=abc.ABCMeta):
+    """Motion implements the base template to model how an individual tracked
+    object moves. It is used for predicting the next position of the tracked
+    object.
+
+    Attributes:
+        hits (int):
+            Number of frame has that track appear.
+        hit_streak (int):
+            Number of `consecutive` frame has that track appear.
+        age (int):
+            Number of frame while the track is alive, from
+            Candidate -> Deleted.
+        time_since_update (int):
+            Number of `consecutive` frame that track disappears.
+        history (list):
+            Store all the `predict` position of track in z-bounding box value,
+            these position appear while no bounding matches the track if any
+            bounding box matches the track, then history = [].
+    """
+
+    # MARK: Magic Functions
+
+    def __init__(
+        self,
+        hits             : int = 0,
+        hit_streak       : int = 0,
+        age              : int = 0,
+        time_since_update: int = 0,
+        *args, **kwargs
+    ):
+        self.hits              = hits
+        self.hit_streak        = hit_streak
+        self.age               = age
+        self.time_since_update = time_since_update
+        self.history           = []
+    
+    # MARK: Update
+
+    @abstractmethod
+    def update(self, measurement, *args, **kwargs):
+        """Updates the state of the motion model with observed features.
+
+		Args:
+			measurement:
+				Get the specific features used to update the motion model from
+				new measurement of the object.
+		"""
+        pass
+
+    @abstractmethod
+    def predict(self):
+        """Advances the state of the motion model and returns the predicted
+        estimate.
+        """
+        pass
+
+    @abstractmethod
+    def current(self):
+        """Returns the current motion model estimate."""
+        pass
+
 
 @MOTIONS.register(name="kf_box_motion")
 class KFBoxMotion(Motion):
     """This class represents the motion model as Kalman Filter of an individual
     tracked object observed as box.
-
+    
     Attributes:
-        box (np.ndarray):
-            Box to initialize Kalman Filter. They are expected to be in
-            (x1, y1, x2, y2) format with `0 <= x1 < x2` and `0 <= y1 < y2`.
         hits (int):
             Number of frame has that track appear.
         hit_streak (int):
@@ -89,6 +149,11 @@ class KFBoxMotion(Motion):
             Number of `consecutive` frame that track disappears.
         kf (KalmanFilter):
             Kalman Filter model.
+    
+    Args:
+        box (np.ndarray):
+            Box to initialize Kalman Filter. They are expected to be in
+            (x1, y1, x2, y2) format with `0 <= x1 < x2` and `0 <= y1 < y2`.
     """
 
     # MARK: Magic Functions
@@ -141,19 +206,19 @@ class KFBoxMotion(Motion):
         
     # MARK: Update
 
-    def update(self, detection: Detection, **kwargs):
+    def update(self, measurement: Detection, **kwargs):
         """Updates the state of the motion model with observed box.
 
 		Args:
-			detection (Detection):
+			measurement (Detection):
 				Get the specific features used to update the motion model from
 				new `Detection`.
 		"""
-        self.time_since_update = 0
-        self.history           = []
+        self.time_since_update  = 0
+        self.history            = []
         self.hits              += 1
         self.hit_streak        += 1
-        self.kf.update(box_xyxy_to_z(detection.box))
+        self.kf.update(box_xyxy_to_z(measurement.box))
 
     def predict(self) -> np.ndarray:
         """Advances the state of the motion model and returns the predicted

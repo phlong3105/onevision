@@ -41,9 +41,9 @@ from typing import Optional
 
 import validators
 
+from onevision.core import console
 from onevision.core import ScalarListOrTupleAnyT
 from onevision.core import unique
-from onevision.utils import console
 
 __all__ = [
     "create_dirs",

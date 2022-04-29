@@ -16,9 +16,11 @@ import matplotlib.pyplot as plt
 from torch.utils.data import random_split
 
 from onevision.core import Augment_
+from onevision.core import console
 from onevision.core import DATAMODULES
 from onevision.core import DATASETS
 from onevision.core import Int3T
+from onevision.core import progress_bar
 from onevision.core import Tasks
 from onevision.core import VisionBackend
 from onevision.data.data_class import ImageInfo
@@ -27,10 +29,8 @@ from onevision.data.datamodule import DataModule
 from onevision.data.dataset import ImageEnhancementDataset
 from onevision.data.label_handler import VisionDataHandler
 from onevision.imgproc import show_images
-from onevision.nn import Phase
-from onevision.utils import console
+from onevision.core import ModelState
 from onevision.utils import datasets_dir
-from onevision.utils import progress_bar
 
 __all__ = [
     "CARLAEnhance",
@@ -260,7 +260,7 @@ class CARLAEnhanceDataModule(DataModule):
         if self.class_labels is None:
             self.load_class_labels()
     
-    def setup(self, phase: Optional[Phase] = None):
+    def setup(self, phase: Optional[ModelState] = None):
         """There are also data operations you might want to perform on every
         GPU.
 
@@ -273,8 +273,8 @@ class CARLAEnhanceDataModule(DataModule):
 			- Define collate_fn for you custom dataset.
 
 		Args:
-			phase (Phase, optional):
-				Phase to use: [None, Phase.TRAINING, Phase.TESTING].
+			phase (ModelState, optional):
+				ModelState to use: [None, ModelState.TRAINING, ModelState.TESTING].
 				Set to "None" to setup all train, val, and test data.
 				Default: `None`.
         """
@@ -290,7 +290,7 @@ class CARLAEnhanceDataModule(DataModule):
         self.train, self.val, self.test = random_split(
             full_dataset, [train_size, val_size, test_size]
         )
-        if phase in [None, Phase.TRAINING]:
+        if phase in [None, ModelState.TRAINING]:
             self.class_labels = getattr(self.train, "class_labels", None)
             self.collate_fn   = getattr(self.train, "collate_fn", None)
 

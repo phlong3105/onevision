@@ -20,7 +20,7 @@ from onevision.data.data_class import VisionData
 from onevision.data.label_handler.base import BaseLabelHandler
 from onevision.imgproc import box_xywh_to_xyxy
 from onevision.imgproc import box_xyxy_to_cxcywh_norm
-from onevision.imgproc.shape import box
+from onevision.imgproc.spatial import box
 from onevision.io import dump
 from onevision.io import is_json_file
 from onevision.io import load

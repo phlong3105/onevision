@@ -12,10 +12,9 @@ from munch import Munch
 from pytorch_lightning.plugins import DDPPlugin
 
 from onevision import datasets_dir
-from onevision import Phase
 from onevision import hinet_dehaze_a2i2hazeextra
+from onevision import ModelState
 from onevision import zerodce_lol199
-
 
 hosts = {
 	"lp-desktop-windows": Munch(
@@ -24,7 +23,7 @@ hosts = {
 		config      = zerodce_lol199,
 		gpus        = [0],
 		infer_data  = os.path.join(datasets_dir, ""),
-		phase       = Phase.TRAINING,
+		phase       = ModelState.TRAINING,
 		strategy    = "dp",  # DDPPlugin(find_unused_parameters=True),
 	),
 	"lp-labdesktop01-windows": Munch(
@@ -33,7 +32,7 @@ hosts = {
 		config      = hinet_dehaze_a2i2hazeextra,
 		gpus        = [0],
 		infer_data  = os.path.join(datasets_dir, "iec", "iec22", "train", "low"),
-		phase       = Phase.TRAINING,
+		phase       = ModelState.TRAINING,
 		strategy    = DDPPlugin(find_unused_parameters=True),
 	),
 	"lp-labdesktop01-ubuntu": Munch(
@@ -42,7 +41,7 @@ hosts = {
 		config      = hinet_dehaze_a2i2hazeextra,
 		gpus        = [0],
 		infer_data  = os.path.join(datasets_dir, "iec", "iec22", "train", "low"),
-		phase       = Phase.TRAINING,
+		phase       = ModelState.TRAINING,
 		strategy    = DDPPlugin(find_unused_parameters=False),
 	),
 	"lp-labdesktop02-ubuntu": Munch(
@@ -51,7 +50,7 @@ hosts = {
 		config      = "",
 		gpus        = [0],
 		infer_data  = os.path.join(datasets_dir, ""),
-		phase       = Phase.TRAINING,
+		phase       = ModelState.TRAINING,
 		strategy    = DDPPlugin(find_unused_parameters=True),
 	),
 	"vsw-server02-ubuntu": Munch(
@@ -61,7 +60,7 @@ hosts = {
 		gpus        = [0, 1],
 		infer_data  = os.path.join(datasets_dir, ""),
 		strategy    = DDPPlugin(find_unused_parameters=True),
-		phase       = Phase.TRAINING,
+		phase       = ModelState.TRAINING,
 	),
 	"vsw-server03-ubuntu": Munch(
 		accelerator = "gpu",
@@ -70,6 +69,6 @@ hosts = {
 		gpus        = [0, 1],
 		infer_data  = os.path.join(datasets_dir, ""),
 		strategy    = DDPPlugin(find_unused_parameters=True),
-		phase       = Phase.TRAINING,
+		phase       = ModelState.TRAINING,
 	),
 }

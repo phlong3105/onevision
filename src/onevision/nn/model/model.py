@@ -10,7 +10,6 @@ import os
 from abc import ABCMeta
 from abc import abstractmethod
 from copy import deepcopy
-from enum import Enum
 from typing import Any
 from typing import Optional
 from typing import Union
@@ -24,7 +23,9 @@ from torch import Tensor
 from torch.nn.modules.loss import _Loss
 from torchmetrics import Metric
 
+from onevision.core import console
 from onevision.core import EpochOutput
+from onevision.core import error_console
 from onevision.core import ForwardOutput
 from onevision.core import Indexes
 from onevision.core import Int3T
@@ -33,6 +34,7 @@ from onevision.core import LOSSES
 from onevision.core import Losses_
 from onevision.core import METRICS
 from onevision.core import Metrics_
+from onevision.core import ModelState
 from onevision.core import OPTIMIZERS
 from onevision.core import Optimizers_
 from onevision.core import Pretrained
@@ -45,39 +47,11 @@ from onevision.io import is_url_or_file
 from onevision.nn.model.debugger import Debugger
 from onevision.nn.model.io import load_pretrained
 from onevision.nn.model.utils import get_next_version
-from onevision.utils import console
-from onevision.utils import error_console
 
 __all__ = [
     "BaseModel",
-    "Phase",
 ]
 
-
-# MARK: - Phase
-
-class Phase(Enum):
-    """3 basic phases of the model: `training`, `testing`, `inference`."""
-    
-    # Produce predictions, calculate losses and metrics, update weights at the
-    # end of each epoch/step.
-    TRAINING  = "training"
-    # Produce predictions, calculate losses and metrics, DO NOT update weights
-    # at the end of each epoch/step.
-    TESTING   = "testing"
-    # Produce predictions ONLY.
-    INFERENCE = "inference"
-    
-    @staticmethod
-    def values() -> list[str]:
-        """Return the list of all values."""
-        return [e.value for e in Phase]
-    
-    @staticmethod
-    def keys():
-        """Return the list of all enum keys."""
-        return [e for e in Phase]
-    
 
 # MARK: - BaseModel
 
@@ -112,8 +86,8 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
             If `>= 0`, return the ith layer's output.
             If `-1`, return the final layer's output.
             Default: `-1`.
-        phase (Phase):
-            Model's running phase. Default: `Phase.TRAINING`.
+        model_state (ModelState):
+            Model's running model_state. Default: `ModelState.TRAINING`.
         pretrained (Pretrained):
             Initialize weights from pretrained.
             - If `True`, use the original pretrained described by the author
@@ -170,7 +144,7 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
         num_classes    : Optional[int] 		       = None,
         class_labels   : Optional[ClassLabels]     = None,
         out_indexes    : Indexes 				   = -1,
-        phase          : Phase                     = Phase.TRAINING,
+        model_state    : ModelState                = ModelState.TRAINING,
         pretrained     : Pretrained			       = False,
         loss   	       : Optional[Losses_]	   	   = None,
         metrics	       : Optional[Metrics_]	       = None,
@@ -190,7 +164,7 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
         self.num_classes   = num_classes
         self.class_labels  = class_labels
         self.out_indexes   = out_indexes
-        self.phase         = phase
+        self.model_state   = model_state
         self.pretrained    = pretrained
         self.loss          = loss
         self.train_metrics = None
@@ -233,7 +207,7 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
     @fullname.setter
     def fullname(self, fullname: Optional[str] = None):
         """Assign the model's fullname in the following format:
-        {name}_{data_name}_{postfix}. For detection: `yolov5_coco_1920`.
+        {name}_{data_name}_{postfix}. For measurement: `yolov5_coco_1920`.
         In case of `None`, it will be `self.name`.
         """
         self._fullname = (fullname if fullname is not None and fullname != ""
@@ -274,15 +248,15 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
         return self.dim
     
     @property
-    def phase(self) -> Phase:
-        """Returns the model's running phase."""
-        return self._phase
+    def model_state(self) -> ModelState:
+        """Returns the model's running state."""
+        return self._model_state
     
-    @phase.setter
-    def phase(self, phase: Phase = Phase.TRAINING):
-        """Assign the model's running phase."""
-        self._phase = phase
-        if self._phase is Phase.TRAINING:
+    @model_state.setter
+    def model_state(self, phase: ModelState = ModelState.TRAINING):
+        """Assign the model's running state."""
+        self._model_state = phase
+        if self._model_state is ModelState.TRAINING:
             self.unfreeze()
         else:
             self.freeze()
@@ -322,7 +296,7 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
     @property
     def debug_image_dir(self) -> str:
         """Return the debug image dir path located at: <debug_dir>/<dir>."""
-        debug_dir = os.path.join(self.debug_dir, f"{self.phase.value}_{(self.current_epoch + 1):03d}")
+        debug_dir = os.path.join(self.debug_dir, f"{self.model_state.value}_{(self.current_epoch + 1):03d}")
         create_dirs(paths=[debug_dir])
         return debug_dir
     
@@ -336,7 +310,7 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
         
         return os.path.join(
             save_dir,
-            f"{self.phase.value}_"
+            f"{self.model_state.value}_"
             f"{(self.current_epoch + 1):03d}_"
             f"{(self.epoch_step + 1):06}.jpg"
         )
@@ -522,7 +496,9 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
             self.test_metrics  = metrics
             
     @staticmethod
-    def create_metrics(metrics: Optional[Metrics_]) -> Optional[list[Metric]]:
+    def create_metrics(
+        metrics: Optional[Metrics_]
+    ) -> Optional[list[Metric]]:
         if isinstance(metrics, Metric):
             return [metrics]
         elif isinstance(metrics, dict):
@@ -593,7 +569,7 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
             raise ValueError(f"`optims` must be a `dict`. But got: {type(optims)}.")
         
         for optim in optims:
-            # Define optimizer detection
+            # Define optimizer measurement
             optimizer = optim.get("optimizer", None)
             if optimizer is None:
                 raise ValueError(f"`optimizer` must be defined.")
@@ -640,7 +616,12 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
     
     # MARK: Forward Pass
     
-    def forward_loss(self, x: Tensor, y: Tensor, *args, **kwargs) -> ForwardOutput:
+    def forward_loss(
+        self,
+        x: Tensor,
+        y: Tensor,
+        *args, **kwargs
+    ) -> ForwardOutput:
         """Forward pass with loss value. Loss function may require more
         arguments beside the ground-truth and prediction values. For calculating
         the metrics, we only need the final predictions and ground-truth.
@@ -668,7 +649,12 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
             return yhat, loss
     
     @abstractmethod
-    def forward(self, x: Tensor, augment: bool = False, *args, **kwargs) -> Tensor:
+    def forward(
+        self,
+        x      : Tensor,
+        augment: bool = False,
+        *args, **kwargs
+    ) -> Tensor:
         """Forward pass. This is the primary `forward` function of the model.
         It supports augmented inference.
         
@@ -702,7 +688,11 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
         pass
     
     @abstractmethod
-    def forward_features(self, x: Tensor, out_indexes: Optional[Indexes] = None) -> Tensors:
+    def forward_features(
+        self,
+        x          : Tensor,
+        out_indexes: Optional[Indexes] = None
+    ) -> Tensors:
         """Forward pass for features extraction. Commonly used in image
         classifier or backbone.
 
@@ -741,7 +731,12 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
         """Called in the training loop at the very beginning of the epoch."""
         self.epoch_step = 0
     
-    def training_step(self, batch: Any, batch_idx: int, *args, **kwargs) -> Optional[StepOutput]:
+    def training_step(
+        self,
+        batch    : Any,
+        batch_idx: int,
+        *args, **kwargs
+    ) -> Optional[StepOutput]:
         """Training step.
 
         Args:
@@ -761,7 +756,11 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
         yhat, loss  = self.forward_loss(x=x, y=y, *args, **kwargs)
         return {"loss": loss, "x": x, "y": y, "yhat": yhat}
     
-    def training_step_end(self, outputs: Optional[StepOutput], *args, **kwargs) -> Optional[StepOutput]:
+    def training_step_end(
+        self,
+        outputs: Optional[StepOutput],
+        *args, **kwargs
+    ) -> Optional[StepOutput]:
         """Use this when training with dp or ddp2 because training_step() will
         operate on only part of the batch. However, this is still optional and
         only needed for things like softmax or NCE loss.
@@ -822,7 +821,12 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
         """Called in the validation loop at the very beginning of the epoch."""
         self.epoch_step = 0
         
-    def validation_step(self, batch: Any, batch_idx: int, *args, **kwargs) -> Optional[StepOutput]:
+    def validation_step(
+        self,
+        batch    : Any,
+        batch_idx: int,
+        *args, **kwargs
+    ) -> Optional[StepOutput]:
         """Validation step.
 
         Args:
@@ -841,7 +845,11 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
         yhat, loss  = self.forward_loss(x=x, y=y, *args, **kwargs)
         return {"loss": loss, "x": x, "y": y, "yhat": yhat}
         
-    def validation_step_end(self, outputs: Optional[StepOutput], *args, **kwargs) -> Optional[StepOutput]:
+    def validation_step_end(
+        self,
+        outputs: Optional[StepOutput],
+        *args, **kwargs
+    ) -> Optional[StepOutput]:
         """Use this when validating with dp or ddp2 because `validation_step`
         will operate on only part of the batch. However, this is still optional
         and only needed for things like softmax or NCE loss.
@@ -919,7 +927,12 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
         """Called in the test loop at the very beginning of the epoch."""
         self.epoch_step = 0
     
-    def test_step(self, batch: Any, batch_idx: int, *args, **kwargs) -> Optional[StepOutput]:
+    def test_step(
+        self,
+        batch    : Any,
+        batch_idx: int,
+        *args, **kwargs
+    ) -> Optional[StepOutput]:
         """Test step.
 
         Args:
@@ -938,7 +951,11 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
         yhat, loss  = self.forward_loss(x=x, y=y, *args, **kwargs)
         return {"loss": loss, "x": x, "y": y, "yhat": yhat}
     
-    def test_step_end(self, outputs: Optional[StepOutput], *args, **kwargs) -> Optional[StepOutput]:
+    def test_step_end(
+        self,
+        outputs: Optional[StepOutput],
+        *args, **kwargs
+    ) -> Optional[StepOutput]:
         """Use this when testing with dp or ddp2 because `test_step` will
         operate on only part of the batch. However, this is still optional and
         only needed for things like softmax or NCE loss.
@@ -1103,7 +1120,12 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
 
     # MARK: Log
     
-    def tb_log_scalar(self, tag: str, data: Optional[Any], step: Union[str, int] = "step"):
+    def tb_log_scalar(
+        self,
+        tag : str,
+        data: Optional[Any],
+        step: Union[str, int] = "step"
+    ):
         """Log scalar values using tensorboard."""
         if data is None:
             return
@@ -1112,7 +1134,12 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
         if self.trainer.is_global_zero:
             self.logger.experiment.add_scalar(tag, data, step)
     
-    def tb_log_class_metrics(self, tag: str, data: Optional[Any], step: Union[str, int] = "step"):
+    def tb_log_class_metrics(
+        self,
+        tag : str,
+        data: Optional[Any],
+        step: Union[str, int] = "step"
+    ):
         """Log class metrics using tensorboard."""
         if data is None:
             return
@@ -1125,7 +1152,12 @@ class BaseModel(pl.LightningModule, metaclass=ABCMeta):
                 n = f"{tag}/{n}"
                 self.logger.experiment.add_scalar(n, a, step)
         
-    def ckpt_log_scalar(self, tag: str, data: Optional[Any], prog_bar: bool = False):
+    def ckpt_log_scalar(
+        self,
+        tag     : str,
+        data    : Optional[Any],
+        prog_bar: bool = False
+    ):
         """Log for model checkpointing."""
         if data is None:
             return

@@ -1,5 +1,5 @@
 """
-Run a rest API exposing the yolov5s object detection model
+Run a rest API exposing the yolov5s object measurement model
 """
 import argparse
 import io
@@ -11,7 +11,7 @@ from PIL import Image
 
 app = Flask(__name__)
 
-DETECTION_URL = "/v1/object-detection/yolov5s"
+DETECTION_URL = "/v1/object-measurement/yolov5s"
 
 
 @app.route(DETECTION_URL, methods=["POST"])

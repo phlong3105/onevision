@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """Data class for several vision tasks such as image classification, object
-detection, segmentation, ...
+measurement, segmentation, ...
 """
 
 from __future__ import annotations
@@ -47,13 +47,13 @@ class VisionData:
 			is used for semantic segmentation task.
 		semantic_info (ImageInfo, optional):
 			Semantic segmentation mask information.
-		detection (np.ndarray, optional):
-			Pixel values encode both, class and the individual detection.
+		measurement (np.ndarray, optional):
+			Pixel values encode both, class and the individual measurement.
 			Let's say your labels.py assigns the ID 26 to the class `car`.
 			Then, the individual cars in an image get the IDs 26000, 26001,
 			26002, ... . A group of cars, where our annotators could not
 			identify the individual detections anymore, is assigned to the ID 26.
-			This is used for detection segmentation class.
+			This is used for measurement segmentation class.
 		instance_info (ImageInfo, optional):
 			Detection image information.
 		panoptic (np.ndarray, optional):
@@ -68,7 +68,7 @@ class VisionData:
 			Enhanced image information.
 		objects (list):
 			List of all object annotations in the image. This is used for
-			object detection and detection segmentation tasks.
+			object measurement and measurement segmentation tasks.
 	
 	References:
 		https://towardsdatascience.com/how-to-work-with-object-detection-datasets-in-coco-format-9bf4fb5848a4
@@ -91,7 +91,7 @@ class VisionData:
 	
 	@property
 	def box_labels(self) -> np.ndarray:
-		"""Return bounding box labels for detection task:
+		"""Return bounding box labels for measurement task:
 		<image_id> <class_id> <x1> <y1> <x2> <y2> <confidence> <area>
 		<truncation> <occlusion>
 		"""

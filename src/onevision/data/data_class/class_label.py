@@ -14,9 +14,9 @@ import cv2
 import numpy as np
 from munch import Munch
 
+from onevision.core import console
+from onevision.core import print_table
 from onevision.io import load
-from onevision.utils import console
-from onevision.utils import print_table
 
 __all__ = [
     "ClassLabels",

@@ -63,7 +63,7 @@ class Colors:
         return tuple(int(h[1 + i:1 + i + 2], 16) for i in (0, 2, 4))
 
 
-colors = Colors()  # create detection for "from utils.plots import colors"
+colors = Colors()  # create measurement for "from utils.plots import colors"
 
 
 def check_pil_font(font=FONT, size=10):

@@ -20,8 +20,8 @@ from rich.progress import TimeElapsedColumn
 from rich.progress import TimeRemainingColumn
 
 from onevision.core import CALLBACKS
-from onevision.utils import console
-from onevision.utils import GPUMemoryUsageColumn
+from onevision.core import console
+from onevision.core import GPUMemoryUsageColumn
 
 __all__ = [
     "RichProgressBar"

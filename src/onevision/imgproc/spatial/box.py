@@ -26,7 +26,7 @@ from onevision.core import ListOrTuple2T
 from onevision.core import TensorOrArray
 from onevision.core import to_size
 from onevision.core import upcast
-from onevision.imgproc.shape.box_convert import box_xyxy_to_cxcywh
+from onevision.imgproc.spatial.box_convert import box_xyxy_to_cxcywh
 
 __all__ = [
     "affine_box",

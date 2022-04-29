@@ -133,7 +133,7 @@ class Detector(nn.Module):
         super().__init__()
         self.num_classes = num_classes           # Number of classes
         self.num_outputs = num_classes + 5       # Number of outputs per anchor
-        self.num_layers  = len(anchors)          # Number of detection layers
+        self.num_layers  = len(anchors)          # Number of measurement layers
         self.num_anchors = len(anchors[0]) // 2  # Number of anchors
         self.grid        = [torch.zeros(1)] * self.num_layers  # Init grid
         self.stride      = None  # Strides computed during build

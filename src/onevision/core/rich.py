@@ -27,9 +27,9 @@ from rich.table import Table
 from rich.text import Text
 from rich.theme import Theme
 
-from onevision.core import is_list_of
-from onevision.utils.device import get_gpu_memory
-from onevision.utils.device import MemoryUnit
+from onevision.core.collection import is_list_of
+from onevision.core.device import get_gpu_memory
+from onevision.core.device import MemoryUnit
 
 __all__ = [
     "console",

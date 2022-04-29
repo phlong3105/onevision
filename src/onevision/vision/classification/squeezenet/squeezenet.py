@@ -14,7 +14,6 @@ from torch import Tensor
 from torchvision.models.squeezenet import Fire
 
 from onevision.core import BACKBONES
-from onevision.core import IMAGE_CLASSIFICATION
 from onevision.core import Indexes
 from onevision.core import MODELS
 from onevision.core import Pretrained
@@ -30,7 +29,6 @@ __all__ = [
 # MARK: - SqueezeNet
 
 @MODELS.register(name="squeezenet")
-@IMAGE_CLASSIFICATION.register(name="squeezenet")
 @BACKBONES.register(name="squeezenet")
 class SqueezeNet(ImageClassifier):
     """SqueezeNet model.
@@ -180,7 +178,6 @@ class SqueezeNet(ImageClassifier):
 # MARK: - SqueezeNet1_0
 
 @MODELS.register(name="squeezenet1_0")
-@IMAGE_CLASSIFICATION.register(name="squeezenet1_0")
 @BACKBONES.register(name="squeezenet1_0")
 class SqueezeNet1_0(SqueezeNet):
     """SqueezeNet model architecture from the `SqueezeNet: AlexNet-level
@@ -220,7 +217,6 @@ class SqueezeNet1_0(SqueezeNet):
 # MARK: - SqueezeNet1_1
 
 @MODELS.register(name="squeezenet1_1")
-@IMAGE_CLASSIFICATION.register(name="squeezenet1_1")
 @BACKBONES.register(name="squeezenet1_1")
 class SqueezeNet1_1(SqueezeNet):
     """SqueezeNet 1.1 model from the `official SqueezeNet repo

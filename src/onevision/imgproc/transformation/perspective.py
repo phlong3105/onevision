@@ -36,7 +36,7 @@ import cv2
 import numpy as np
 
 from onevision.core import Int2T
-from onevision.imgproc.shape import is_box_candidates
+from onevision.imgproc.spatial import is_box_candidates
 
 __all__ = [
     "image_box_random_perspective",

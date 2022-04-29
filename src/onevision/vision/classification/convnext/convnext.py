@@ -18,14 +18,13 @@ from torch import Tensor
 from torch.nn.init import trunc_normal_
 
 from onevision.core import BACKBONES
-from onevision.core import IMAGE_CLASSIFICATION
 from onevision.core import Indexes
 from onevision.core import ListOrTupleAnyT
 from onevision.core import MODELS
 from onevision.core import Pretrained
 from onevision.core import Tensors
-from onevision.vision.classification.image_classifier import ImageClassifier
 from onevision.nn import DropPath
+from onevision.vision.classification.image_classifier import ImageClassifier
 
 __all__ = [
     "ConvNeXt",
@@ -173,7 +172,6 @@ cfgs = {
 
 
 @MODELS.register(name="convnext")
-@IMAGE_CLASSIFICATION.register(name="convnext")
 @BACKBONES.register(name="convnext")
 class ConvNeXt(ImageClassifier):
     """ConvNeXt backbone.
@@ -364,8 +362,6 @@ class ConvNeXt(ImageClassifier):
 
 @MODELS.register(name="convnext_t")
 @MODELS.register(name="convnext_tiny")
-@IMAGE_CLASSIFICATION.register(name="convnext_t")
-@IMAGE_CLASSIFICATION.register(name="convnext_tiny")
 @BACKBONES.register(name="convnext_t")
 @BACKBONES.register(name="convnext_tiny")
 class ConvNeXtTiny(ConvNeXt):
@@ -402,8 +398,6 @@ class ConvNeXtTiny(ConvNeXt):
 
 @MODELS.register(name="convnext_s")
 @MODELS.register(name="convnext_small")
-@IMAGE_CLASSIFICATION.register(name="convnext_s")
-@IMAGE_CLASSIFICATION.register(name="convnext_small")
 @BACKBONES.register(name="convnext_s")
 @BACKBONES.register(name="convnext_small")
 class ConvNeXtSmall(ConvNeXt):
@@ -440,8 +434,6 @@ class ConvNeXtSmall(ConvNeXt):
 
 @MODELS.register(name="convnext_b")
 @MODELS.register(name="convnext_base")
-@IMAGE_CLASSIFICATION.register(name="convnext_b")
-@IMAGE_CLASSIFICATION.register(name="convnext_base")
 @BACKBONES.register(name="convnext_b")
 @BACKBONES.register(name="convnext_base")
 class ConvNeXtBase(ConvNeXt):
@@ -482,8 +474,6 @@ class ConvNeXtBase(ConvNeXt):
 
 @MODELS.register(name="convnext_l")
 @MODELS.register(name="convnext_large")
-@IMAGE_CLASSIFICATION.register(name="convnext_l")
-@IMAGE_CLASSIFICATION.register(name="convnext_large")
 @BACKBONES.register(name="convnext_l")
 @BACKBONES.register(name="convnext_large")
 class ConvNeXtLarge(ConvNeXt):
@@ -524,8 +514,6 @@ class ConvNeXtLarge(ConvNeXt):
 
 @MODELS.register(name="convnext_xl")
 @MODELS.register(name="convnext_xlarge")
-@IMAGE_CLASSIFICATION.register(name="convnext_xl")
-@IMAGE_CLASSIFICATION.register(name="convnext_xlarge")
 @BACKBONES.register(name="convnext_xl")
 @BACKBONES.register(name="convnext_xlarge")
 class ConvNeXtXLarge(ConvNeXt):

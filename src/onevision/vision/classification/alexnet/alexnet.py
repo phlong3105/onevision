@@ -17,7 +17,6 @@ import torch.nn as nn
 from torch import Tensor
 
 from onevision.core import BACKBONES
-from onevision.core import IMAGE_CLASSIFICATION
 from onevision.core import Indexes
 from onevision.core import MODELS
 from onevision.core import Pretrained
@@ -31,7 +30,6 @@ __all__ = [
 # MARK: - AlexNet
 
 @MODELS.register(name="alexnet")
-@IMAGE_CLASSIFICATION.register(name="alexnet")
 @BACKBONES.register(name="alexnet")
 class AlexNet(ImageClassifier):
     """`AlexNet <https://en.wikipedia.org/wiki/AlexNet>`_. Frequired minimum

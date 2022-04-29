@@ -41,18 +41,15 @@ from torchvision.transforms import functional_pil as F_pil
 from torchvision.transforms import functional_tensor as F_t
 
 from onevision.core import Color
+from onevision.core import error_console
 from onevision.core import get_image_hw
 from onevision.core import Int2Or3T
 from onevision.core import Int3T
+from onevision.core import InterpolationMode
 from onevision.core import to_channel_last
 from onevision.core import to_size
 from onevision.core import TRANSFORMS
-from onevision.imgproc.transformation.interpolation_mode import cv_modes_mapping
-from onevision.imgproc.transformation.interpolation_mode import interpolation_mode_from_int
-from onevision.imgproc.transformation.interpolation_mode import InterpolationMode
-from onevision.imgproc.transformation.interpolation_mode import pil_modes_mapping
 from onevision.imgproc.utils import batch_image_processing
-from onevision.utils import error_console
 
 __all__ = [
     "letterbox_resize",
@@ -191,11 +188,11 @@ def resize_numpy_image(
     if image.ndim != 3:
         raise ValueError("Currently only support image with `ndim == 3`.")
     if isinstance(interpolation, int):
-        interpolation = interpolation_mode_from_int(interpolation)
+        interpolation = InterpolationMode.from_value(interpolation)
     if not isinstance(interpolation, InterpolationMode):
         raise TypeError("Argument interpolation should be a InterpolationMode")
-    cv_interpolation = cv_modes_mapping[interpolation]
-    if cv_interpolation not in list(cv_modes_mapping.values()):
+    cv_interpolation = InterpolationMode.cv_modes_mapping[interpolation]
+    if cv_interpolation not in list(InterpolationMode.cv_modes_mapping.values()):
         raise ValueError(
             "This interpolation mode is unsupported with np.ndarray input"
         )
@@ -279,7 +276,7 @@ def resize_pil_image(
     if image.ndim != 3:
         raise ValueError("Currently only support image with `ndim == 3`.")
     if isinstance(interpolation, int):
-        interpolation = interpolation_mode_from_int(interpolation)
+        interpolation = InterpolationMode.from_value(interpolation)
     if not isinstance(interpolation, InterpolationMode):
         raise TypeError("Argument interpolation should be a InterpolationMode")
     
@@ -288,7 +285,7 @@ def resize_pil_image(
             "Anti-alias option is always applied for PIL Image input. "
             "Argument antialias is ignored."
         )
-    pil_interpolation = pil_modes_mapping[interpolation]
+    pil_interpolation = InterpolationMode.pil_modes_mapping()[interpolation]
 
     if size is None:
         return image
@@ -331,7 +328,7 @@ def resize_tensor_image(
     if image.ndim != 3:
         raise ValueError("Currently only support image with `ndim == 3`.")
     if isinstance(interpolation, int):
-        interpolation = interpolation_mode_from_int(interpolation)
+        interpolation = InterpolationMode.from_value(interpolation)
     if not isinstance(interpolation, InterpolationMode):
         raise TypeError("Argument interpolation should be a InterpolationMode")
 

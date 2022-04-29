@@ -18,16 +18,14 @@ import torch
 from torch import nn
 from torch import Tensor
 
-from onevision.core import IMAGE_ENHANCEMENT
 from onevision.core import Indexes
 from onevision.core import Int2T
-from onevision.core import LOW_LIGHT_IMAGE_ENHANCEMENT
 from onevision.core import MODELS
 from onevision.core import Pretrained
 from onevision.core import to_2tuple
+from onevision.nn import ConvReLU
 from onevision.vision.enhancement.image_enhancer import ImageEnhancer
 from onevision.vision.enhancement.mbllen.loss import MBLLENLoss
-from onevision.nn import ConvReLU
 
 __all__ = [
     "MBLLEN",
@@ -89,8 +87,6 @@ class EM(nn.Module):
 # MARK: - MBLLEN
 
 @MODELS.register(name="mbllen")
-@IMAGE_ENHANCEMENT.register(name="mbllen")
-@LOW_LIGHT_IMAGE_ENHANCEMENT.register(name="mbllen")
 class MBLLEN(ImageEnhancer):
     """MBLLEN consists of three modules: the feature extraction regression
     (FEM), the enhancement regression (EM) and the fusion regression (FM).

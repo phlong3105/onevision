@@ -16,9 +16,11 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 from onevision.core import Augment_
+from onevision.core import console
 from onevision.core import DATAMODULES
 from onevision.core import DATASETS
 from onevision.core import Int3T
+from onevision.core import progress_bar
 from onevision.core import VisionBackend
 from onevision.data.data_class import ClassLabels
 from onevision.data.data_class import ImageInfo
@@ -34,10 +36,8 @@ from onevision.imgproc import draw_box
 from onevision.imgproc import show_images
 from onevision.io import is_image_file
 from onevision.io import is_txt_file
-from onevision.nn import Phase
-from onevision.utils import console
+from onevision.core import ModelState
 from onevision.utils import datasets_dir
-from onevision.utils import progress_bar
 
 __all__ = [
     "KODAS20Forward",
@@ -271,7 +271,7 @@ class KODAS20ForwardDataModule(DataModule):
         if self.class_labels is None:
             self.load_class_labels()
     
-    def setup(self, phase: Optional[Phase] = None):
+    def setup(self, phase: Optional[ModelState] = None):
         """There are also data operations you might want to perform on every
         GPU.
         
@@ -284,15 +284,15 @@ class KODAS20ForwardDataModule(DataModule):
             - Define collate_fn for you custom dataset.
 
         Args:
-            phase (Phase, optional):
-                Phase to use: [None, Phase.TRAINING, Phase.TESTING].
+            phase (ModelState, optional):
+                ModelState to use: [None, ModelState.TRAINING, ModelState.TESTING].
                 Set to "None" to setup all train, val, and test data.
                 Default: `None`.
         """
         console.log(f"Setup [red]KODAS 2020 Forward Detection[/red] datasets.")
         
         # NOTE: Assign train/val datasets for use in dataloaders
-        if phase in [None, Phase.TRAINING]:
+        if phase in [None, ModelState.TRAINING]:
             self.train = KODAS20Forward(root=self.dataset_dir, split="train", **self.dataset_kwargs)
             self.val   = KODAS20Forward(root=self.dataset_dir, split="val",   **self.dataset_kwargs)
             self.class_labels = getattr(self.train, "class_labels", None)

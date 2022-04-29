@@ -469,7 +469,7 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
                 im = Image.open(im_file)
                 im.verify()  # PIL verify
                 shape = exif_size(im)  # image size
-                segments = []  # detection segments
+                segments = []  # measurement segments
                 assert (shape[0] > 9) & (shape[1] > 9), f'image size {shape} <10 pixels'
                 assert im.format.lower() in img_formats, f'invalid image format {im.format}'
 
@@ -1014,7 +1014,7 @@ def flatten_recursive(path='../coco128'):
 
 
 def extract_boxes(path='../coco128/'):  # from utils.data import *; extract_boxes('../coco128')
-    # Convert detection dataset into classification dataset, with one directory per class
+    # Convert measurement dataset into classification dataset, with one directory per class
 
     path = Path(path)  # images dir
     shutil.rmtree(path / 'classifier') if (path / 'classifier').is_dir() else None  # remove existing

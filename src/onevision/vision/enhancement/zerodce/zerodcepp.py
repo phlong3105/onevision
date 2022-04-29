@@ -22,16 +22,14 @@ from torch import nn
 from torch import Tensor
 
 from onevision.core import ACT_LAYERS
-from onevision.core import IMAGE_ENHANCEMENT
 from onevision.core import Indexes
-from onevision.core import LOW_LIGHT_IMAGE_ENHANCEMENT
 from onevision.core import MODELS
 from onevision.core import Pretrained
 from onevision.core import Tensors
-from onevision.vision.enhancement.image_enhancer import ImageEnhancer
-from onevision.vision.enhancement.zerodce.loss import CombinedLoss
 from onevision.nn import DepthwiseConv
 from onevision.nn import PointwiseConv
+from onevision.vision.enhancement.image_enhancer import ImageEnhancer
+from onevision.vision.enhancement.zerodce.loss import CombinedLoss
 
 __all__ = [
     "ZeroDCEPP",
@@ -67,8 +65,6 @@ class CSDNTem(nn.Module):
 # MARK: - ZeroDCE++
 
 @MODELS.register(name="zerodce++")
-@IMAGE_ENHANCEMENT.register(name="zerodce++")
-@LOW_LIGHT_IMAGE_ENHANCEMENT.register(name="zerodce++")
 class ZeroDCEPP(ImageEnhancer):
     """
     

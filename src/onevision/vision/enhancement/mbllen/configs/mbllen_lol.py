@@ -182,7 +182,7 @@ trainer = {
 	# Default path for logs and weights when no logger/ckpt_callback passed.
 	# Default: `None`.
 	"detect_anomaly": False,
-	# Enable anomaly detection for the autograd engine. Default: `False`.
+	# Enable anomaly measurement for the autograd engine. Default: `False`.
 	"deterministic": False,
 	# If true enables cudnn.deterministic. Default: `False`.
 	"devices": None,

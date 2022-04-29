@@ -6,6 +6,7 @@
 
 from __future__ import annotations
 
+from .action import *
 from .classification import *
 from .detection import *
 from .enhancement import *

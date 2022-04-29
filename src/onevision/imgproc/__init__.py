@@ -11,7 +11,6 @@ from .drawing import *
 from .feature import *
 from .filtering import *
 from .histogram import *
-from .patching import *
-from .shape import *
+from .spatial import *
 from .transformation import *
 from .utils import *

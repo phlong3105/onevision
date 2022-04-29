@@ -13,8 +13,8 @@ from torch import Tensor
 from torch.linalg import solve
 
 from onevision.core.collection import is_list_of
-from onevision.utils import error_console
-from onevision.utils import torch_version_geq
+from onevision.core.rich import error_console
+from onevision.core.version import torch_version_geq
 
 __all__ = [
 	"eye_like",

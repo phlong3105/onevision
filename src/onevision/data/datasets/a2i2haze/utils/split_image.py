@@ -11,10 +11,10 @@ import os.path
 
 import cv2
 
+from onevision.core import progress_bar
 from onevision.core import VisionBackend
 from onevision.io import read_image
 from onevision.utils import datasets_dir
-from onevision.utils import progress_bar
 
 image_pattern = os.path.join(
 	datasets_dir, "a2i2haze", "train", "haze_clean_images", "*.jpg"

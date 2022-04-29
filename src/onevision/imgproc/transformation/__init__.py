@@ -10,7 +10,7 @@ from __future__ import annotations
 from .affine import *
 from .conversion import *
 from .crop import *
-from .interpolation_mode import *
+from .patching import *
 from .perspective import *
 from .reflection import *
 from .resize import *

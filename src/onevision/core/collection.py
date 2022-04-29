@@ -17,8 +17,8 @@ from typing import Union
 
 from multipledispatch import dispatch
 
-from onevision.core.type import Int2Or3T
-from onevision.core.type import Int2T
+from onevision.core.globals import Int2Or3T
+from onevision.core.globals import Int2T
 
 __all__ = [
     "concat_list",

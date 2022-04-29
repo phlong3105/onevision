@@ -19,27 +19,25 @@ from torch import Tensor
 
 from onevision.core import EpochOutput
 from onevision.core import ForwardOutput
-from onevision.core import IMAGE_ENHANCEMENT
 from onevision.core import Indexes
 from onevision.core import Int2T
-from onevision.core import LOW_LIGHT_IMAGE_ENHANCEMENT
 from onevision.core import MODELS
 from onevision.core import Pretrained
 from onevision.core import StepOutput
 from onevision.core import Tensors
 from onevision.core import to_2tuple
 from onevision.imgproc import imshow_plt
+from onevision.nn import BaseModel
 from onevision.vision.enhancement.retinexnet.loss import DecomLoss
 from onevision.vision.enhancement.retinexnet.loss import EnhanceLoss
 from onevision.vision.enhancement.retinexnet.loss import RetinexLoss
-from onevision.nn import BaseModel
 
 __all__ = [
     "DecomNet",
     "EnhanceNet",
     "EnhanceUNet",
     "RetinexNet",
-    "Phase"
+    "ModelState"
 ]
 
 
@@ -487,7 +485,7 @@ class EnhanceUNet(nn.Module):
         return pred
     
     
-class Phase(Enum):
+class ModelState(Enum):
     """Phases of the Retinex model."""
 
     # Train the DecomNet ONLY. Produce predictions, calculate losses and
@@ -515,7 +513,7 @@ class Phase(Enum):
             (list):
                 List of string.
         """
-        return [e.value for e in Phase]
+        return [e.value for e in ModelState]
 
     @staticmethod
     def keys():
@@ -525,14 +523,12 @@ class Phase(Enum):
             (list):
                 List of enum keys.
         """
-        return [e for e in Phase]
+        return [e for e in ModelState]
     
 
 # MARK: - RetinexNet
 
 @MODELS.register(name="retinexnet")
-@IMAGE_ENHANCEMENT.register(name="retinexnet")
-@LOW_LIGHT_IMAGE_ENHANCEMENT.register(name="retinexnet")
 class RetinexNet(BaseModel):
     """Retinex-based models combine two submodels: DecomNet and EnhanceNet.
     RetinexNet is a multi-stage-training enhancer. We have to train the
@@ -559,7 +555,7 @@ class RetinexNet(BaseModel):
         basename   : Optional[str] = "retinexnet",
         name       : Optional[str] = "retinexnet",
         num_classes: Optional[int] = None,
-        phase      : Phase         = Phase.TRAINING,
+        model_state: ModelState    = ModelState.TRAINING,
         out_indexes: Indexes       = -1,
         pretrained : Pretrained    = False,
         *args, **kwargs
@@ -575,7 +571,7 @@ class RetinexNet(BaseModel):
         # NOTE: Get Hyperparameters
         self.decomnet     = decomnet
         self.enhancenet   = enhancenet
-        self.phase 		  = phase
+        self.phase 		  = model_state
         self.decom_loss	  = DecomLoss()
         self.enhance_loss = EnhanceLoss()
         self.retinex_loss = RetinexLoss()
@@ -585,28 +581,28 @@ class RetinexNet(BaseModel):
             self.load_pretrained()
     
     # noinspection PyAttributeOutsideInit
-    @BaseModel.phase.setter
-    def phase(self, phase: Phase):
-        """Configure the model's running phase.
+    @BaseModel.model_state.setter
+    def model_state(self, phase: ModelState):
+        """Configure the model's running model_state.
 
         Args:
-            phase (Phase):
+            phase (ModelState):
                 Fphase of the model.
         """
-        # assert phase in Phase, f"Model's `phase` must be one of the
-        # following values: {Phase.keys()}"
+        # assert model_state in ModelState, f"Model's `model_state` must be one of the
+        # following values: {ModelState.keys()}"
         self._phase = phase
         
-        if self._phase is Phase.DECOMNET:
+        if self._phase is ModelState.DECOMNET:
             self.decomnet.train()
             self.enhancenet.eval()
-        elif self._phase is Phase.ENHANCENET:
+        elif self._phase is ModelState.ENHANCENET:
             self.decomnet.eval()
             self.enhancenet.train()
-        elif self._phase is Phase.RETINEXNET:
+        elif self._phase is ModelState.RETINEXNET:
             self.decomnet.train()
             self.enhancenet.train()
-        elif self._phase in [Phase.TESTING, Phase.INFERENCE]:
+        elif self._phase in [ModelState.TESTING, ModelState.INFERENCE]:
             self.decomnet.eval()
             self.enhancenet.eval()
     
@@ -645,14 +641,14 @@ class RetinexNet(BaseModel):
             loss (Tensor, optional):
                 Loss.
         """
-        if self.phase is Phase.DECOMNET:
+        if self.phase is ModelState.DECOMNET:
             r_low,  i_low  = self.decomnet(x)
             r_high, i_high = self.decomnet(y)
             loss = self.decom_loss(x, y, r_low, r_high, i_low, i_high)
             yhat = (r_low, r_high, i_low, i_high)
             return yhat, loss
         
-        elif self.phase is Phase.ENHANCENET:
+        elif self.phase is ModelState.ENHANCENET:
             r_low, i_low = self.decomnet(x)
             i_delta      = self.enhancenet(r_low, i_low)
             i_delta_3 	 = torch.cat((i_delta, i_delta, i_delta), dim=1)
@@ -738,13 +734,13 @@ class RetinexNet(BaseModel):
         x, y, extra = batch[0], batch[1], batch[2:]
         yhat, loss  = self.forward_loss(x=x, y=y, *args, **kwargs )
         
-        if self.phase is Phase.DECOMNET:
+        if self.phase is ModelState.DECOMNET:
             r_low, r_high, i_low, i_high = yhat
             return {
                 "loss": loss, "input": x, "y": y, "r_low": r_low,
                 "r_high": r_high, "i_low": i_low, "i_high": i_high
             }
-        elif self.phase is Phase.ENHANCENET:
+        elif self.phase is ModelState.ENHANCENET:
             r_low, i_low, i_delta, yhat = yhat
             return {
                 "loss": loss, "input": x, "y": y, "yhat": yhat,
@@ -805,7 +801,7 @@ class RetinexNet(BaseModel):
         # NOTE: Metrics
         if self.with_train_metrics:
             for i, metric in enumerate(self.train_metrics):
-                if self.phase is Phase.DECOMNET:
+                if self.phase is ModelState.DECOMNET:
                     value = metric(r_low, r_high)
                 else:
                     value = metric(yhat, y)
@@ -849,13 +845,13 @@ class RetinexNet(BaseModel):
         x, y, extra = batch[0], batch[1], batch[2:]
         yhat, loss = self.forward_loss(x=x, y=y, *args, **kwargs)
         
-        if self.phase is Phase.DECOMNET:
+        if self.phase is ModelState.DECOMNET:
             r_low, r_high, i_low, i_high = yhat
             return {
                 "loss": loss, "x": x, "y": y, "r_low": r_low,
                 "r_high": r_high, "i_low": i_low, "i_high": i_high
             }
-        elif self.phase is Phase.ENHANCENET:
+        elif self.phase is ModelState.ENHANCENET:
             r_low, i_low, i_delta, yhat = yhat
             return {
                 "loss": loss, "x": x, "y": y, "yhat": yhat,
@@ -913,7 +909,7 @@ class RetinexNet(BaseModel):
         if (self.debugger and epoch % self.debugger.every_n_epochs == 0
             and self.epoch_step < self.debugger.save_max_n):
             if self.trainer.is_global_zero:
-                if self.phase is Phase.DECOMNET:
+                if self.phase is ModelState.DECOMNET:
                     _pred = (r_low, r_high, i_low, i_high)
                 else:
                     _pred = (r_low, i_low, i_delta, yhat)
@@ -930,7 +926,7 @@ class RetinexNet(BaseModel):
         # NOTE: Metrics
         if self.with_val_metrics:
             for i, metric in enumerate(self.val_metrics):
-                if self.phase is Phase.DECOMNET:
+                if self.phase is ModelState.DECOMNET:
                     value = metric(r_low, r_high)
                 else:
                     value = metric(yhat, y)
@@ -973,13 +969,13 @@ class RetinexNet(BaseModel):
         """
         x, y, extra = batch[0], batch[1], batch[2:]
         yhat, loss  = self.forward_loss(x=x, y=y, *args, **kwargs)
-        if self.phase is Phase.DECOMNET:
+        if self.phase is ModelState.DECOMNET:
             r_low, r_high, i_low, i_high = yhat
             return {
                 "loss": loss, "x": x, "y": y, "r_low": r_low,
                 "r_high": r_high, "i_low": i_low, "i_high": i_high
             }
-        elif self.phase is Phase.ENHANCENET:
+        elif self.phase is ModelState.ENHANCENET:
             r_low, i_low, i_delta, yhat = yhat
             return {
                 "loss": loss, "x": x, "y": y, "yhat": yhat,
@@ -1040,7 +1036,7 @@ class RetinexNet(BaseModel):
         # NOTE: Metrics
         if self.with_test_metrics:
             for i, metric in enumerate(self.test_metrics):
-                if self.phase is Phase.DECOMNET:
+                if self.phase is ModelState.DECOMNET:
                     value = metric(r_low, r_high)
                 else:
                     value = metric(yhat, y)
@@ -1086,7 +1082,7 @@ class RetinexNet(BaseModel):
             y (Tensor, optional):
                 Normal-light images.
             yhat (Tensor, optional):
-                Predictions. When `phase=DECOMNET`, it is (r_low, r_high,
+                Predictions. When `model_state=DECOMNET`, it is (r_low, r_high,
                 i_low, i_high). Otherwise, it is (r_low, i_low, i_delta,
                 enhanced image).
             filepath (str, optional):
@@ -1103,7 +1099,7 @@ class RetinexNet(BaseModel):
         # NOTE: Prepare images
         yhat = self.prepare_results(yhat) if yhat is not None else None
         
-        if self.phase is Phase.DECOMNET:
+        if self.phase is ModelState.DECOMNET:
             (r_low, r_high, i_low, i_high) = yhat
             results = {
                 "low": x, "high": y, "r_low": r_low,
@@ -1135,7 +1131,7 @@ class RetinexNet(BaseModel):
 
         Args:
             yhat (Images, Arrays):
-                Predictions. When `phase=DECOMNET`, it is (r_low, r_high,
+                Predictions. When `model_state=DECOMNET`, it is (r_low, r_high,
                 i_low, i_high). Otherwise, it is (r_low, i_low, i_delta,
                 enhanced image).
 
@@ -1143,7 +1139,7 @@ class RetinexNet(BaseModel):
             results (Tensors):
                 Results for visualization.
         """
-        if self.phase is Phase.DECOMNET:
+        if self.phase is ModelState.DECOMNET:
             (r_low, r_high, i_low, i_high) = yhat
             i_low_3  = torch.cat(tensors=(i_low,  i_low,  i_low),  dim=1)
             i_high_3 = torch.cat(tensors=(i_high, i_high, i_high), dim=1)
@@ -1154,7 +1150,7 @@ class RetinexNet(BaseModel):
             return r_low, r_high, i_low_3, i_high_3
 
         elif self.phase in [
-            Phase.ENHANCENET, Phase.RETINEXNET, Phase.TESTING, Phase.INFERENCE
+            ModelState.ENHANCENET, ModelState.RETINEXNET, ModelState.TESTING, ModelState.INFERENCE
         ]:
             (r_low, i_low, i_delta, enhance) = yhat
             n, b, _, _ = i_low.shape
@@ -1176,8 +1172,6 @@ class RetinexNet(BaseModel):
 # MARK: - RetinexUNet
 
 @MODELS.register(name="retinex_unet")
-@IMAGE_ENHANCEMENT.register(name="retinex_unet")
-@LOW_LIGHT_IMAGE_ENHANCEMENT.register(name="retinexnet")
 class RetinexUNet(RetinexNet):
     
     # MARK: Magic Functions
@@ -1196,7 +1190,7 @@ class RetinexUNet(RetinexNet):
         name       : Optional[str] 		  = "retinex_unet",
         num_classes: Optional[int]        = None,
         out_indexes: Indexes              = -1,
-        phase      : Phase                = Phase.TRAINING,
+        model_state      : ModelState                = ModelState.TRAINING,
         metrics	   : Optional[list[dict]] = None,
         pretrained : Pretrained 		  = False,
         *args, **kwargs
@@ -1207,7 +1201,7 @@ class RetinexUNet(RetinexNet):
             name        = name,
             num_classes = num_classes,
             out_indexes = out_indexes,
-            phase       = phase,
+            model_state= model_state,
             metrics     = metrics,
             pretrained  = pretrained,
             *args, **kwargs

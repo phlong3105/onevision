@@ -16,7 +16,6 @@ from onevision import datasets_dir
 from onevision import is_txt_file
 from onevision import progress_bar
 
-
 if __name__ == "__main__":
 	image_pattern = os.path.join(
 		datasets_dir, "visdrone_uavdt", "test", "images", "*"

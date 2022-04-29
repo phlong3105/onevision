@@ -19,6 +19,8 @@ import torch
 import yaml
 from tqdm import tqdm
 
+from onevision.utils import datasets_dir
+from onevision.utils import pretrained_dir
 from onevision.vision.detection.scaled_yolov4.models.experimental import attempt_load
 from onevision.vision.detection.scaled_yolov4.utils.datasets import create_dataloader
 from onevision.vision.detection.scaled_yolov4.utils.general import ap_per_class
@@ -34,8 +36,6 @@ from onevision.vision.detection.scaled_yolov4.utils.general import xywh2xyxy
 from onevision.vision.detection.scaled_yolov4.utils.general import xyxy2xywh
 from onevision.vision.detection.scaled_yolov4.utils.torch_utils import select_device
 from onevision.vision.detection.scaled_yolov4.utils.torch_utils import time_synchronized
-from onevision.utils import datasets_dir
-from onevision.utils import pretrained_dir
 
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0]  # YOLOv5 root directory

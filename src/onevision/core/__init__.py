@@ -8,12 +8,12 @@ casting, get basic information (i.e., size, length, ...).
 
 from __future__ import annotations
 
-from .backend import *
-from .builder import *
 from .collection import *
-from .constants import *
+from .device import *
 from .factory import *
+from .globals import *
 from .image import *
 from .numpy import *
+from .rich import *
 from .tensor import *
-from .type import *
+from .version import *

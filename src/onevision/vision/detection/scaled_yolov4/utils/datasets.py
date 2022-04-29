@@ -446,7 +446,7 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
                         with open("./datasubset/images.txt", "a") as f:
                             f.write(self.img_files[i] + "\n")
 
-                # Extract object detection boxes for a second stage classifier
+                # Extract object measurement boxes for a second stage classifier
                 if extract_bounding_boxes:
                     p = Path(self.img_files[i])
                     img = cv2.imread(str(p))

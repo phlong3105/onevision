@@ -16,7 +16,6 @@ from torch import Tensor
 
 from onevision.core import BACKBONES
 from onevision.core import Callable
-from onevision.core import IMAGE_CLASSIFICATION
 from onevision.core import Indexes
 from onevision.core import Int2T
 from onevision.core import ListOrTupleAnyT
@@ -43,7 +42,7 @@ class IBN(nn.Module):
         planes (int):
             Number of channels for the input image.
         ratio (float):
-            Ratio of detection normalization in the IBN layer.
+            Ratio of measurement normalization in the IBN layer.
     """
     
     # MARK: Magic Functions
@@ -158,7 +157,6 @@ cfgs = {
 
 
 @MODELS.register(name="resnext_ibn")
-@IMAGE_CLASSIFICATION.register(name="resnext_ibn")
 @BACKBONES.register(name="resnext_ibn")
 class ResNeXt_IBN(ImageClassifier):
     """ResNeXt with Detection-Batch Normalization model.
@@ -345,7 +343,6 @@ class ResNeXt_IBN(ImageClassifier):
 # MARK: - ResNeXt50_IBN
 
 @MODELS.register(name="resnext50_ibn_a")
-@IMAGE_CLASSIFICATION.register(name="resnext50_ibn_a")
 @BACKBONES.register(name="resnext50_ibn_a")
 class ResNeXt50_IBN(ResNeXt_IBN):
     """ResNeXt-50 with Detection-Batch Normalization model."""
@@ -376,7 +373,6 @@ class ResNeXt50_IBN(ResNeXt_IBN):
 # MARK: - ResNeXt101_IBN
 
 @MODELS.register(name="resnext101_ibn_a")
-@IMAGE_CLASSIFICATION.register(name="resnext101_ibn_a")
 @BACKBONES.register(name="resnext101_ibn_a")
 class ResNeXt101_IBN(ResNeXt_IBN):
     """ResNeXt-101 with Detection-Batch Normalization model."""
@@ -412,7 +408,6 @@ class ResNeXt101_IBN(ResNeXt_IBN):
 # MARK: - ResNeXt152_IBN
 
 @MODELS.register(name="resnext152_ibn_a")
-@IMAGE_CLASSIFICATION.register(name="resnext152_ibn_a")
 @BACKBONES.register(name="resnext152_ibn_a")
 class ResNeXt152_IBN(ResNeXt_IBN):
     """ResNeXt-152 with Detection-Batch Normalization model."""

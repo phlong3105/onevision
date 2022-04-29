@@ -12,7 +12,6 @@ import torch.nn as nn
 from torch import Tensor
 
 from onevision.core import BACKBONES
-from onevision.core import IMAGE_CLASSIFICATION
 from onevision.core import Indexes
 from onevision.core import MODELS
 from onevision.core import Pretrained
@@ -27,8 +26,6 @@ __all__ = [
 
 @MODELS.register(name="lenet")
 @MODELS.register(name="lenet5")
-@IMAGE_CLASSIFICATION.register(name="lenet")
-@IMAGE_CLASSIFICATION.register(name="lenet5")
 @BACKBONES.register(name="lenet")
 @BACKBONES.register(name="lenet5")
 class LeNet5(ImageClassifier):

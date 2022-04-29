@@ -19,7 +19,7 @@ from onevision.core import Int2Or3T
 from onevision.core import Int3T
 
 """
-from onevision.utils import error_console
+from onevision.core import error_console
 try:
 	import pyvips
 except ImportError:

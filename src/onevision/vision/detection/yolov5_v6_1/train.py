@@ -122,7 +122,7 @@ def train(
     # Loggers
     data_dict = None
     if RANK in [-1, 0]:
-        loggers = Loggers(save_dir, weights, opt, hyp, LOGGER)  # loggers detection
+        loggers = Loggers(save_dir, weights, opt, hyp, LOGGER)  # loggers measurement
         if loggers.wandb:
             data_dict = loggers.wandb.data_dict
             if resume:
@@ -308,7 +308,7 @@ def train(
         model = DDP(model, device_ids=[LOCAL_RANK], output_device=LOCAL_RANK)
 
     # Model attributes
-    nl                      = de_parallel(model).model[-1].nl  # number of detection layers (to scale hyps)
+    nl                      = de_parallel(model).model[-1].nl  # number of measurement layers (to scale hyps)
     hyp["box"]             *= 3 / nl  # scale to layers
     hyp["cls"]             *= nc / 80 * 3 / nl  # scale to classes and layers
     hyp["obj"]             *= (imgsz / 640) ** 2 * 3 / nl  # scale to image size and layers

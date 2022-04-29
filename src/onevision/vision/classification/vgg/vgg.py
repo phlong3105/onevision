@@ -15,7 +15,6 @@ import torch.nn as nn
 from torch import Tensor
 
 from onevision.core import BACKBONES
-from onevision.core import IMAGE_CLASSIFICATION
 from onevision.core import Indexes
 from onevision.core import MODELS
 from onevision.core import Pretrained
@@ -48,7 +47,6 @@ cfgs: dict[str, list[Union[str, int]]] = {
 
 
 @BACKBONES.register(name="vgg")
-@IMAGE_CLASSIFICATION.register(name="vgg")
 @MODELS.register(name="vgg")
 class VGG(ImageClassifier):
     """VGG.
@@ -204,7 +202,6 @@ class VGG(ImageClassifier):
 # MARK: - VGG11
 
 @MODELS.register(name="vgg11")
-@IMAGE_CLASSIFICATION.register(name="vgg11")
 @BACKBONES.register(name="vgg11")
 class VGG11(VGG):
     """VGG 11-layer model (configuration "A") from `Very Deep Convolutional
@@ -245,7 +242,6 @@ class VGG11(VGG):
 # MARK: - VGG11Bn
 
 @MODELS.register(name="vgg11_bn")
-@IMAGE_CLASSIFICATION.register(name="vgg11_bn")
 @BACKBONES.register(name="vgg11_bn")
 class VGG11Bn(VGG):
     """VGG 11-layer model (configuration "A") from `Very Deep Convolutional
@@ -286,7 +282,6 @@ class VGG11Bn(VGG):
 # MARK: - VGG13
 
 @MODELS.register(name="vgg13")
-@IMAGE_CLASSIFICATION.register(name="vgg13")
 @BACKBONES.register(name="vgg13")
 class VGG13(VGG):
     """VGG 13-layer model (configuration "B") `Very Deep Convolutional
@@ -327,7 +322,6 @@ class VGG13(VGG):
 # MARK: - VGG13Bn
 
 @MODELS.register(name="vgg13_bn")
-@IMAGE_CLASSIFICATION.register(name="vgg13_bn")
 @BACKBONES.register(name="vgg13_bn")
 class VGG13Bn(VGG):
     """VGG 13-layer model (configuration "B") `Very Deep Convolutional
@@ -368,7 +362,6 @@ class VGG13Bn(VGG):
 # MARK: - VGG16
 
 @MODELS.register(name="vgg16")
-@IMAGE_CLASSIFICATION.register(name="vgg16")
 @BACKBONES.register(name="vgg16")
 class VGG16(VGG):
     """VGG 16-layer model (configuration "D") `Very Deep Convolutional Networks
@@ -408,7 +401,6 @@ class VGG16(VGG):
 # MARK: - VGG16Bn
 
 @MODELS.register(name="vgg16_bn")
-@IMAGE_CLASSIFICATION.register(name="vgg16_bn")
 @BACKBONES.register(name="vgg16_bn")
 class VGG16Bn(VGG):
     """VGG 16-layer model (configuration "D") `Very Deep Convolutional Networks
@@ -448,7 +440,6 @@ class VGG16Bn(VGG):
 # MARK: - VGG19
 
 @MODELS.register(name="vgg19")
-@IMAGE_CLASSIFICATION.register(name="vgg19")
 @BACKBONES.register(name="vgg19")
 class VGG19(VGG):
     """VGG 19-layer model (configuration "E") `Very Deep Convolutional
@@ -489,7 +480,6 @@ class VGG19(VGG):
 # MARK: - VGG19Bn
 
 @MODELS.register(name="vgg19_bn")
-@IMAGE_CLASSIFICATION.register(name="vgg19_bn")
 @BACKBONES.register(name="vgg19_bn")
 class VGG19Bn(VGG):
     """VGG 19-layer model (configuration "E") `Very Deep Convolutional

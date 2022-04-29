@@ -6,7 +6,7 @@
 
 from __future__ import annotations
 
-import torch
+from torch import nn
 from torch.nn import DataParallel
 from torch.nn.parallel import DistributedDataParallel
 
@@ -25,7 +25,7 @@ MODULE_WRAPPERS.register(name="ddp", module=DistributedDataParallel)
 
 # MARK: - Functional
 
-def is_module_wrapper(module: torch.nn.Module):
+def is_module_wrapper(module: nn.Module):
     """Check if a module is a module wrapper. Following 3 modules (and
     their subclasses) are regarded as module wrappers: DataParallel,
     DistributedDataParallel. You may add you own module wrapper by registering

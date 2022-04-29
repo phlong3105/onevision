@@ -27,6 +27,8 @@ from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
 
 import onevision.vision.detection.scaled_yolov4.test as test  # import test.py to get mAP after each epoch
+from onevision.utils import datasets_dir
+from onevision.utils import pretrained_dir
 from onevision.vision.detection.scaled_yolov4.models.yolo import Model
 from onevision.vision.detection.scaled_yolov4.utils.datasets import create_dataloader
 from onevision.vision.detection.scaled_yolov4.utils.general import check_anchors
@@ -51,8 +53,6 @@ from onevision.vision.detection.scaled_yolov4.utils.torch_utils import init_seed
 from onevision.vision.detection.scaled_yolov4.utils.torch_utils import intersect_dicts
 from onevision.vision.detection.scaled_yolov4.utils.torch_utils import ModelEMA
 from onevision.vision.detection.scaled_yolov4.utils.torch_utils import select_device
-from onevision.utils import datasets_dir
-from onevision.utils import pretrained_dir
 
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0]  # YOLOv5 root directory

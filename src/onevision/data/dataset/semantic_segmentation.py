@@ -24,8 +24,11 @@ from torchvision.datasets import VisionDataset
 
 from onevision.core import Augment_
 from onevision.core import AUGMENTS
+from onevision.core import console
+from onevision.core import download_bar
 from onevision.core import get_image_hw
 from onevision.core import Int3T
+from onevision.core import progress_bar
 from onevision.core import to_tensor
 from onevision.core import VISION_BACKEND
 from onevision.core import VisionBackend
@@ -39,9 +42,6 @@ from onevision.io import create_dirs
 from onevision.io import get_hash
 from onevision.io import is_image_file
 from onevision.io import read_image
-from onevision.utils import console
-from onevision.utils import download_bar
-from onevision.utils import progress_bar
 
 __all__ = [
     "SemanticSegmentationDataset"
@@ -670,8 +670,8 @@ class SemanticSegmentationDataset(VisionDataset, metaclass=ABCMeta):
             shape        = (h0, w0), (h, w)
         
         # NOTE: Convert to tensor
-        input  = to_tensor(input,  keep_dim=False, normalize=False).to(torch.uint8)
-        target = to_tensor(target, keep_dim=False, normalize=False).to(torch.uint8)
+        input  = to_tensor(input,  keep_dims=False, normalize=False).to(torch.uint8)
+        target = to_tensor(target, keep_dims=False, normalize=False).to(torch.uint8)
         
         return input, target, shape
 

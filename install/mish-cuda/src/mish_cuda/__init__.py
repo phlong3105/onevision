@@ -1,7 +1,10 @@
 ALL = ['MishCuda','MishCudaFunction','mish_forward','mish_backward']
 
-import torch # Must import torch before C extension
-from ._C import mish_forward, mish_backward
+import torch  # Must import torch before C extension
+
+from ._C import mish_backward
+from ._C import mish_forward
+
 
 class MishCudaFunction(torch.autograd.Function):
     @staticmethod

@@ -12,6 +12,7 @@ import numpy as np
 from munch import Munch
 
 from onevision.core import LABEL_HANDLERS
+from onevision.core import progress_bar
 from onevision.data.data_class import ImageInfo
 from onevision.data.data_class import ObjectAnnotation as Annotation
 from onevision.data.data_class import VisionData
@@ -20,7 +21,6 @@ from onevision.imgproc import box_xywh_to_cxcywh_norm
 from onevision.io import dump
 from onevision.io import is_json_file
 from onevision.io import load
-from onevision.utils import progress_bar
 
 __all__ = [
 	"CocoDetectionLabelHandler"

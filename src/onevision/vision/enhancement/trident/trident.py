@@ -17,16 +17,14 @@ from torch import nn
 from torch import Tensor
 from torchvision.ops import DeformConv2d
 
-from onevision.core import DEHAZE
-from onevision.core import IMAGE_ENHANCEMENT
 from onevision.core import Indexes
 from onevision.core import MODELS
 from onevision.core import Pretrained
-from onevision.vision.classification import DPN92
-from onevision.vision.enhancement.image_enhancer import ImageEnhancer
 from onevision.nn import DUB
 from onevision.nn import InversePixelShuffle
 from onevision.nn import RWAB
+from onevision.vision.classification import DPN92
+from onevision.vision.enhancement.image_enhancer import ImageEnhancer
 
 __all__ = [
     "Trident",
@@ -147,8 +145,6 @@ class UNet(nn.Module):
 # MARK: - Trident
 
 @MODELS.register(name="trident")
-@IMAGE_ENHANCEMENT.register(name="trident")
-@DEHAZE.register(name="trident")
 class Trident(ImageEnhancer):
     """
  

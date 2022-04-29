@@ -8,7 +8,6 @@ from __future__ import annotations
 
 from copy import copy
 from copy import deepcopy
-from enum import Enum
 from typing import Optional
 from typing import Union
 
@@ -28,14 +27,15 @@ from torchvision.transforms.functional import _is_numpy
 from torchvision.transforms.functional import normalize
 from torchvision.transforms.functional_pil import _is_pil_image
 
-from onevision.core.builder import TRANSFORMS
 from onevision.core.collection import to_size
-from onevision.core.type import FloatAnyT
-from onevision.core.type import Int2Or3T
-from onevision.core.type import Int2T
-from onevision.core.type import TensorOrArray
+from onevision.core.globals import FloatAnyT
+from onevision.core.globals import Int2Or3T
+from onevision.core.globals import Int2T
+from onevision.core.globals import PaddingMode
+from onevision.core.globals import TensorOrArray
+from onevision.core.globals import TRANSFORMS
+from onevision.core.rich import error_console
 from onevision.math import make_divisible
-from onevision.utils import error_console
 
 # Get orientation exif tag
 for orientation in ExifTags.TAGS.keys():
@@ -65,7 +65,6 @@ __all__ = [
     "normalize_min_max",
     "normalize_naive",
     "pad_image",
-    "padding_mode_from_int",
     "to_channel_first",
     "to_channel_last",
     "to_image",
@@ -74,55 +73,9 @@ __all__ = [
     "AddWeighted",
     "Denormalize",
     "Normalize",
-    "PaddingMode",
     "ToImage",
     "ToTensor",
 ]
-
-
-# MARK: - Enum
-
-class PaddingMode(Enum):
-    """Padding modes. Available padding methods are:
-    """
-    CONSTANT      = "constant"
-    # For torch compatibility
-    CIRCULAR      = "circular"
-    REFLECT       = "reflect"
-    REPLICATE     = "replicate"
-    # For numpy compatibility
-    EDGE          = "edge"
-    EMPTY         = "empty"
-    LINEAR_RAMP   = "linear_ramp"
-    MAXIMUM       = "maximum"
-    MEAN          = "mean"
-    MEDIAN        = "median"
-    MINIMUM       = "minimum"
-    SYMMETRIC     = "symmetric"
-    WRAP          = "wrap"
-
-    @staticmethod
-    def values() -> list:
-        return [e.value for e in PaddingMode]
-
-
-def padding_mode_from_int(i: int) -> PaddingMode:
-    inverse_modes_mapping = {
-        0 : PaddingMode.CONSTANT,
-        1 : PaddingMode.CIRCULAR,
-        2 : PaddingMode.REFLECT,
-        3 : PaddingMode.REPLICATE,
-        4 : PaddingMode.EDGE,
-        5 : PaddingMode.EMPTY,
-        6 : PaddingMode.LINEAR_RAMP,
-        7 : PaddingMode.MAXIMUM,
-        8 : PaddingMode.MEAN,
-        9 : PaddingMode.MEDIAN,
-        10: PaddingMode.MINIMUM,
-        11: PaddingMode.SYMMETRIC,
-        12: PaddingMode.WRAP,
-    }
-    return inverse_modes_mapping[i]
 
 
 # MARK: - Functional
@@ -668,9 +621,7 @@ def make_image_grid(images: dict, nrow: int = 1) -> TensorOrArray:
     """
     if (isinstance(images, dict) and
         all(isinstance(t, np.ndarray) for k, t in images.items())):
-        cat_image = np.concatenate(
-            [image for key, image in images.items()], axis=0
-        )
+        cat_image = np.concatenate([image for key, image in images.items()], axis=0)
         return make_image_grid(cat_image, nrow)
     elif (isinstance(images, dict) and
           all(torch.is_tensor(t) for k, t in images.items())):
@@ -865,14 +816,14 @@ def pad_image(
     return image
 
 
-@dispatch(Tensor, keep_dim=bool)
-def to_channel_first(image: Tensor, keep_dim: bool = True) -> Tensor:
+@dispatch(Tensor, keep_dims=bool)
+def to_channel_first(image: Tensor, keep_dims: bool = True) -> Tensor:
     """Convert image to channel first format.
     
     Args:
         image (Tensor):
             Image.
-        keep_dim (bool):
+        keep_dims (bool):
             If `False` unsqueeze the image to match the shape [B, H, W, C].
             Default: `True`.
     """
@@ -880,29 +831,29 @@ def to_channel_first(image: Tensor, keep_dim: bool = True) -> Tensor:
     if is_channel_first(image):
         pass
     elif image.ndim == 2:
-        image    = image.unsqueeze(0)
+        image     = image.unsqueeze(0)
     elif image.ndim == 3:
-        image    = image.permute(2, 0, 1)
+        image     = image.permute(2, 0, 1)
     elif image.ndim == 4:
-        image    = image.permute(0, 3, 1, 2)
-        keep_dim = True
+        image     = image.permute(0, 3, 1, 2)
+        keep_dims = True
     elif image.ndim == 5:
-        image    = image.permute(0, 1, 4, 2, 3)
-        keep_dim = True
+        image     = image.permute(0, 1, 4, 2, 3)
+        keep_dims = True
     else:
         raise ValueError(f"`image.ndim` must be == 2, 3, 4, or 5. But got: {image.ndim}.")
 
-    return image.unsqueeze(0) if not keep_dim else image
+    return image.unsqueeze(0) if not keep_dims else image
 
 
-@dispatch(np.ndarray, keep_dim=bool)
-def to_channel_first(image: np.ndarray, keep_dim: bool = True) -> np.ndarray:
+@dispatch(np.ndarray, keep_dims=bool)
+def to_channel_first(image: np.ndarray, keep_dims: bool = True) -> np.ndarray:
     """Convert image to channel first format.
     
     Args:
         image (np.ndarray):
             Image.
-        keep_dim (bool):
+        keep_dims (bool):
             If `False` unsqueeze the image to match the shape [B, H, W, C].
             Default: `True`.
     """
@@ -915,24 +866,24 @@ def to_channel_first(image: np.ndarray, keep_dim: bool = True) -> np.ndarray:
         image    = np.transpose(image, (2, 0, 1))
     elif image.ndim == 4:
         image    = np.transpose(image, (0, 3, 1, 2))
-        keep_dim = True
+        keep_dims = True
     elif image.ndim == 5:
         image    = np.transpose(image, (0, 1, 4, 2, 3))
-        keep_dim = True
+        keep_dims = True
     else:
         raise ValueError(f"`image.ndim` must be == 2, 3, 4, or 5. But got: {image.ndim}.")
 
-    return np.expand_dims(image, 0) if not keep_dim else image
+    return np.expand_dims(image, 0) if not keep_dims else image
 
 
-@dispatch(Tensor, keep_dim=bool)
-def to_channel_last(image: Tensor, keep_dim: bool = True) -> Tensor:
+@dispatch(Tensor, keep_dims=bool)
+def to_channel_last(image: Tensor, keep_dims: bool = True) -> Tensor:
     """Convert image to channel last format.
     
     Args:
         image (Tensor):
             Image.
-        keep_dim (bool):
+        keep_dims (bool):
             If `False` squeeze the input image to match the shape [H, W, C] or
             [H, W]. Default: `True`.
     """
@@ -951,13 +902,13 @@ def to_channel_last(image: Tensor, keep_dim: bool = True) -> Tensor:
             image = image.permute(1, 2, 0)
     elif image.ndim == 4:  # [B, C, H, W] -> [B, H, W, C]
         image = image.permute(0, 2, 3, 1)
-        if input_shape[0] == 1 and not keep_dim:
+        if input_shape[0] == 1 and not keep_dims:
             image = image.squeeze(0)
         if input_shape[1] == 1:
             image = image.squeeze(-1)
     elif image.ndim == 5:
         image = image.permute(0, 1, 3, 4, 2)
-        if input_shape[0] == 1 and not keep_dim:
+        if input_shape[0] == 1 and not keep_dims:
             image = image.squeeze(0)
         if input_shape[2] == 1:
             image = image.squeeze(-1)
@@ -967,14 +918,14 @@ def to_channel_last(image: Tensor, keep_dim: bool = True) -> Tensor:
     return image
     
 
-@dispatch(np.ndarray, keep_dim=bool)
-def to_channel_last(image: np.ndarray, keep_dim: bool = True) -> np.ndarray:
+@dispatch(np.ndarray, keep_dims=bool)
+def to_channel_last(image: np.ndarray, keep_dims: bool = True) -> np.ndarray:
     """Convert image to channel last format.
     
     Args:
         image (np.ndarray):
             Image.
-        keep_dim (bool):
+        keep_dims (bool):
             If `False` squeeze the input image to match the shape [H, W, C] or
             [H, W]. Default: `True`.
     """
@@ -993,13 +944,13 @@ def to_channel_last(image: np.ndarray, keep_dim: bool = True) -> np.ndarray:
             image = np.transpose(image, (1, 2, 0))
     elif image.ndim == 4:
         image = np.transpose(image, (0, 2, 3, 1))
-        if input_shape[0] == 1 and not keep_dim:
+        if input_shape[0] == 1 and not keep_dims:
             image = image.squeeze(0)
         if input_shape[1] == 1:
             image = image.squeeze(-1)
     elif image.ndim == 5:
         image = np.transpose(image, (0, 1, 3, 4, 2))
-        if input_shape[0] == 1 and not keep_dim:
+        if input_shape[0] == 1 and not keep_dims:
             image = image.squeeze(0)
         if input_shape[2] == 1:
             image = image.squeeze(-1)
@@ -1011,7 +962,7 @@ def to_channel_last(image: np.ndarray, keep_dim: bool = True) -> np.ndarray:
 
 def to_image(
     tensor     : Tensor,
-    keep_dim   : bool = True,
+    keep_dims   : bool = True,
     denormalize: bool = False
 ) -> np.ndarray:
     """Converts a PyTorch tensor to a numpy image. In case the image is in the
@@ -1020,7 +971,7 @@ def to_image(
     Args:
         tensor (Tensor):
             Image of the form [H, W], [C, H, W] or [B, H, W, C].
-        keep_dim (bool):
+        keep_dims (bool):
             If `False` squeeze the input image to match the shape [H, W, C] or
             [H, W]. Default: `True`.
         denormalize (bool):
@@ -1040,7 +991,7 @@ def to_image(
     image = tensor.cpu().detach().numpy()
     
     # NOTE: Channel last format
-    image = to_channel_last(image, keep_dim=keep_dim)
+    image = to_channel_last(image, keep_dims=keep_dims)
     
     # NOTE: Denormalize
     if denormalize:
@@ -1061,7 +1012,7 @@ def to_pil_image(image: TensorOrArray) -> PIL.Image:
 
 def to_tensor(
     image    : Union[np.ndarray, PIL.Image],
-    keep_dim : bool = True,
+    keep_dims : bool = True,
     normalize: bool = False,
 ) -> Tensor:
     """Convert a `PIL Image` or `np.ndarray` image to a 4d tensor.
@@ -1069,7 +1020,7 @@ def to_tensor(
     Args:
         image (np.ndarray, PIL.Image):
             Image in [H, W, C], [H, W] or [B, H, W, C].
-        keep_dim (bool):
+        keep_dims (bool):
             If `False` unsqueeze the image to match the shape [B, H, W, C].
             Default: `True`.
         normalize (bool):
@@ -1103,7 +1054,7 @@ def to_tensor(
         img = torch.from_numpy(img).contiguous()
     
     # NOTE: Channel first format
-    img = to_channel_first(img, keep_dim=keep_dim)
+    img = to_channel_first(img, keep_dims=keep_dims)
    
     # NOTE: Normalize
     if normalize:
@@ -1199,7 +1150,7 @@ class ToImage(nn.Module):
     GPU, it will be copied back to CPU.
 
     Args:
-        keep_dim (bool):
+        keep_dims (bool):
             If `False` squeeze the input image to match the shape [H, W, C] or
             [H, W]. Default: `True`.
         denormalize (bool):
@@ -1207,13 +1158,13 @@ class ToImage(nn.Module):
             [0, 255]. Default: `False`.
     """
 
-    def __init__(self, keep_dim: bool = True, denormalize: bool = False):
+    def __init__(self, keep_dims: bool = True, denormalize: bool = False):
         super().__init__()
-        self.keep_dim    = keep_dim
+        self.keep_dims    = keep_dims
         self.denormalize = denormalize
 
     def forward(self, image: Tensor) -> np.ndarray:
-        return to_image(image, self.keep_dim, self.denormalize)
+        return to_image(image, self.keep_dims, self.denormalize)
 
 
 @TRANSFORMS.register(name="to_tensor")
@@ -1221,7 +1172,7 @@ class ToTensor(nn.Module):
     """Convert a `PIL Image` or `np.ndarray` image to a 4d tensor.
 
     Args:
-        keep_dim (bool):
+        keep_dims (bool):
             If `False` unsqueeze the image to match the shape [B, H, W, C].
             Default: `True`.
         normalize (bool):
@@ -1229,13 +1180,13 @@ class ToTensor(nn.Module):
             [0.0, 1.0]. Default: `False`.
     """
 
-    def __init__(self, keep_dim: bool = False, normalize: bool = False):
+    def __init__(self, keep_dims: bool = False, normalize: bool = False):
         super().__init__()
-        self.keep_dim  = keep_dim
+        self.keep_dims  = keep_dims
         self.normalize = normalize
 
     def forward(self, image: Union[np.ndarray, PIL.Image]) -> Tensor:
-        return to_tensor(image, self.keep_dim, self.normalize)
+        return to_tensor(image, self.keep_dims, self.normalize)
 
 
 # MARK: - Alias

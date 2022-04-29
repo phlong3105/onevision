@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""Data class for object detection and detection segmentation tasks.
+"""Data class for object measurement and measurement segmentation tasks.
 """
 
 import uuid
@@ -29,7 +29,7 @@ class ObjectAnnotation:
 	"""ObjectAnnotation is a data class used in both ground-truth (i.e,
 	dateset annotations) and model predictions (i.e., outputs). We develop a
 	common interface and attributes so that the same object can be used in
-	several task, such as: detection, tracking, detection seg., etc.
+	several task, such as: measurement, tracking, measurement seg., etc.
 
 	Attributes:
 		id (int, str, optional):
@@ -48,7 +48,7 @@ class ObjectAnnotation:
 			when performing several resize and scale operations.
 		rotation (float):
 			Bounding box rotation angle. This attribute is useful for
-			rotated-box detection task.
+			rotated-box measurement task.
 		segmentation (list, optional):
 			List of vertices (x, y pixel positions) flatten to a 1D array.
 			In COCO format, one object can have several list of vertices.
@@ -98,7 +98,7 @@ class ObjectAnnotation:
 	
 	@property
 	def box_label(self) -> np.ndarray:
-		"""Return bounding box label for detection task.
+		"""Return bounding box label for measurement task.
 
 		Returns:
 			box_label (np.ndarray):

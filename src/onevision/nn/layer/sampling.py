@@ -63,7 +63,7 @@ def get_kernel(
         if sigma is None:
             raise ValueError("sigma is not specified")
         if phase == 0.5:
-            raise ValueError("phase 1/2 for gauss not implemented")
+            raise ValueError("model_state 1/2 for gauss not implemented")
 
         center   = (kernel_width + 1.0) / 2.0
         sigma_sq = sigma * sigma
@@ -204,7 +204,7 @@ class Downsample2(nn.Module):
         super().__init__()
 
         if phase not in [0, 0.5]:
-            raise ValueError("phase should be 0 or 0.5")
+            raise ValueError("model_state should be 0 or 0.5")
 
         if kernel_type == "lanczos2":
             support      = 2
@@ -227,7 +227,7 @@ class Downsample2(nn.Module):
         else:
             raise ValueError("wrong name kernel")
 
-        # Note that `kernel width` will be different to actual size for phase = 1/2
+        # Note that `kernel width` will be different to actual size for model_state = 1/2
         self.kernel = get_kernel(
             factor, kernel_type_, phase, kernel_width, support=support,
             sigma=sigma

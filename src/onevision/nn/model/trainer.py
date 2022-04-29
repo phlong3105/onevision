@@ -16,7 +16,7 @@ from pytorch_lightning.utilities import _HPU_AVAILABLE
 from pytorch_lightning.utilities import _IPU_AVAILABLE
 from pytorch_lightning.utilities import _TPU_AVAILABLE
 
-from onevision.utils import console
+from onevision.core import console
 
 __all__ = [
     "Trainer"

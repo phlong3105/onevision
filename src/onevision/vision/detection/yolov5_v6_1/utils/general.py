@@ -33,10 +33,10 @@ import torch
 import torchvision
 import yaml
 
+from onevision.utils import datasets_dir
 from onevision.vision.detection.yolov5_v6_1.utils.downloads import gsutil_getsize
 from onevision.vision.detection.yolov5_v6_1.utils.metrics import box_iou
 from onevision.vision.detection.yolov5_v6_1.utils.metrics import fitness
-from onevision.utils import datasets_dir
 
 # Settings
 FILE         = Path(__file__).resolve()
@@ -166,7 +166,7 @@ def try_except(func):
 
 
 def methods(instance):
-    # Get class/detection methods
+    # Get class/measurement methods
     return [f for f in dir(instance) if callable(getattr(instance, f)) and not f.startswith("__")]
 
 
@@ -202,7 +202,7 @@ def is_docker():
 
 
 def is_colab():
-    # Is environment a Google Colab detection?
+    # Is environment a Google Colab measurement?
     try:
         import google.colab
         return True

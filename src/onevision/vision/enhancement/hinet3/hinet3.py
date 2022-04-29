@@ -13,17 +13,13 @@ import torch
 from torch import nn
 from torch import Tensor
 
-from onevision.core import DEBLUR
-from onevision.core import DENOISE
-from onevision.core import DERAIN
-from onevision.core import IMAGE_ENHANCEMENT
 from onevision.core import Indexes
 from onevision.core import MODELS
 from onevision.core import Pretrained
 from onevision.core import Tensors
-from onevision.vision.enhancement.image_enhancer import ImageEnhancer
 from onevision.nn import Conv3x3
 from onevision.nn import SAM
+from onevision.vision.enhancement.image_enhancer import ImageEnhancer
 
 __all__ = [
     "HINet3",
@@ -188,7 +184,6 @@ cfgs = {
 
 
 @MODELS.register(name="hinet3")
-@IMAGE_ENHANCEMENT.register(name="hinet3")
 class HINet3(ImageEnhancer):
 
     # MARK: Magic Functions
@@ -403,8 +398,6 @@ class HINet3(ImageEnhancer):
 
 
 @MODELS.register(name="hinet3_deblur")
-@IMAGE_ENHANCEMENT.register(name="hinet3_deblur")
-@DEBLUR.register(name="hinet3_deblur")
 class HINet3DeBlur(HINet3):
     
     models_zoo = {}
@@ -431,8 +424,6 @@ class HINet3DeBlur(HINet3):
 
 
 @MODELS.register(name="hinet3_deblur_x0.5")
-@IMAGE_ENHANCEMENT.register(name="hinet3_deblur_x0.5")
-@DEBLUR.register(name="hinet3_deblur_x0.5")
 class HINet3DeBlur_x0_5(HINet3):
     
     models_zoo = {}
@@ -459,8 +450,6 @@ class HINet3DeBlur_x0_5(HINet3):
 
 
 @MODELS.register(name="hinet3_denoise")
-@IMAGE_ENHANCEMENT.register(name="hinet3_denoise")
-@DENOISE.register(name="hinet3_denoise")
 class HINet3DeNoise(HINet3):
     
     models_zoo = {}
@@ -487,8 +476,6 @@ class HINet3DeNoise(HINet3):
 
 
 @MODELS.register(name="hinet3_derain")
-@IMAGE_ENHANCEMENT.register(name="hinet3_derain")
-@DERAIN.register(name="hinet3_derain")
 class HINet3DeRain(HINet3):
     
     models_zoo = {}

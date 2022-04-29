@@ -19,6 +19,7 @@ import torch
 import torch.backends.cudnn as cudnn
 from numpy import random
 
+from onevision.utils import pretrained_dir
 from onevision.vision.detection.scaled_yolov4.models.experimental import attempt_load
 from onevision.vision.detection.scaled_yolov4.utils.datasets import LoadImages
 from onevision.vision.detection.scaled_yolov4.utils.datasets import LoadStreams
@@ -32,7 +33,6 @@ from onevision.vision.detection.scaled_yolov4.utils.general import xyxy2xywh
 from onevision.vision.detection.scaled_yolov4.utils.torch_utils import load_classifier
 from onevision.vision.detection.scaled_yolov4.utils.torch_utils import select_device
 from onevision.vision.detection.scaled_yolov4.utils.torch_utils import time_synchronized
-from onevision.utils import pretrained_dir
 
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0]  # YOLOv5 root directory

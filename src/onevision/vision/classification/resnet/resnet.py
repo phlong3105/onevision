@@ -18,7 +18,6 @@ from torchvision.models.resnet import Bottleneck
 from torchvision.models.resnet import conv1x1
 
 from onevision.core import BACKBONES
-from onevision.core import IMAGE_CLASSIFICATION
 from onevision.core import Indexes
 from onevision.core import ListOrTupleAnyT
 from onevision.core import MODELS
@@ -91,7 +90,6 @@ cfgs = {
 
 
 @MODELS.register(name="resnet")
-@IMAGE_CLASSIFICATION.register(name="resnet")
 @BACKBONES.register(name="resnet")
 class ResNet(ImageClassifier):
     """ResNet backbone.
@@ -293,7 +291,6 @@ class ResNet(ImageClassifier):
 # MARK: - ResNet18
 
 @MODELS.register(name="resnet18")
-@IMAGE_CLASSIFICATION.register(name="resnet18")
 @BACKBONES.register(name="resnet18")
 class ResNet18(ResNet):
     """ResNet-18 model from `Deep Residual Learning for Image Recognition -
@@ -331,7 +328,6 @@ class ResNet18(ResNet):
 # MARK: - ResNet34
 
 @MODELS.register(name="resnet34")
-@IMAGE_CLASSIFICATION.register(name="resnet34")
 @BACKBONES.register(name="resnet34")
 class ResNet34(ResNet):
     """ResNet-34 model from `Deep Residual Learning for Image Recognition -
@@ -369,7 +365,6 @@ class ResNet34(ResNet):
 # MARK: - ResNet50
 
 @MODELS.register(name="resnet50")
-@IMAGE_CLASSIFICATION.register(name="resnet50")
 @BACKBONES.register(name="resnet50")
 class ResNet50(ResNet):
     """ResNet-50 model from `Deep Residual Learning for Image Recognition -
@@ -407,7 +402,6 @@ class ResNet50(ResNet):
 # MARK: - ResNet101
 
 @MODELS.register(name="resnet101")
-@IMAGE_CLASSIFICATION.register(name="resnet101")
 @BACKBONES.register(name="resnet101")
 class ResNet101(ResNet):
     """ResNet-101 model from `Deep Residual Learning for Image Recognition -
@@ -445,7 +439,6 @@ class ResNet101(ResNet):
 # MARK: - ResNet152
 
 @MODELS.register(name="resnet152")
-@IMAGE_CLASSIFICATION.register(name="resnet152")
 @BACKBONES.register(name="resnet152")
 class ResNet152(ResNet):
     """ResNet-152 model from `Deep Residual Learning for Image Recognition -
@@ -483,7 +476,6 @@ class ResNet152(ResNet):
 # MARK: - ResNeXt50_32X4D
 
 @MODELS.register(name="resnext50_32x4d")
-@IMAGE_CLASSIFICATION.register(name="resnext50_32x4d")
 @BACKBONES.register(name="resnext50_32x4d")
 class ResNeXt50_32X4D(ResNet):
     """ResNeXt-50 32x4d model from `Aggregated Residual Transformation for
@@ -521,7 +513,6 @@ class ResNeXt50_32X4D(ResNet):
 # MARK: - ResNeXt101_32X8D
 
 @MODELS.register(name="resnext101_32x8d")
-@IMAGE_CLASSIFICATION.register(name="resnext101_32x8d")
 @BACKBONES.register(name="resnext101_32x8d")
 class ResNeXt101_32X8D(ResNet):
     """ResNeXt-101 32x8d model from `Aggregated Residual Transformation for
@@ -559,7 +550,6 @@ class ResNeXt101_32X8D(ResNet):
 # MARK: - Wide_ResNet50_2
 
 @MODELS.register(name="wide_resnet50_2")
-@IMAGE_CLASSIFICATION.register(name="wide_resnet50_2")
 @BACKBONES.register(name="wide_resnet50_2")
 class WideResNet50_2(ResNet):
     """Wide ResNet-50-2 model from `Wide Residual Networks -
@@ -597,7 +587,6 @@ class WideResNet50_2(ResNet):
 # MARK: - WideResNet101_2
 
 @MODELS.register(name="wide_resnet101_2")
-@IMAGE_CLASSIFICATION.register(name="wide_resnet101_2")
 @BACKBONES.register(name="wide_resnet101_2")
 class WideResNet101_2(ResNet):
     """Wide ResNet-50-2 model from `Wide Residual Networks -

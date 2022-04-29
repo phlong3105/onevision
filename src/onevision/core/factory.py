@@ -17,12 +17,6 @@ from torch.optim import Optimizer
 # noinspection PyUnresolvedReferences
 from torch.optim.lr_scheduler import _LRScheduler
 
-from onevision.core.collection import is_list_of
-from onevision.core.type import Callable
-from onevision.utils import console
-from onevision.utils import error_console
-from onevision.utils import print_table
-
 __all__ = [
 	"Factory",
 	"OptimizerFactory",
@@ -70,7 +64,7 @@ class Registry:
 		"""Return the registry's dictionary."""
 		return self._registry
 	
-	def get(self, key: str) -> Callable:
+	def get(self, key: str) -> "Callable":
 		"""Get the registry record of the given `key`."""
 		if key in self._registry:
 			return self._registry[key]
@@ -80,7 +74,7 @@ class Registry:
 	def register(
 		self,
 		name  : Optional[str] = None,
-		module: Callable	  = None,
+		module: "Callable"	  = None,
 		force : bool          = False
 	) -> callable:
 		"""Register a module.
@@ -131,7 +125,7 @@ class Registry:
 	
 	def register_module(
 		self,
-		module_class: Callable,
+		module_class: "Callable",
 		module_name : Optional[str] = None,
 		force	    : bool 			= False
 	):
@@ -156,6 +150,9 @@ class Registry:
 
 	def print(self):
 		"""Print the registry dictionary."""
+		from onevision.core.rich import console
+		from onevision.core.rich import print_table
+		
 		console.log(f"[red]{self.name}:")
 		print_table(self.registry)
 
@@ -177,8 +174,8 @@ class Factory(Registry):
 	# MARK: Build
 	
 	def build(self, name: str, *args, **kwargs) -> object:
-		"""Factory command to create an detection of the class. This method gets
-		the appropriate class from the registry and creates an detection of
+		"""Factory command to create an measurement of the class. This method gets
+		the appropriate class from the registry and creates an measurement of
 		it, while passing in the parameters given in `kwargs`.
 		
 		Args:
@@ -186,9 +183,11 @@ class Factory(Registry):
 				Name of the class to create.
 			
 		Returns:
-			detection (object, optional):
-				An detection of the class that is created.
+			measurement (object, optional):
+				An measurement of the class that is created.
 		"""
+		from onevision.core.rich import error_console
+		
 		if name not in self.registry:
 			error_console.log(f"{name} does not exist in the registry.")
 			return None
@@ -201,7 +200,7 @@ class Factory(Registry):
 	def build_from_dict(
 		self, cfg: Optional[Union[dict, Munch]], **kwargs
 	) -> Optional[object]:
-		"""Factory command to create an detection of a class. This method gets
+		"""Factory command to create an measurement of a class. This method gets
 		the appropriate class from the registry while passing in the
 		parameters given in `cfg`.
 		
@@ -210,12 +209,14 @@ class Factory(Registry):
 				Class object' config.
 		
 		Returns:
-			detection (object, optional):
-				An detection of the class that is created.
+			measurement (object, optional):
+				An measurement of the class that is created.
 		"""
+		from onevision.core.rich import error_console
+		
 		if cfg is None:
 			return None
-		
+
 		if not isinstance(cfg, (dict, Munch)):
 			error_console.log("`cfg` must be a dict.")
 			return None
@@ -244,6 +245,9 @@ class Factory(Registry):
 			detections (list[object], optional):
 				Instances of the classes that are created.
 		"""
+		from onevision.core.collection import is_list_of
+		from onevision.core.rich import error_console
+		
 		if cfgs is None:
 			return None
 		
@@ -271,7 +275,7 @@ class OptimizerFactory(Registry):
 		self, net: torch.nn.Module, name: str, *args, **kwargs
 	) -> Optional[Optimizer]:
 		"""Factory command to create an optimizer. This method gets the
-		appropriate optimizer class from the registry and creates an detection
+		appropriate optimizer class from the registry and creates an measurement
 		of it, while passing in the parameters given in `kwargs`.
 		
 		Args:
@@ -281,9 +285,11 @@ class OptimizerFactory(Registry):
 				Optimizer's name.
 		
 		Returns:
-			detection (Optimizer, optional):
-				An detection of the optimizer that is created.
+			measurement (Optimizer, optional):
+				An measurement of the optimizer that is created.
 		"""
+		from onevision.core.rich import error_console
+		
 		if name not in self.registry:
 			error_console.log(f"{name} does not exist in the registry.")
 			return None
@@ -294,7 +300,7 @@ class OptimizerFactory(Registry):
 		self, net: torch.nn.Module, cfg: Optional[Union[dict, Munch]], **kwargs
 	) -> Optional[Optimizer]:
 		"""Factory command to create an optimizer. This method gets the
-		appropriate optimizer class from the registry and creates an detection
+		appropriate optimizer class from the registry and creates an measurement
 		of it, while passing in the parameters given in `cfg`.
 
 		Args:
@@ -304,9 +310,11 @@ class OptimizerFactory(Registry):
 				Optimizer' config.
 
 		Returns:
-			detection (Optimizer, optional):
-				An detection of the optimizer that is created.
+			measurement (Optimizer, optional):
+				An measurement of the optimizer that is created.
 		"""
+		from onevision.core.rich import error_console
+		
 		if cfg is None:
 			return None
 		
@@ -340,9 +348,12 @@ class OptimizerFactory(Registry):
 				List of optimizers' configs.
 
 		Returns:
-			detection (list[Optimizer], optional):
+			measurement (list[Optimizer], optional):
 				Instances of the optimizers that are created.
 		"""
+		from onevision.core.collection import is_list_of
+		from onevision.core.rich import error_console
+		
 		if cfgs is None:
 			return None
 		
@@ -377,9 +388,11 @@ class OptimizerFactory(Registry):
 				List of optimizers' configs.
 
 		Returns:
-			detection (list[Optimizer], optional):
+			measurement (list[Optimizer], optional):
 				Instances of the optimizers that are created.
 		"""
+		from onevision.core.collection import is_list_of
+		
 		if cfgs is None:
 			return None
 		
@@ -413,7 +426,7 @@ class SchedulerFactory(Registry):
 		self, optimizer: Optimizer, name: Optional[str], *args, **kwargs
 	) -> Optional[_LRScheduler]:
 		"""Factory command to create a scheduler. This method gets the
-		appropriate scheduler class from the registry and creates an detection
+		appropriate scheduler class from the registry and creates an measurement
 		of it, while passing in the parameters given in `kwargs`.
 		
 		Args:
@@ -423,9 +436,11 @@ class SchedulerFactory(Registry):
 				Scheduler's name.
 		
 		Returns:
-			detection (_LRScheduler, optional):
-				An detection of the scheduler that is created.
+			measurement (_LRScheduler, optional):
+				An measurement of the scheduler that is created.
 		"""
+		from onevision.core.rich import error_console
+		
 		if name is None:
 			return None
 		
@@ -458,7 +473,7 @@ class SchedulerFactory(Registry):
 	) -> Optional[_LRScheduler]:
 		"""Factory command to create a scheduler. This method gets the
 		appropriate scheduler class from the registry and creates an
-		detection of it, while passing in the parameters given in `cfg`.
+		measurement of it, while passing in the parameters given in `cfg`.
 
 		Args:
 			optimizer (Optimizer):
@@ -467,8 +482,8 @@ class SchedulerFactory(Registry):
 				Scheduler' config.
 
 		Returns:
-			detection (_LRScheduler, optional):
-				An detection of the scheduler that is created.
+			measurement (_LRScheduler, optional):
+				An measurement of the scheduler that is created.
 		"""
 		if cfg is None:
 			return None
@@ -501,9 +516,11 @@ class SchedulerFactory(Registry):
 				List of optimizers' configs.
 
 		Returns:
-			detection (list[Optimizer], optional):
+			measurement (list[Optimizer], optional):
 				Instances of the scheduler that are created.
 		"""
+		from onevision.core.collection import is_list_of
+		
 		if cfgs is None:
 			return None
 		
@@ -539,9 +556,11 @@ class SchedulerFactory(Registry):
 				2D-list of optimizers' configs.
 
 		Returns:
-			detection (list[Optimizer], optional):
+			measurement (list[Optimizer], optional):
 				Instances of the scheduler that are created.
 		"""
+		from onevision.core.collection import is_list_of
+		
 		if cfgs is None:
 			return None
 		

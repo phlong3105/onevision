@@ -25,8 +25,6 @@ from torch import Tensor
 
 from onevision.core import Arrays
 from onevision.core import denormalize_naive
-from onevision.core import interpolation_vision_backend_from_int
-from onevision.core import interpolation_vision_backend_from_str
 from onevision.core import is_channel_first
 from onevision.core import to_4d_array
 from onevision.core import to_channel_last
@@ -35,7 +33,7 @@ from onevision.io.file import create_dirs
 from onevision.io.format import ImageFormat
 
 """
-from onevision.utils import error_console
+from onevision.core import error_console
 try:
     import pyvips
 except ImportError:
@@ -109,10 +107,8 @@ def read_image_pil(path: str) -> np.ndarray:
 
 def read_image(path: str, backend: Union[VisionBackend, str, int] = "cv") -> np.ndarray:
 	"""Read image with the corresponding backend."""
-	if isinstance(backend, int):
-		backend = interpolation_vision_backend_from_int(backend)
-	elif isinstance(backend, str):
-		backend = interpolation_vision_backend_from_str(backend)
+	if isinstance(backend, (str, int)):
+		backend = VisionBackend.from_value(backend)
 	
 	if backend == VisionBackend.CV:
 		return read_image_cv(path)

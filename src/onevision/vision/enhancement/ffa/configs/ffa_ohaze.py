@@ -185,7 +185,7 @@ trainer = {
 	# Default path for logs and weights when no logger/ckpt_callback passed.
 	# Default: `None`.
 	"detect_anomaly": False,
-	# Enable anomaly detection for the autograd engine. Default: `False`.
+	# Enable anomaly measurement for the autograd engine. Default: `False`.
 	"deterministic": False,
 	# If true enables cudnn.deterministic. Default: `False`.
 	"devices": None,
@@ -438,7 +438,7 @@ model = {
 					"eta_min": 1e-7,
 					"last_epoch": -1
 				},
-				# REQUIRED: The scheduler detection
+				# REQUIRED: The scheduler measurement
 				"interval": "epoch",
 				# Unit of the scheduler's step size, could also be 'step'.
 				# 'epoch' updates the scheduler on epoch end whereas 'step'

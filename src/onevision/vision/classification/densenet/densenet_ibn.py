@@ -15,7 +15,6 @@ import torch.nn.functional as F
 from torch import Tensor
 
 from onevision.core import BACKBONES
-from onevision.core import IMAGE_CLASSIFICATION
 from onevision.core import Indexes
 from onevision.core import ListOrTupleAnyT
 from onevision.core import MODELS
@@ -43,7 +42,7 @@ class IBN(nn.Module):
         planes (int):
             Number of channels for the input image.
         ratio (float):
-            Ratio of detection normalization in the IBN layer.
+            Ratio of measurement normalization in the IBN layer.
     """
     
     # MARK: Magic Functions
@@ -198,7 +197,6 @@ cfgs = {
 
 
 @MODELS.register(name="densenet_ibn")
-@IMAGE_CLASSIFICATION.register(name="densenet_ibn")
 @BACKBONES.register(name="densenet_ibn")
 class DenseNet_IBN(ImageClassifier):
     """Densenet-BC model based on `Densely Connected Convolutional Networks -
@@ -343,7 +341,6 @@ class DenseNet_IBN(ImageClassifier):
 # MARK: - DenseNet121_IBN_A
 
 @MODELS.register(name="densenet121_ibn_a")
-@IMAGE_CLASSIFICATION.register(name="densenet121_ibn_a")
 @BACKBONES.register(name="densenet121_ibn_a")
 class DenseNet121_IBN_A(DenseNet_IBN):
     """Densenet-121-IBN-a model from `Densely Connected Convolutional Networks
@@ -381,7 +378,6 @@ class DenseNet121_IBN_A(DenseNet_IBN):
 # MARK: - DenseNet161_IBN_A
 
 @MODELS.register(name="densenet161_ibn_a")
-@IMAGE_CLASSIFICATION.register(name="densenet161_ibn_a")
 @BACKBONES.register(name="densenet161_ibn_a")
 class DenseNet161_IBN_A(DenseNet_IBN):
     """Densenet-161-IBN-a model from `Densely Connected Convolutional Networks
@@ -414,7 +410,6 @@ class DenseNet161_IBN_A(DenseNet_IBN):
 # MARK: - DenseNet169_IBN_A
 
 @MODELS.register(name="densenet169_ibn_a")
-@IMAGE_CLASSIFICATION.register(name="densenet169_ibn_a")
 @BACKBONES.register(name="densenet169_ibn_a")
 class DenseNet169_IBN_A(DenseNet_IBN):
     """Densenet-169-IBN-a model from `Densely Connected Convolutional Networks
@@ -452,7 +447,6 @@ class DenseNet169_IBN_A(DenseNet_IBN):
 # MARK: - DenseNet201_IBN_A
 
 @MODELS.register(name="densenet201_ibn_a")
-@IMAGE_CLASSIFICATION.register(name="densenet201_ibn_a")
 @BACKBONES.register(name="densenet201_ibn_a")
 class DenseNet201_IBN_A(DenseNet_IBN):
     """Densenet-201-IBN-a model from `Densely Connected Convolutional Networks

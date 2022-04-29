@@ -27,7 +27,7 @@ from onevision import get_latest_checkpoint
 from onevision import Inference
 from onevision import load_config
 from onevision import MODELS
-from onevision import Phase
+from onevision import ModelState
 from onevision import print_dict
 from onevision import set_distributed_backend
 from onevision import Trainer
@@ -67,32 +67,32 @@ def main():
     console.log("[green]Done")
     
     # NOTE: Training
-    if host.phase is Phase.TRAINING:
+    if host.model_state is ModelState.TRAINING:
         console.rule("[bold red]2. TRAINING DATA PREPARATION")
         copy_config_file(host.config.__file__, model.version_dir)
         dm.setup()
         console.log("[green]Done")
         
         console.rule("[bold red]3. MODEL TRAINING")
-        model.phase = host.phase
+        model.model_state = host.model_state
         train(model=model, dm=dm, config=config)
         console.log("[green]Done")
         
     # NOTE: Testing
-    if host.phase in [Phase.TRAINING, Phase.TESTING]:
+    if host.model_state in [ModelState.TRAINING, ModelState.TESTING]:
         console.rule("[bold red]2. TESTING DATA PREPARATION")
-        dm.setup(phase=host.phase)
+        dm.setup(phase=host.model_state)
         console.log("[green]Done")
         
         console.rule("[bold red]3. MODEL TESTING")
-        model.phase = host.phase
+        model.model_state = host.model_state
         test(model=model, dm=dm, config=config)
         console.log("[green]Done")
         
     # NOTE: Inference
-    if host.phase is Phase.INFERENCE:
+    if host.model_state is ModelState.INFERENCE:
         console.rule("[bold red]3. MODEL INFERENCE")
-        model.phase = host.phase
+        model.model_state = host.model_state
         infer(model=model, data=host.infer_data, config=config)
         console.log("[green]Done")
         
@@ -164,7 +164,7 @@ def test(model: BaseModel, dm: DataModule, config: Munch) -> EvalOutput:
     
     Returns:
         results (EvalOutput):
-            List of dictionaries with metrics logged during the test phase,
+            List of dictionaries with metrics logged during the test model_state,
             e.g., in model- or callback hooks like :meth:`~pytorch_lightning.core.lightning.LightningModule.test_step`,
             :meth:`~pytorch_lightning.core.lightning.LightningModule.test_epoch_end`,
             etc. The length of the list corresponds to the number of test
@@ -230,7 +230,7 @@ def infer(model: BaseModel, data: str, config: Munch):
     inference = Inference(**inference_cfg)
     
     # NOTE: Infer
-    model.phase = Phase.INFERENCE
+    model.model_state = ModelState.INFERENCE
     inference.run(model=model, data=data)
 
 

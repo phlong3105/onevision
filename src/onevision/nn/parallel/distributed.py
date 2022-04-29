@@ -17,7 +17,7 @@ from torch import distributed as dist
 from torch import nn
 
 from onevision.core import Callable
-from onevision.utils import console
+from onevision.core import console
 
 __all__ = [
 	"get_dist_info",

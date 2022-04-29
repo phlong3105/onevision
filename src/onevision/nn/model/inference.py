@@ -20,20 +20,19 @@ from torch import Tensor
 from torchvision.transforms import functional as F
 
 from onevision.core import Arrays
+from onevision.core import console
 from onevision.core import get_image_hw
-from onevision.core import INFERENCES
 from onevision.core import Int2T
 from onevision.core import Int3T
+from onevision.core import InterpolationMode
+from onevision.core import progress_bar
+from onevision.core import select_device
 from onevision.core import to_image
-from onevision.imgproc import InterpolationMode
 from onevision.imgproc import resize
 from onevision.io import create_dirs
 from onevision.io import ImageLoader
 from onevision.io import ImageWriter
 from onevision.nn.model.utils import get_next_version
-from onevision.utils import console
-from onevision.utils import progress_bar
-from onevision.utils import select_device
 
 __all__ = [
     "Inference"
@@ -42,8 +41,6 @@ __all__ = [
 
 # MARK: - Inference
 
-# noinspection PyMethodMayBeStatic
-@INFERENCES.register(name="inferences")
 class Inference:
     """Inference class defines the prediction loop for image data: images,
     folders, video, etc.
@@ -283,7 +280,6 @@ class Inference:
 
 # MARK: - MultiThreadInference
 
-@INFERENCES.register(name="multithread_inference")
 class MultiThreadInference(Inference):
     """Multi-Thread Inference class defines the prediction loop for image data:
     images, folders, video, etc.

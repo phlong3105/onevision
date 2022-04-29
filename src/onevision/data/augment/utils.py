@@ -16,9 +16,9 @@ from onevision.core import ListOrTupleAnyT
 from onevision.core import TensorOrArray
 from onevision.core import TensorsOrArrays
 from onevision.imgproc import adjust_hsv
-from onevision.imgproc import lowhighres_images_random_crop
-from onevision.imgproc import image_box_random_perspective
 from onevision.imgproc import hflip_image_box
+from onevision.imgproc import image_box_random_perspective
+from onevision.imgproc import lowhighres_images_random_crop
 from onevision.imgproc import vflip_image_box
 
 __all__ = [

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-""" Waymo 2D detection dataset and datamodule.
+""" Waymo 2D measurement dataset and datamodule.
 """
 
 from __future__ import annotations
@@ -17,9 +17,11 @@ from matplotlib import pyplot as plt
 from torch.utils.data import random_split
 
 from onevision.core import Augment_
+from onevision.core import console
 from onevision.core import DATAMODULES
 from onevision.core import DATASETS
 from onevision.core import Int3T
+from onevision.core import progress_bar
 from onevision.core import Tasks
 from onevision.core import VisionBackend
 from onevision.data.data_class import ClassLabels
@@ -37,10 +39,8 @@ from onevision.imgproc import draw_box
 from onevision.imgproc import show_images
 from onevision.io import is_image_file
 from onevision.io import is_txt_file
-from onevision.nn import Phase
-from onevision.utils import console
+from onevision.core import ModelState
 from onevision.utils import datasets_dir
-from onevision.utils import progress_bar
 
 __all__ = [
     "WaymoDetection2D",
@@ -356,7 +356,7 @@ class WaymoDetection2DDataModule(DataModule):
         if self.class_labels is None:
             self.load_class_labels()
         
-    def setup(self, phase: Optional[Phase] = None):
+    def setup(self, phase: Optional[ModelState] = None):
         """There are also data operations you might want to perform on every
         GPU.
 
@@ -369,15 +369,15 @@ class WaymoDetection2DDataModule(DataModule):
             - Define collate_fn for you custom dataset.
 
         Args:
-            phase (Phase, optional):
-                Phase to use: [None, Phase.TRAINING, Phase.TESTING].
+            phase (ModelState, optional):
+                ModelState to use: [None, ModelState.TRAINING, ModelState.TESTING].
                 Set to "None" to setup all train, val, and test data.
                 Default: `None`.
         """
         console.log(f"Setup [red]Waymo Detection 2D[/red] datasets.")
         
         # NOTE: Assign train/val datasets for use in dataloaders
-        if phase in [None, Phase.TRAINING]:
+        if phase in [None, ModelState.TRAINING]:
             full_dataset = WaymoDetection2D(
                 root=self.dataset_dir, split="train", **self.dataset_kwargs
             )

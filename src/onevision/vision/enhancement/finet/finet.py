@@ -12,20 +12,15 @@ import torch
 from torch import nn
 from torch import Tensor
 
-from onevision.core import DEBLUR
-from onevision.core import DEHAZE
-from onevision.core import DENOISE
-from onevision.core import DERAIN
-from onevision.core import IMAGE_ENHANCEMENT
+from onevision.core import console
 from onevision.core import Indexes
 from onevision.core import MODELS
 from onevision.core import Pretrained
 from onevision.core import Tensors
-from onevision.vision.enhancement.image_enhancer import ImageEnhancer
 from onevision.nn import Conv3x3
 from onevision.nn import FractionInstanceNorm
 from onevision.nn import SAM
-from onevision.utils import console
+from onevision.vision.enhancement.image_enhancer import ImageEnhancer
 
 __all__ = [
     "FINet",
@@ -209,7 +204,6 @@ cfgs = {
 
 
 @MODELS.register(name="finet")
-@IMAGE_ENHANCEMENT.register(name="finet")
 class FINet(ImageEnhancer):
 
     # MARK: Magic Functions
@@ -388,8 +382,6 @@ class FINet(ImageEnhancer):
 
 
 @MODELS.register(name="finet_deblur")
-@IMAGE_ENHANCEMENT.register(name="finet_deblur")
-@DEBLUR.register(name="finet_deblur")
 class FINetDeBlur(FINet):
     
     models_zoo = {}
@@ -416,8 +408,6 @@ class FINetDeBlur(FINet):
 
 
 @MODELS.register(name="finet_deblur_x0.5")
-@IMAGE_ENHANCEMENT.register(name="finet_deblur_x0.5")
-@DEBLUR.register(name="finet_deblur_x0.5")
 class FINetDeBlur_x0_5(FINet):
     
     models_zoo = {}
@@ -444,8 +434,6 @@ class FINetDeBlur_x0_5(FINet):
 
 
 @MODELS.register(name="finet_dehaze")
-@IMAGE_ENHANCEMENT.register(name="finet_dehaze")
-@DEHAZE.register(name="finet_dehaze")
 class FINetDeHaze(FINet):
     
     models_zoo = {}
@@ -472,8 +460,6 @@ class FINetDeHaze(FINet):
 
 
 @MODELS.register(name="finet_denoise")
-@IMAGE_ENHANCEMENT.register(name="finet_denoise")
-@DENOISE.register(name="finet_denoise")
 class FINetDeNoise(FINet):
     
     models_zoo = {}
@@ -500,8 +486,6 @@ class FINetDeNoise(FINet):
 
 
 @MODELS.register(name="finet_derain")
-@IMAGE_ENHANCEMENT.register(name="finet_derain")
-@DERAIN.register(name="finet_derain")
 class FINetDeRain(FINet):
     
     models_zoo = {}

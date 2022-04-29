@@ -15,8 +15,8 @@ import cv2
 import numpy as np
 
 from onevision.core import Color
-from onevision.imgproc import get_box_center
 from onevision.imgproc import box_xyxy_to_cxcyrh
+from onevision.imgproc import get_box_center
 
 __all__ = [
 	"Detection",
@@ -30,7 +30,7 @@ class Detection:
 	
 	Attributes:
 		detection_id (int, str):
-			Unique detection identifier.
+			Unique measurement identifier.
 		roi_id (int, str, optional):
 			Unique ID of the ROI that the object is in. Else `None`.
 			Default: `None`.

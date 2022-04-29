@@ -19,7 +19,6 @@ from torch.nn.modules.utils import _pair
 
 from onevision.core import BACKBONES
 from onevision.core import Callable
-from onevision.core import IMAGE_CLASSIFICATION
 from onevision.core import Indexes
 from onevision.core import Int2T
 from onevision.core import ListOrTupleAnyT
@@ -38,7 +37,6 @@ __all__ = [
 
 
 # MARK: - Modules
-
 
 class IBN(nn.Module):
     
@@ -360,7 +358,6 @@ cfgs = {
 
 
 @MODELS.register(name="resnest")
-@IMAGE_CLASSIFICATION.register(name="resnest")
 @BACKBONES.register(name="resnest")
 class ResNest(ImageClassifier):
     """ResNeSt: Split-Attention Network, A New ResNet Variant.
@@ -682,7 +679,6 @@ class ResNest(ImageClassifier):
 # MARK: - ResNest50
 
 @MODELS.register(name="resnest50")
-@IMAGE_CLASSIFICATION.register(name="resnest50")
 @BACKBONES.register(name="resnest50")
 class ResNest50(ResNest):
     
@@ -711,7 +707,6 @@ class ResNest50(ResNest):
 # MARK: - ResNest101
 
 @MODELS.register(name="resnest101")
-@IMAGE_CLASSIFICATION.register(name="resnest101")
 @BACKBONES.register(name="resnest101")
 class ResNest101(ResNest):
 
@@ -740,7 +735,6 @@ class ResNest101(ResNest):
 # MARK: - ResNest200
 
 @MODELS.register(name="resnest200")
-@IMAGE_CLASSIFICATION.register(name="resnest200")
 @BACKBONES.register(name="resnest200")
 class ResNest200(ResNest):
 
@@ -769,7 +763,6 @@ class ResNest200(ResNest):
 # MARK: - ResNest269
 
 @MODELS.register(name="resnest269")
-@IMAGE_CLASSIFICATION.register(name="resnest269")
 @BACKBONES.register(name="resnest269")
 class ResNest269(ResNest):
  

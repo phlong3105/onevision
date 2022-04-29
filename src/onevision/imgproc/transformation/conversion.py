@@ -13,11 +13,11 @@ import torch
 import torch.nn.functional as F
 from torch import Tensor
 
+from onevision.core import error_console
 from onevision.core import eye_like
 from onevision.core import inverse_cast
 from onevision.core import PI
 from onevision.core import solve_cast
-from onevision.utils import error_console
 
 
 class QuaternionCoeffOrder(enum.Enum):

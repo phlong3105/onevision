@@ -16,9 +16,11 @@ import matplotlib.pyplot as plt
 from torch.utils.data import random_split
 
 from onevision.core import Augment_
+from onevision.core import console
 from onevision.core import DATAMODULES
 from onevision.core import DATASETS
 from onevision.core import Int3T
+from onevision.core import progress_bar
 from onevision.core import Tasks
 from onevision.core import VisionBackend
 from onevision.data.data_class import ImageInfo
@@ -27,10 +29,8 @@ from onevision.data.datamodule import DataModule
 from onevision.data.dataset import ImageEnhancementDataset
 from onevision.data.label_handler import VisionDataHandler
 from onevision.imgproc import show_images
-from onevision.nn import Phase
-from onevision.utils import console
+from onevision.core import ModelState
 from onevision.utils import datasets_dir
-from onevision.utils import progress_bar
 
 __all__ = [
     "GoPro",
@@ -245,7 +245,7 @@ class GoProDataModule(DataModule):
         if self.class_labels is None:
             self.load_class_labels()
     
-    def setup(self, phase: Optional[Phase] = None):
+    def setup(self, phase: Optional[ModelState] = None):
         """There are also data operations you might want to perform on every
         GPU.
 
@@ -258,15 +258,15 @@ class GoProDataModule(DataModule):
             - Define collate_fn for you custom dataset.
 
         Args:
-            phase (Phase, optional):
-                Phase to use: [None, Phase.TRAINING, Phase.TESTING].
+            phase (ModelState, optional):
+                ModelState to use: [None, ModelState.TRAINING, ModelState.TESTING].
                 Set to "None" to setup all train, val, and test data.
                 Default: `None`.
         """
         console.log(f"Setup [red]GoPro[/red] datasets.")
         
         # NOTE: Assign train/val datasets for use in dataloaders
-        if phase in [None, Phase.TRAINING]:
+        if phase in [None, ModelState.TRAINING]:
             full_dataset = GoPro(
                 root=self.dataset_dir, split="train", **self.dataset_kwargs
             )

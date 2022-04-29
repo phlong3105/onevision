@@ -17,6 +17,7 @@ import torch
 import torch.backends.cudnn as cudnn
 from numpy import random
 
+from onevision.utils import pretrained_dir
 from onevision.vision.detection.yolov5_v4.models.experimental import attempt_load
 from onevision.vision.detection.yolov5_v4.utils.datasets import LoadImages
 from onevision.vision.detection.yolov5_v4.utils.datasets import LoadStreams
@@ -34,7 +35,6 @@ from onevision.vision.detection.yolov5_v4.utils.plots import plot_one_box
 from onevision.vision.detection.yolov5_v4.utils.torch_utils import load_classifier
 from onevision.vision.detection.yolov5_v4.utils.torch_utils import select_device
 from onevision.vision.detection.yolov5_v4.utils.torch_utils import time_synchronized
-from onevision.utils import pretrained_dir
 
 sys.path.append("/")  # to run '$ python *.py' files in subdirectories
 

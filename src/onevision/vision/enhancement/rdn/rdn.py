@@ -15,13 +15,11 @@ import torch
 from torch import nn
 from torch import Tensor
 
-from onevision.core import IMAGE_ENHANCEMENT
 from onevision.core import Indexes
 from onevision.core import MODELS
 from onevision.core import Pretrained
-from onevision.core import SUPER_RESOLUTION
-from onevision.vision.enhancement.image_enhancer import ImageEnhancer
 from onevision.nn import ResidualDenseBlock
+from onevision.vision.enhancement.image_enhancer import ImageEnhancer
 
 __all__ = [
 	"RDN",
@@ -50,8 +48,6 @@ cfgs = {
 
 
 @MODELS.register(name="rdn")
-@IMAGE_ENHANCEMENT.register(name="rdn")
-@SUPER_RESOLUTION.register(name="rdn")
 class RDN(ImageEnhancer):
     """
  
@@ -227,8 +223,6 @@ class RDN(ImageEnhancer):
 
 
 @MODELS.register(name="rdn_x2")
-@IMAGE_ENHANCEMENT.register(name="rdn_x2")
-@SUPER_RESOLUTION.register(name="rdn_x2")
 class RDNX2(RDN):
     
     model_zoo = {
@@ -257,8 +251,6 @@ class RDNX2(RDN):
 
 
 @MODELS.register(name="rdn_x3")
-@IMAGE_ENHANCEMENT.register(name="rdn_x3")
-@SUPER_RESOLUTION.register(name="rdn_x3")
 class RDNX3(RDN):
     
     model_zoo = {
@@ -287,8 +279,6 @@ class RDNX3(RDN):
 
 
 @MODELS.register(name="rdn_x4")
-@IMAGE_ENHANCEMENT.register(name="rdn_x4")
-@SUPER_RESOLUTION.register(name="rdn_x4")
 class RDNX4(RDN):
     
     model_zoo = {

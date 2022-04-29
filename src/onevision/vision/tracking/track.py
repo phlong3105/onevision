@@ -18,12 +18,12 @@ import cv2
 import numpy as np
 
 from onevision.core import Color
-from onevision.data.data_class import Detection
-from onevision.data.data_class import majority_voting
+from onevision.data import Detection
+from onevision.data import majority_voting
 from onevision.imgproc import AppleRGB
-from onevision.imgproc.shape import euclidean_distance
-from onevision.imgproc.shape import get_box_corners_points
-from onevision.vision.tracking import Motion
+from onevision.imgproc import euclidean_distance
+from onevision.imgproc import get_box_corners_points
+from onevision.vision.tracking.motion import Motion
 
 __all__ = [
 	"Track",
@@ -298,19 +298,19 @@ class Track:
     # MARK: Update
     
     def update(self, detection: Optional[Detection], **kwargs):
-        """Update with new detection.
+        """Update with new measurement.
         
         Args:
             detection (Detection, optional):
-                Object detection.
+                Object measurement.
         """
         self.detections.append(detection)
-        self.motion.update(detection=detection)
+        self.motion.update(measurement=detection)
         self.update_track_state(**kwargs)
     
     @abstractmethod
     def update_trajectory(self):
-        """Update trajectory with detection's center point."""
+        """Update trajectory with measurement's center point."""
         pass
     
     @abstractmethod

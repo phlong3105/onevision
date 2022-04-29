@@ -16,8 +16,8 @@ from torch import nn
 from torch import Tensor
 from torch.nn import functional as F
 
-from onevision.vision.classification import VGG19
 from onevision.nn import LOSSES
+from onevision.vision.classification import VGG19
 
 __all__ = [
     "MBLLENLoss"

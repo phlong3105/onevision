@@ -10,9 +10,9 @@ import glob
 import os
 from shutil import copyfile
 
+from onevision.core import progress_bar
 from onevision.io import create_dirs
 from onevision.utils import datasets_dir
-from onevision.utils import progress_bar
 
 simplecube_dir = os.path.join(datasets_dir, "cube++", "simplecube++")
 cube_dir       = os.path.join(datasets_dir, "cube++", "cube++")

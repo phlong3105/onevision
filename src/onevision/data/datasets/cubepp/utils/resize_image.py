@@ -12,13 +12,13 @@ from pathlib import Path
 
 import cv2
 
+from onevision.core import progress_bar
 from onevision.core import VisionBackend
 from onevision.imgproc import resize
 from onevision.io import create_dirs
 from onevision.io import is_image_file
 from onevision.io import read_image
 from onevision.utils import datasets_dir
-from onevision.utils import progress_bar
 
 simplecube_dir = os.path.join(datasets_dir, "cube++", "simplecube++")
 splits         = ["train", "test"]

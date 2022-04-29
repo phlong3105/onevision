@@ -39,10 +39,10 @@ from torchvision.transforms.functional import crop
 from torchvision.transforms.functional import resized_crop
 
 from onevision.core import Int2T
+from onevision.core import InterpolationMode
+from onevision.core import is_channel_last
 from onevision.core import TensorOrArray
 from onevision.core import TRANSFORMS
-from onevision.core import is_channel_last
-from onevision.imgproc.transformation.interpolation_mode import InterpolationMode
 from onevision.imgproc.utils import batch_image_processing
 
 __all__ = [

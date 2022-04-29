@@ -15,7 +15,6 @@ import torch.nn as nn
 from torch import Tensor
 
 from onevision.core import BACKBONES
-from onevision.core import IMAGE_CLASSIFICATION
 from onevision.core import Indexes
 from onevision.core import Int2T
 from onevision.core import ListOrTupleAnyT
@@ -128,7 +127,6 @@ cfgs = {
 
 
 @MODELS.register(name="resnet_ibn")
-@IMAGE_CLASSIFICATION.register(name="resnet_ibn")
 @BACKBONES.register(name="resnet_ibn")
 class ResNet_IBN(ImageClassifier):
     """ResNet with Detection-Batch Normalization model.
@@ -290,7 +288,6 @@ class ResNet_IBN(ImageClassifier):
 # MARK: - ResNet50_IBN
 
 @MODELS.register(name="resnet50_ibn_a")
-@IMAGE_CLASSIFICATION.register(name="resnet50_ibn_a")
 @BACKBONES.register(name="resnet50_ibn_a")
 class ResNet50_IBN(ResNet_IBN):
     """ResNet-50 with Detection-Batch Normalization model."""
@@ -329,7 +326,6 @@ class ResNet50_IBN(ResNet_IBN):
 # MARK: - ResNet101_IBN
 
 @MODELS.register(name="resnet101_ibn_a")
-@IMAGE_CLASSIFICATION.register(name="resnet101_ibn_a")
 @BACKBONES.register(name="resnet101_ibn_a")
 class ResNet101_IBN(ResNet_IBN):
     """ResNet-101 with Detection-Batch Normalization model."""
@@ -368,7 +364,6 @@ class ResNet101_IBN(ResNet_IBN):
 # MARK: - ResNet152_IBN
 
 @MODELS.register(name="resnet152_ibn_a")
-@IMAGE_CLASSIFICATION.register(name="resnet152_ibn_a")
 @BACKBONES.register(name="resnet152_ibn_a")
 class ResNet152_IBN(ResNet_IBN):
     """ResNet-152 with Detection-Batch Normalization model."""

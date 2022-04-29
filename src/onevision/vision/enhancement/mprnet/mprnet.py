@@ -12,24 +12,19 @@ import torch
 from torch import nn
 from torch import Tensor
 
-from onevision.core import DEBLUR
-from onevision.core import DENOISE
-from onevision.core import DERAIN
-from onevision.core import DESNOW
-from onevision.core import IMAGE_ENHANCEMENT
 from onevision.core import Indexes
 from onevision.core import Int2T
 from onevision.core import MODELS
 from onevision.core import Pretrained
 from onevision.core import Tensors
 from onevision.core import to_2tuple
-from onevision.vision.enhancement.image_enhancer import ImageEnhancer
 from onevision.nn import CAB
 from onevision.nn import Downsample
 from onevision.nn import ORB
 from onevision.nn import SAM
 from onevision.nn import SkipUpsample
 from onevision.nn import Upsample
+from onevision.vision.enhancement.image_enhancer import ImageEnhancer
 
 __all__ = [
     "MPRNet",
@@ -507,7 +502,6 @@ cfgs = {
 
 
 @MODELS.register(name="mprnet")
-@IMAGE_ENHANCEMENT.register(name="mprnet")
 class MPRNet(ImageEnhancer):
     """MPRNet consists of three stages.
     
@@ -753,8 +747,6 @@ class MPRNet(ImageEnhancer):
 
 
 @MODELS.register(name="mprnet_deblur")
-@IMAGE_ENHANCEMENT.register(name="mprnet_deblur")
-@DEBLUR.register(name="mprnet_deblur")
 class MPRNetDeBlur(MPRNet):
     """MPRNet consists of three stages."""
     
@@ -786,8 +778,6 @@ class MPRNetDeBlur(MPRNet):
 
 
 @MODELS.register(name="mprnet_denoise")
-@IMAGE_ENHANCEMENT.register(name="mprnet_denoise")
-@DENOISE.register(name="mprnet_denoise")
 class MPRNetDeNoise(MPRNet):
     """MPRNet consists of three stages."""
     
@@ -819,8 +809,6 @@ class MPRNetDeNoise(MPRNet):
 
 
 @MODELS.register(name="mprnet_derain")
-@IMAGE_ENHANCEMENT.register(name="mprnet_derain")
-@DERAIN.register(name="mprnet_derain")
 class MPRNetDeRain(MPRNet):
     """MPRNet consists of three stages."""
     
@@ -852,8 +840,6 @@ class MPRNetDeRain(MPRNet):
 
 
 @MODELS.register(name="mprnet_desnow")
-@IMAGE_ENHANCEMENT.register(name="mprnet_desnow")
-@DESNOW.register(name="mprnet_desnow")
 class MPRNetDeSnow(MPRNet):
     """MPRNet consists of three stages."""
     

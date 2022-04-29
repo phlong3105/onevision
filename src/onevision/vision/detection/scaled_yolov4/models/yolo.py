@@ -27,12 +27,12 @@ from onevision.vision.detection.scaled_yolov4.utils.torch_utils import time_sync
 
 class Detect(nn.Module):
     
-    def __init__(self, nc=80, anchors=(), ch=()):  # detection layer
+    def __init__(self, nc=80, anchors=(), ch=()):  # measurement layer
         super(Detect, self).__init__()
         self.stride = None  # strides computed during build
         self.nc     = nc  # number of classes
         self.no     = nc + 5  # number of outputs per anchor
-        self.nl     = len(anchors)  # number of detection layers
+        self.nl     = len(anchors)  # number of measurement layers
         self.na     = len(anchors[0]) // 2  # number of anchors
         self.grid   = [torch.zeros(1)] * self.nl  # init grid
         a           = torch.tensor(anchors).float().view(self.nl, -1, 2)

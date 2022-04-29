@@ -12,8 +12,8 @@ from typing import Callable
 import torch
 from torch import nn
 
+from onevision.core import console
 from onevision.io import is_weights_file
-from onevision.utils import console
 
 __all__ = [
     "find_modules",

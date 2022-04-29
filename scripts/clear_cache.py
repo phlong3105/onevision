@@ -11,7 +11,6 @@ import os.path
 from onevision import datasets_dir
 from onevision import delete_files
 
-
 if __name__ == "__main__":
 	delete_files(
 		dirpaths  = [os.path.join(datasets_dir, "*")],

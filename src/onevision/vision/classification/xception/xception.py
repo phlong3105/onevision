@@ -27,7 +27,6 @@ import torch.nn.functional as F
 from torch import Tensor
 
 from onevision.core import BACKBONES
-from onevision.core import IMAGE_CLASSIFICATION
 from onevision.core import IMAGENET_INCEPTION_MEAN
 from onevision.core import IMAGENET_INCEPTION_STD
 from onevision.core import Indexes
@@ -37,8 +36,8 @@ from onevision.core import MODELS
 from onevision.core import Padding2T
 from onevision.core import Pretrained
 from onevision.core import to_2tuple
-from onevision.vision.classification.image_classifier import ImageClassifier
 from onevision.nn import create_classifier
+from onevision.vision.classification.image_classifier import ImageClassifier
 
 __all__ = [
     "Xception"
@@ -156,7 +155,6 @@ cfgs = {
 
 
 @MODELS.register(name="xception")
-@IMAGE_CLASSIFICATION.register(name="xception")
 @BACKBONES.register(name="xception")
 class Xception(ImageClassifier):
     """Xception optimized for the ImageNet dataset, as specified in

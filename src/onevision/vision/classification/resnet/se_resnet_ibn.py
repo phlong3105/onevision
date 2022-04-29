@@ -16,14 +16,13 @@ from torch import Tensor
 
 from onevision.core import BACKBONES
 from onevision.core import Callable
-from onevision.core import IMAGE_CLASSIFICATION
 from onevision.core import Indexes
 from onevision.core import Int2T
 from onevision.core import ListOrTupleAnyT
 from onevision.core import MODELS
 from onevision.core import Pretrained
-from onevision.vision.classification.image_classifier import ImageClassifier
 from onevision.nn import SELayer
+from onevision.vision.classification.image_classifier import ImageClassifier
 
 __all__ = [
     "SE_ResNet50_IBN",
@@ -183,7 +182,6 @@ cfgs = {
 
 
 @MODELS.register(name="se_resnet_ibn")
-@IMAGE_CLASSIFICATION.register(name="se_resnet_ibn")
 @BACKBONES.register(name="se_resnet_ibn")
 class SE_ResNet_IBN(ImageClassifier):
     """
@@ -338,7 +336,6 @@ class SE_ResNet_IBN(ImageClassifier):
 # MARK: - SE_ResNet50_IBN
 
 @MODELS.register(name="se_resnet50_ibn")
-@IMAGE_CLASSIFICATION.register(name="se_resnet50_ibn")
 @BACKBONES.register(name="se_resnet50_ibn")
 class SE_ResNet50_IBN(SE_ResNet_IBN):
     """ResNet-50 with Squeeze and Excite and Detection-Batch Normalization model.
@@ -371,7 +368,6 @@ class SE_ResNet50_IBN(SE_ResNet_IBN):
 # MARK: - SE_ResNet101_IBN
 
 @MODELS.register(name="se_resnet101_ibn")
-@IMAGE_CLASSIFICATION.register(name="se_resnet101_ibn")
 @BACKBONES.register(name="se_resnet101_ibn")
 class SE_ResNet101_IBN(SE_ResNet_IBN):
     """ResNet-101 with Squeeze and Excite and Detection-Batch Normalization
@@ -405,7 +401,6 @@ class SE_ResNet101_IBN(SE_ResNet_IBN):
 # MARK: - SE_ResNet152_IBN
 
 @MODELS.register(name="se_resnet152_ibn")
-@IMAGE_CLASSIFICATION.register(name="se_resnet152_ibn")
 @BACKBONES.register(name="se_resnet152_ibn")
 class SE_ResNet152_IBN(SE_ResNet_IBN):
     """ResNet-152 with Squeeze and Excite and Detection-Batch Normalization

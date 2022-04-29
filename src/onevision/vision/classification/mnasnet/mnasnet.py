@@ -14,7 +14,6 @@ from torchvision.models.mnasnet import _get_depths
 from torchvision.models.mnasnet import _stack
 
 from onevision.core import BACKBONES
-from onevision.core import IMAGE_CLASSIFICATION
 from onevision.core import Indexes
 from onevision.core import MODELS
 from onevision.core import Pretrained
@@ -37,7 +36,6 @@ _BN_MOMENTUM = 1 - 0.9997
 # MARK: - MNASNet
 
 @MODELS.register(name="mnasnet")
-@IMAGE_CLASSIFICATION.register(name="mnasnet")
 @BACKBONES.register(name="mnasnet")
 class MNASNet(ImageClassifier):
     """MNASNet, as described in https://arxiv.org/pdf/1807.11626.pdf. This
@@ -188,7 +186,6 @@ class MNASNet(ImageClassifier):
 # MARK: - MNASNet0_5
 
 @MODELS.register(name="mnasnet_x0.5")
-@IMAGE_CLASSIFICATION.register(name="mnasnet_x0.5")
 @BACKBONES.register(name="mnasnet_x0.5")
 class MNASNet_x0_5(MNASNet):
     """MNASNet with depth multiplier of 0.5 from `MnasNet: Platform-Aware
@@ -231,7 +228,6 @@ class MNASNet_x0_5(MNASNet):
 # MARK: - MNASNet0_75
 
 @MODELS.register(name="mnasnet_x0.75")
-@IMAGE_CLASSIFICATION.register(name="mnasnet_x0.75")
 @BACKBONES.register(name="mnasnet_x0.75")
 class MNASNet_x0_75(MNASNet):
     """MNASNet with depth multiplier of 0.75 from `MnasNet: Platform-Aware
@@ -267,7 +263,6 @@ class MNASNet_x0_75(MNASNet):
 # MARK: - MNASNet1_0
 
 @MODELS.register(name="mnasnet_x1.0")
-@IMAGE_CLASSIFICATION.register(name="mnasnet_x1.0")
 @BACKBONES.register(name="mnasnet_x1.0")
 class MNASNet_x1_0(MNASNet):
     """MNASNet with depth multiplier of 1.0 from `MnasNet: Platform-Aware
@@ -310,7 +305,6 @@ class MNASNet_x1_0(MNASNet):
 # MARK: - MNASNet1_3
 
 @MODELS.register(name="mnasnet_x1.3")
-@IMAGE_CLASSIFICATION.register(name="mnasnet_x1.3")
 @BACKBONES.register(name="mnasnet_x1.3")
 class MNASNet_x1_3(MNASNet):
     """MNASNet with depth multiplier of 1.3 from `MnasNet: Platform-Aware

@@ -13,7 +13,7 @@ import torch.nn as nn
 from torch import Tensor
 from torch.nn.init import _calculate_fan_in_and_fan_out
 
-from onevision.utils import error_console
+from onevision.core import error_console
 
 __all__ = [
     "lecun_normal_",

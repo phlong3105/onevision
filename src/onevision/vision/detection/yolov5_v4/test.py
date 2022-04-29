@@ -18,6 +18,7 @@ import torch
 import yaml
 from tqdm import tqdm
 
+from onevision.utils import pretrained_dir
 from onevision.vision.detection.yolov5_v4.models.experimental import attempt_load
 from onevision.vision.detection.yolov5_v4.utils.datasets import create_dataloader
 from onevision.vision.detection.yolov5_v4.utils.general import box_iou
@@ -40,7 +41,6 @@ from onevision.vision.detection.yolov5_v4.utils.plots import plot_images
 from onevision.vision.detection.yolov5_v4.utils.plots import plot_study_txt
 from onevision.vision.detection.yolov5_v4.utils.torch_utils import select_device
 from onevision.vision.detection.yolov5_v4.utils.torch_utils import time_synchronized
-from onevision.utils import pretrained_dir
 
 sys.path.append("/")  # to run '$ python *.py' files in subdirectories
 

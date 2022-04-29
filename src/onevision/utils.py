@@ -18,9 +18,8 @@ __all__ = [
 
 # MARK: - Directories
 
-__current_file   = os.path.abspath(__file__)                          # "workspaces/one/onevision/src/onevision/utils/dirs.py"
-__current_dir    = os.path.dirname(__current_file)                    # "workspaces/one/onevision/src/onevision/utils"
-source_root_dir  = os.path.dirname(__current_dir)                     # "workspaces/one/onevision/src/onevision"
+__current_file   = os.path.abspath(__file__)                          # "workspaces/one/onevision/src/onevision/utils.py"
+source_root_dir  = os.path.dirname(__current_file)                    # "workspaces/one/onevision/src/onevision"
 content_root_dir = os.path.dirname(os.path.dirname(source_root_dir))  # "workspaces/one/onevision"
 pretrained_dir   = os.path.join(source_root_dir, "pretrained")        # "workspaces/one/onevision/src/onevision/pretrained"
 

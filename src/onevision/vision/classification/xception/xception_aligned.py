@@ -18,7 +18,6 @@ from torch import Tensor
 
 from onevision.core import BACKBONES
 from onevision.core import Callable
-from onevision.core import IMAGE_CLASSIFICATION
 from onevision.core import IMAGENET_INCEPTION_MEAN
 from onevision.core import IMAGENET_INCEPTION_STD
 from onevision.core import Indexes
@@ -29,10 +28,10 @@ from onevision.core import Padding2T
 from onevision.core import Pretrained
 from onevision.core import to_2tuple
 from onevision.core import to_3tuple
-from onevision.vision.classification.image_classifier import ImageClassifier
 from onevision.nn import Classifier
 from onevision.nn import ConvBnAct
 from onevision.nn import create_conv2d
+from onevision.vision.classification.image_classifier import ImageClassifier
 
 __all__ = [
     "Xception41",
@@ -257,7 +256,6 @@ cfgs = {
 
 
 @MODELS.register(name="xception_aligned")
-@IMAGE_CLASSIFICATION.register(name="xception_aligned")
 @BACKBONES.register(name="xception_aligned")
 class XceptionAligned(ImageClassifier):
     """Xception optimized for the ImageNet dataset, as specified in
@@ -416,7 +414,6 @@ class XceptionAligned(ImageClassifier):
 # MARK: - Xception41
 
 @MODELS.register(name="xception41")
-@IMAGE_CLASSIFICATION.register(name="xception41")
 @BACKBONES.register(name="xception41")
 class Xception41(XceptionAligned):
     """Modified Aligned Xception-41.
@@ -453,7 +450,6 @@ class Xception41(XceptionAligned):
 # MARK: - Xception65
 
 @MODELS.register(name="xception65")
-@IMAGE_CLASSIFICATION.register(name="xception65")
 @BACKBONES.register(name="xception65")
 class Xception65(XceptionAligned):
     """Modified Aligned Xception-65.
@@ -490,7 +486,6 @@ class Xception65(XceptionAligned):
 # MARK: - Xception71
 
 @MODELS.register(name="xception71")
-@IMAGE_CLASSIFICATION.register(name="xception71")
 @BACKBONES.register(name="xception71")
 class Xception71(XceptionAligned):
     """Modified Aligned Xception-71.

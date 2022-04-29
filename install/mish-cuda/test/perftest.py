@@ -1,9 +1,10 @@
+import re
 from argparse import ArgumentParser
 from sys import exit
-import re
+
+import numpy as np
 import torch
 import torch.nn.functional as F
-import numpy as np
 from mish_cuda import MishCuda
 
 

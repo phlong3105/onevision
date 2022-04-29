@@ -14,14 +14,14 @@ from typing import Optional
 import pytorch_lightning as pl
 from torch.utils.data import DataLoader
 
+from onevision.core import console
 from onevision.core import Devices
 from onevision.core import EvalDataLoaders
 from onevision.core import Int3T
+from onevision.core import Table
 from onevision.core import TrainDataLoaders
 from onevision.core import VISION_BACKEND
 from onevision.core import VisionBackend
-from onevision.utils import console
-from onevision.utils import Table
 
 __all__ = [
     "DataModule",
@@ -221,7 +221,7 @@ class DataModule(pl.LightningDataModule, metaclass=ABCMeta):
         pass
     
     @abstractmethod
-    def setup(self, phase: Optional["Phase"] = None):
+    def setup(self, phase: Optional["ModelState"] = None):
         """There are also data operations you might want to perform on every
         GPU.
 
@@ -234,8 +234,8 @@ class DataModule(pl.LightningDataModule, metaclass=ABCMeta):
             - Define collate_fn for you custom dataset.
 
         Args:
-            phase (Phase, optional):
-                Stage to use: [None, Phase.TRAINING, Phase.TESTING].
+            phase (ModelState, optional):
+                Stage to use: [None, ModelState.TRAINING, ModelState.TESTING].
                 Set to `None` to setup all train, val, and test data.
         """
         pass

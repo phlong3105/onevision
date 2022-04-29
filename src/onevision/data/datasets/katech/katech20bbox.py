@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""KATECH 2020 detection dataset and datamodule.
+"""KATECH 2020 measurement dataset and datamodule.
 """
 
 from __future__ import annotations
@@ -16,9 +16,11 @@ from matplotlib import pyplot as plt
 from torch.utils.data import random_split
 
 from onevision.core import Augment_
+from onevision.core import console
 from onevision.core import DATAMODULES
 from onevision.core import DATASETS
 from onevision.core import Int3T
+from onevision.core import progress_bar
 from onevision.core import VisionBackend
 from onevision.data.data_class import ClassLabels
 from onevision.data.data_class import VisionData
@@ -31,10 +33,8 @@ from onevision.imgproc import draw_box
 from onevision.imgproc import show_images
 from onevision.io import is_image_file
 from onevision.io import is_xml_file
-from onevision.nn import Phase
-from onevision.utils import console
+from onevision.core import ModelState
 from onevision.utils import datasets_dir
-from onevision.utils import progress_bar
 
 __all__ = [
     "KATECH20Bbox",
@@ -42,7 +42,7 @@ __all__ = [
 ]
 
 
-"""Kodas 2D detection dataset hierarchy:
+"""Kodas 2D measurement dataset hierarchy:
 
 datasets
 |__ kodas
@@ -69,7 +69,7 @@ datasets
 |__ ...
 """
 
-"""Kodas 2D detection label format:
+"""Kodas 2D measurement label format:
 
 <class_name> <bbox_center_x> <bbox_center_y> <bbox_width> <bbox_height>
 
@@ -285,7 +285,7 @@ class KATECH20BboxDataModule(DataModule):
         if self.class_labels is None:
             self.load_class_labels()
     
-    def setup(self, phase: Optional[Phase] = None):
+    def setup(self, phase: Optional[ModelState] = None):
         """There are also data operations you might want to perform on every
         GPU.
         
@@ -298,15 +298,15 @@ class KATECH20BboxDataModule(DataModule):
             - Define collate_fn for you custom dataset.
 
         Args:
-            phase (Phase, optional):
-                Phase to use: [None, Phase.TRAINING, Phase.TESTING].
+            phase (ModelState, optional):
+                ModelState to use: [None, ModelState.TRAINING, ModelState.TESTING].
                 Set to "None" to setup all train, val, and test data.
                 Default: `None`.
         """
         console.log(f"Setup [red]KATECH 2020 BBox[/red] datamodule.")
         
         # NOTE: Assign train/val datasets for use in dataloaders
-        if phase in [None, Phase.TRAINING]:
+        if phase in [None, ModelState.TRAINING]:
             full_dataset = KATECH20Bbox(root=self.dataset_dir, split="train", **self.dataset_kwargs)
             train_size   = int(0.8 * len(full_dataset))
             val_size     = len(full_dataset) - train_size

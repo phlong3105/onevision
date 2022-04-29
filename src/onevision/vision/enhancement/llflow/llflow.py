@@ -13,15 +13,15 @@ import torch.nn.functional as F
 from torch import nn
 from torch import Tensor
 
-from onevision.core import IMAGE_ENHANCEMENT
 from onevision.core import Indexes
 from onevision.core import ListOrTupleAnyT
 from onevision.core import MODELS
 from onevision.core import Pretrained
-from onevision.vision.enhancement.image_enhancer import ImageEnhancer
 from onevision.nn import ConcatPadding
 from onevision.nn import ConvAct
 from onevision.nn import ConvTransposeAct
+from onevision.nn import RRDB
+from onevision.vision.enhancement.image_enhancer import ImageEnhancer
 
 __all__ = [
 
@@ -331,7 +331,6 @@ class ConditionEncoder(nn.Module):
 # MARK: - LLFlow
 
 @MODELS.register(name="llflow")
-@IMAGE_ENHANCEMENT.register(name="llflow")
 class LLFlow(ImageEnhancer):
     
     def __init__(

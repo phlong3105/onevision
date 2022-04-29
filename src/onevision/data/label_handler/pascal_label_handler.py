@@ -25,7 +25,7 @@ from onevision.io import is_xml_file
 from onevision.io import load
 
 """
-from onevision.utils import error_console
+from onevision.core import error_console
 try:
 	import pyvips
 except ImportError:

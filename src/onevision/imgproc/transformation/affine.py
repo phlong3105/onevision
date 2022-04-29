@@ -39,14 +39,13 @@ from torchvision.transforms.functional import _get_inverse_affine_matrix
 from onevision.core import FloatAnyT
 from onevision.core import get_image_size
 from onevision.core import IntAnyT
+from onevision.core import InterpolationMode
 from onevision.core import ListOrTuple2T
 from onevision.core import pad_image
 from onevision.core import PaddingMode
 from onevision.core import TensorOrArray
 from onevision.core import TRANSFORMS
-from onevision.imgproc.shape import affine_box
-from onevision.imgproc.transformation.interpolation_mode import interpolation_mode_from_int
-from onevision.imgproc.transformation.interpolation_mode import pil_modes_mapping
+from onevision.imgproc.spatial import affine_box
 from onevision.imgproc.utils import batch_image_processing
 from onevision.imgproc.utils import channel_last_processing
 
@@ -149,9 +148,9 @@ def _affine_tensor_image(
         raise ValueError(f"`translate` must be a sequence of length 2. But got: {len(shear)}.")
    
     if isinstance(interpolation, int):
-        interpolation = interpolation_mode_from_int(interpolation)
-    if not isinstance(interpolation, InterpolationMode):
-        raise TypeError(f"`interpolation` must be a `InterpolationMode`. But got: {type(interpolation)}.")
+        interpolation = InterpolationMode.from_value(interpolation)
+    # if not isinstance(interpolation, InterpolationMode):
+    #    raise TypeError(f"`interpolation` must be a `InterpolationMode`. But got: {type(interpolation)}.")
 
     img    = image.clone()
     h, w   = get_image_size(img)
@@ -163,7 +162,7 @@ def _affine_tensor_image(
         # it is visually better to estimate the center without 0.5 offset
         # otherwise image rotated by 90 degrees is shifted vs output image of torch.rot90 or F_t.affine
         matrix            = _get_inverse_affine_matrix(center, angle, translate, scale, shear)
-        pil_interpolation = pil_modes_mapping[interpolation]
+        pil_interpolation = InterpolationMode.PILModesMapping[interpolation]
         return F_pil.affine(image, matrix=matrix, interpolation=pil_interpolation, fill=fill)
 
     # If keep shape, find the new width and height bounds
@@ -277,7 +276,7 @@ def _affine_numpy_image(
         raise ValueError(f"`translate` must be a sequence of length 2. But got: {len(shear)}.")
     
     if isinstance(interpolation, int):
-        interpolation = interpolation_mode_from_int(interpolation)
+        interpolation = InterpolationMode.from_value(interpolation)
     if not isinstance(interpolation, InterpolationMode):
         raise TypeError(f"`interpolation` must be a `InterpolationMode`. But got: {type(interpolation)}.")
     

@@ -30,7 +30,7 @@ Where:
 	<bbox_width>     : Width in pixels of the predicted object bounding box.
 	<bbox_height>    : Height in pixels of the predicted object bounding box.
 	<score>          : Fscore in the DETECTION result file indicates the confidence of the predicted bounding box
-					   enclosing an object detection.Fscore in GROUNDTRUTH file is set to 1 or 0. 1 indicates the bounding
+					   enclosing an object measurement.Fscore in GROUNDTRUTH file is set to 1 or 0. 1 indicates the bounding
 					   box is considered in evaluation, while 0 indicates the bounding box will be ignored.
 	<object_category>: Object category indicates the type of annotated object, (i.e., ignored regions (0),
 					   pedestrian (1), people (2), bicycle (3), car (4), van (5), truck (6), tricycle (7),

@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 import torchvision
 from torch.utils.data import random_split
 
+from onevision.core import console
 from onevision.core import DATAMODULES
 from onevision.core import DATASETS
 from onevision.core import VisionBackend
@@ -20,8 +21,7 @@ from onevision.data.data_class import ClassLabels
 from onevision.data.datamodule import DataModule
 from onevision.data.datasets.mnist.mnist import MNIST
 from onevision.imgproc import show_images
-from onevision.nn import Phase
-from onevision.utils import console
+from onevision.core import ModelState
 from onevision.utils import datasets_dir
 
 __all__ = [
@@ -95,7 +95,7 @@ class FashionMNISTDataModule(DataModule):
         if self.class_labels is None:
             self.load_class_labels()
 
-    def setup(self, phase: Optional[Phase] = None):
+    def setup(self, phase: Optional[ModelState] = None):
         """There are also data operations you might want to perform on every
         GPU. Use setup to do things like:
             - Count number of classes.
@@ -105,15 +105,15 @@ class FashionMNISTDataModule(DataModule):
               assigned in init).
 
         Args:
-            phase (Phase, optional):
-                Phase to use: [None, Phase.TRAINING, Phase.TESTING].
+            phase (ModelState, optional):
+                ModelState to use: [None, ModelState.TRAINING, ModelState.TESTING].
                 Set to "None" to setup all train, val, and test data.
                 Default: `None`.
          """
         console.log(f"Setup [red]FashionMNIST[/red] datasets.")
         
         # NOTE: Assign train/val datasets for use in dataloaders
-        if phase in [None, Phase.TRAINING]:
+        if phase in [None, ModelState.TRAINING]:
             full_dataset = FashionMNIST(
 	            self.dataset_dir, train=True, download=True,
 	            transform=self.transform, **self.dataset_kwargs

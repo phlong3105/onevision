@@ -24,6 +24,7 @@ from torchvision.datasets.utils import download_and_extract_archive
 from onevision.core import Augment_
 from onevision.core import AUGMENTS
 from onevision.core import Callable
+from onevision.core import console
 from onevision.core import DATAMODULES
 from onevision.core import DATASETS
 from onevision.core import to_tensor
@@ -32,8 +33,7 @@ from onevision.data.augment import BaseAugment
 from onevision.data.data_class import ClassLabels
 from onevision.data.datamodule import DataModule
 from onevision.imgproc import show_images
-from onevision.nn import Phase
-from onevision.utils import console
+from onevision.core import ModelState
 from onevision.utils import datasets_dir
 
 __all__ = [
@@ -290,7 +290,7 @@ class MNISTDataModule(DataModule):
         if self.class_labels is None:
             self.load_class_labels()
 
-    def setup(self, phase: Optional[Phase] = None):
+    def setup(self, phase: Optional[ModelState] = None):
         """There are also data operations you might want to perform on every
         GPU. Use setup to do things like:
             - Count number of classes.
@@ -300,15 +300,15 @@ class MNISTDataModule(DataModule):
               assigned in init).
 
         Args:
-            phase (Phase, optional):
-                Stage to use: [None, Phase.TRAINING, Phase.TESTING].
+            phase (ModelState, optional):
+                Stage to use: [None, ModelState.TRAINING, ModelState.TESTING].
                 Set to "None" to setup all train, val, and test data.
                 Default: `None`.
          """
         console.log(f"Setup [red]MNIST[/red] datasets.")
         
         # NOTE: Assign train/val datasets for use in dataloaders
-        if phase in [None, Phase.TRAINING]:
+        if phase in [None, ModelState.TRAINING]:
             full_dataset = MNIST(
                 self.dataset_dir, train=True, download=True,
                 transform=self.transform, **self.dataset_kwargs

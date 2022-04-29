@@ -15,17 +15,15 @@ import torch
 from torch import nn
 from torch import Tensor
 
-from onevision.core import DEHAZE
-from onevision.core import IMAGE_ENHANCEMENT
 from onevision.core import Indexes
 from onevision.core import Int2T
 from onevision.core import MODELS
 from onevision.core import Pretrained
-from onevision.vision.classification import VGG16
-from onevision.vision.enhancement.image_enhancer import ImageEnhancer
 from onevision.nn import CAL
 from onevision.nn import PAL
 from onevision.nn import PerceptualL1Loss
+from onevision.vision.classification import VGG16
+from onevision.vision.enhancement.image_enhancer import ImageEnhancer
 
 __all__ = [
     "FFA",
@@ -82,8 +80,6 @@ class Group(nn.Module):
 # MARK: - FFANet
 
 @MODELS.register(name="ffa")
-@IMAGE_ENHANCEMENT.register(name="ffa")
-@DEHAZE.register(name="ffa")
 class FFA(ImageEnhancer):
     
     # MARK: Magic Functions

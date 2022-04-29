@@ -44,7 +44,7 @@ class YoloLabelHandler(BaseLabelHandler):
 								bounding box.
 			<score>           : Fscore in the DETECTION result file
 								indicates the confidence of the predicted
-							    bounding box enclosing an object detection.
+							    bounding box enclosing an object measurement.
 	"""
 	
 	# MARK: Load

@@ -11,11 +11,11 @@ import os.path
 
 import numpy as np
 
+from onevision.core import progress_bar
 from onevision.core import VisionBackend
 from onevision.imgproc import box_xyxy_to_cxcywh_norm
 from onevision.io import read_image
 from onevision.utils import datasets_dir
-from onevision.utils import progress_bar
 
 label_pattern = os.path.join(
 	datasets_dir, "a2i2haze", "dryrun", "labels", "*.txt"

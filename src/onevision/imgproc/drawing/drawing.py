@@ -14,8 +14,8 @@ import torch
 from multipledispatch import dispatch
 from torch import Tensor
 
+from onevision.core import error_console
 from onevision.core import to_channel_last
-from onevision.utils import error_console
 
 __all__ = [
     "_draw_box",

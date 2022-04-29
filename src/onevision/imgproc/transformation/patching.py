@@ -21,10 +21,10 @@ from onevision.core import ListOrTupleAnyT
 from onevision.core import ScalarOrCollectionAnyT
 from onevision.core import TensorOrArray
 from onevision.imgproc.filtering import adjust_gamma
-from onevision.imgproc.shape import compute_single_box_iou
-from onevision.imgproc.transformation import crop_zero_region
-from onevision.imgproc.transformation import resize
-from onevision.imgproc.transformation import rotate
+from onevision.imgproc.spatial import compute_single_box_iou
+from onevision.imgproc.transformation.crop import crop_zero_region
+from onevision.imgproc.transformation.resize import resize
+from onevision.imgproc.transformation.rotation import rotate
 
 __all__ = [
     "random_patch_numpy_image_box",
