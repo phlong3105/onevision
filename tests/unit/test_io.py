@@ -10,8 +10,10 @@ from onevision import FFmpegVideoLoader
 from onevision import FFmpegVideoWriter
 
 
+# MARK: - Test Video IO
+
 def test_ffmpeg_video_loader():
-	video_loader = FFmpegVideoLoader(data="../data/demo.mp4")
+	video_loader = FFmpegVideoLoader(data="../../data/demo.mp4")
 	
 	for imgs, idxes, files, rel_paths in video_loader:
 		for img in imgs:
@@ -23,7 +25,7 @@ def test_ffmpeg_video_loader():
 
 
 def test_ffmpeg_video_writer():
-	video_loader = FFmpegVideoLoader(data="../data/demo.mp4")
+	video_loader = FFmpegVideoLoader(data="../../data/demo.mp4")
 	video_writer = FFmpegVideoWriter(
 		dst        ="../../data/results.mp4",
 		shape      = video_loader.shape,

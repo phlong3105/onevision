@@ -91,7 +91,7 @@ def load(
     path       : Union[str, Path, TextIO],
     file_format: Optional[str] = None,
     **kwargs
-) -> Union[str, dict, None]:
+) -> Optional[Union[str, dict]]:
     """Load data from json/yaml/pickle files. This method provides a unified
     api for loading data from serialized files.
    
@@ -274,7 +274,7 @@ class XmlHandler(BaseFileHandler):
         self,
         path: Union[str, TextIO],
         **kwargs
-    ) -> Union[str, dict, None]:
+    ) -> Optional[Union[str, dict]]:
         """Load data from file object (input stream).
 
         Args:

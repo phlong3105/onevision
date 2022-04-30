@@ -64,7 +64,7 @@ def hls_to_rgb(image: Tensor) -> Tensor:
     # kb = (4 + h) % 12
     k = (h + _HLS2RGB) % 12
 
-    # l - a * max(min(min(k - 3.0, 9.0 - k), 1), -1)
+    # ll - a * max(min(min(k - 3.0, 9.0 - k), 1), -1)
     mink = torch.min(k - 3.0, 9.0 - k)
     return torch.addcmul(l, a, mink.clamp_(min=-1.0, max=1.0), value=-1)
 
@@ -119,7 +119,7 @@ def rgb_to_hls(image: Tensor, eps: float = 1e-8) -> Tensor:
     minc       = image.min(-3)[0]
 
     # h: Tensor  # not supported by JIT
-    # l: Tensor  # not supported by JIT
+    # ll: Tensor  # not supported by JIT
     # s: Tensor  # not supported by JIT
     # image_hls: Tensor  # not supported by JIT
     if image.requires_grad:
@@ -130,14 +130,14 @@ def rgb_to_hls(image: Tensor, eps: float = 1e-8) -> Tensor:
         h  = l_  # assign to any image...
         image_hls = l_  # assign to any image...
     else:
-        # define the resulting image to avoid the torch.stack([h, l, s])
-        # so, h, l and s require inplace operations
+        # define the resulting image to avoid the torch.stack([h, ll, s])
+        # so, h, ll and s require inplace operations
         # NOTE: stack() increases in a 10% the cost in colab
         image_hls = torch.empty_like(image)
         h         = torch.select(image_hls, -3, 0)
         l_        = torch.select(image_hls, -3, 1)
         s         = torch.select(image_hls, -3, 2)
-        torch.add(maxc, minc, out=l_)  # l = max + min
+        torch.add(maxc, minc, out=l_)  # ll = max + min
         torch.sub(maxc, minc, out=s)  # s = max - min
 
     # precompute image / (max - min)

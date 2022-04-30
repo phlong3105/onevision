@@ -30,7 +30,6 @@ from onevision.data.dataset import ImageClassificationDataset
 from onevision.data.label_handler import PascalLabelHandler
 from onevision.data.label_handler import VisionDataHandler
 from onevision.imgproc import show_images
-from onevision.io import get_dirname
 from onevision.io import is_image_file
 from onevision.io import is_xml_file
 from onevision.core import ModelState
@@ -126,9 +125,9 @@ class ILSVRC2012ClsLoc(ImageClassificationDataset):
         with progress_bar() as pbar:
             if self.split == "train":
                 label_paths = [
-                        get_dirname(os.path.dirname(p)) for p in
-                        pbar.track(self.image_paths, description=f"Listing {self.split} labels" )
-                    ]
+                    os.path.basename(os.path.dirname(p)).split(".")[0] for p in
+                    pbar.track(self.image_paths, description=f"Listing {self.split} labels" )
+                ]
             else:
                 label_paths = [p.replace(".JPEG", ".xml") for p in self.image_paths]
                 label_paths = [p.replace("images", "annotations") for p in label_paths]

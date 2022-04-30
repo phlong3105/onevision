@@ -37,7 +37,7 @@ def check_anchors(dataset, model, thr: float = 4.0, image_size: Int3T = 640):
     scale  = np.random.uniform(0.9, 1.1, size=(shapes.shape[0], 1))  # Augment scale
     wh     = torch.tensor(
         np.concatenate(
-            [l[:, 3:5] * s for s, l in zip(shapes * scale, dataset.target)]
+            [ll[:, 3:5] * s for s, ll in zip(shapes * scale, dataset.target)]
         )
     ).float()  # wh
 

@@ -336,7 +336,7 @@ data = {
     # include multiple subsets. When `all`, `*`, or `None`, all subsets will be
     # included. Default: `*`.
     "snow_size": ["*"],
-    # Snow size subset to use. One of" ["s", "m", "l"]. Can also be a list
+    # Snow size subset to use. One of" ["s", "m", "ll"]. Can also be a list
     # to include multiple snow sizes. When `all`, `*` or `None`, all subsets
     # will be included. Default: `*`.
     "shape": [256, 256, 3],

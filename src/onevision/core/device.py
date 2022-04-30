@@ -7,7 +7,6 @@
 from __future__ import annotations
 
 from time import time
-from typing import Any
 from typing import Optional
 
 import torch
@@ -27,15 +26,16 @@ __all__ = [
 
 # MARK: - Functional
 
-def extract_device_dtype(
-    tensor_list: list[Optional[Any]]
-) -> tuple[torch.device, torch.dtype]:
+def extract_device_dtype(tensor_list: list) -> tuple[torch.device, torch.dtype]:
     """Check if all the input are in the same device (only if when they are
     Tensor). If so, it would return a tuple of (device, dtype).
     Default: (cpu, `get_default_dtype()`).
 
     Returns:
-        [torch.device, torch.dtype]
+        device (torch.device):
+            Device of the tensor.
+        dtype (torch.dtype):
+        
     """
     device, dtype = None, None
     for tensor in tensor_list:

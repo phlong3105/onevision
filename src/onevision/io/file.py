@@ -42,20 +42,21 @@ from typing import Optional
 import validators
 
 from onevision.core import console
+from onevision.core import ImageFormat
 from onevision.core import ScalarListOrTupleAnyT
 from onevision.core import unique
+from onevision.core import VideoFormat
 
 __all__ = [
     "create_dirs",
     "delete_files",
-    "delete_files_matching",
-    "get_dirname",
     "get_hash",
     "get_latest_file",
-    "get_stem",
     "has_subdir",
     "is_basename",
+    "is_bmp_file",
     "is_ckpt_file",
+    "is_image_file",
     "is_json_file",
     "is_name",
     "is_stem",
@@ -63,6 +64,8 @@ __all__ = [
     "is_txt_file",
     "is_url",
     "is_url_or_file",
+    "is_video_file",
+    "is_video_stream",
     "is_weights_file",
     "is_xml_file",
     "is_yaml_file",
@@ -86,7 +89,7 @@ def create_dirs(paths: ScalarListOrTupleAnyT[str], recreate: bool = False):
         paths = [paths]
     elif isinstance(paths, tuple):
         paths = list(paths)
-
+    paths       = [p for p in paths if p is not None]
     unique_dirs = unique(paths)
     try:
         for d in unique_dirs:
@@ -97,59 +100,64 @@ def create_dirs(paths: ScalarListOrTupleAnyT[str], recreate: bool = False):
         return 0
     except Exception as err:
         console.log(f"Cannot create directory: {err}.")
-        # exit(-1)
 
 
 def delete_files(
-    dirpaths : ScalarListOrTupleAnyT[str],
-    extension: str = "",
+    files    : ScalarListOrTupleAnyT[str] = "",
+    dirs     : ScalarListOrTupleAnyT[str] = "",
+    extension: str  = "",
     recursive: bool = True
 ):
     """Delete all files in directories that match the desired extension.
 
     Args:
-        dirpaths: (ScalarListOrTupleAnyT[str])
-            List of directories' paths that contains the files to be deleted.
+        files (ScalarListOrTupleAnyT[str]):
+            List of files that contains the files to be deleted. Default: "".
+        dirs (ScalarListOrTupleAnyT[str]):
+            List of directories that contains the files to be deleted.
+            Default: "".
         extension (str):
             File extension. Default: "".
         recursive (bool):
             Search subdirectories if any. Default: `True`.
     """
-    if isinstance(dirpaths, str):
-        dirpaths = [dirpaths]
-    elif isinstance(dirpaths, tuple):
-        dirpaths = list(dirpaths)
-        
-    unique_dirs = unique(dirpaths)
-    extension   = f".{extension}" if "." not in extension else extension
-    for d in unique_dirs:
-        # if os.path.exists(d):
-        pattern = os.path.join(d, f"*{extension}")
-        files   = glob(pattern, recursive=recursive)
-        for f in files:
-            console.log(f"Deleting {f}.")
-            os.remove(f)
-
-
-def delete_files_matching(patterns: ScalarListOrTupleAnyT[str]):
-    """Delete all files that match the desired patterns."""
-    if isinstance(patterns, str):
-        patterns = [patterns]
-    elif isinstance(patterns, tuple):
-        patterns = list(patterns)
-        
-    for pattern in patterns:
-        files = glob(pattern)
-        for f in files:
-            os.remove(f)
-
-
-def get_hash(files: ScalarListOrTupleAnyT[str]):
-    """Returns a single hash value of a list of files."""
     if isinstance(files, str):
         files = [files]
     elif isinstance(files, tuple):
         files = list(files)
+    if isinstance(dirs, str):
+        dirs = [dirs]
+    elif isinstance(dirs, tuple):
+        dirs = list(dirs)
+    files     = [f for f in files if os.path.isfile(f)]
+    files     = unique(files)
+    dirs      = [d for d in dirs if d is not None]
+    dirs      = unique(dirs)
+    extension = f".{extension}" if "." not in extension else extension
+    for d in dirs:
+        pattern  = os.path.join(d, f"*{extension}")
+        files   += glob(pattern, recursive=recursive)
+    for f in files:
+        console.log(f"Deleting {f}.")
+        os.remove(f)
+        
+
+def get_hash(files: ScalarListOrTupleAnyT[str]) -> int:
+    """Get a single hash value of a list of files.
+    
+    Args:
+        files (ScalarListOrTupleAnyT[str]):
+            List of files.
+    
+    Returns:
+        hash (int):
+            Sum of all file size.
+    """
+    if isinstance(files, str):
+        files = [files]
+    elif isinstance(files, tuple):
+        files = list(files)
+    files = [f for f in files if f is not None]
     return sum(os.path.getsize(f) for f in files if os.path.isfile(f))
 
 
@@ -173,30 +181,30 @@ def get_latest_file(path: str, recursive: bool = True) -> Optional[str]:
     return None
 
 
-def get_stem(path: str) -> str:
-    """Get the stem from the given path."""
-    basename = os.path.basename(path)
-    stem, _  = os.path.splitext(basename)
-    return stem
-
-
 def has_subdir(path: str, name: str) -> bool:
     """Return `True` if the subdirectory with `name` is found inside `path`."""
-    subdirs = list_subdirs(path=path)
-    return name in subdirs
+    return name in list_subdirs(path=path)
 
 
 def is_basename(path: Optional[str]) -> bool:
-    """Check if the given path is a basename."""
+    """Check if the given path is a basename, i.e, a file path without extension.
+    """
     if path is None:
         return False
-
-    parent = str(Path(path).parent)
-    if parent == ".":
+    if str(Path(path).parent) == ".":
         root, ext = os.path.splitext(path)
         if ext != "":
             return True
+    return False
 
+
+def is_bmp_file(path: Optional[str]) -> bool:
+    """Check if the given path is a `.bmp` image file."""
+    if path is None:
+        return False
+    if os.path.isfile(path=path) and \
+       path.split(".")[1].lower() == ImageFormat.BMP.value:
+        return True
     return False
 
 
@@ -204,12 +212,19 @@ def is_ckpt_file(path: Optional[str]) -> bool:
     """Check if the given path is a `.ckpt` file."""
     if path is None:
         return False
+    if os.path.isfile(path=path) and \
+       path.split(".")[1].lower() in [".ckpt"]:
+        return True
+    return False
 
-    if os.path.isfile(path=path):
-        extension = os.path.splitext(path.lower())[1]
-        if extension in [".ckpt"]:
-            return True
 
+def is_image_file(path: Optional[str]) -> bool:
+    """Check if the given path is an image file."""
+    if path is None:
+        return False
+    if os.path.isfile(path=path) and \
+       path.split(".")[1].lower() in ImageFormat.values():
+        return True
     return False
 
 
@@ -217,39 +232,28 @@ def is_json_file(path: Optional[str]) -> bool:
     """Check if the given path is a `.json` file."""
     if path is None:
         return False
-
-    if os.path.isfile(path=path):
-        extension = os.path.splitext(path.lower())[1]
-        if extension in [".json"]:
-            return True
-
+    if os.path.isfile(path=path) and path.split(".")[1].lower() in [".json"]:
+        return True
     return False
 
 
 def is_name(path: Optional[str]) -> bool:
-    """Check if the given path is a name."""
+    """Check if the given path is a name with extension."""
     if path is None:
         return False
-
-    name = str(Path(path.lower()).name)
-    if name == path:
+    if path == str(Path(path).stem):
         return True
-
     return False
 
 
 def is_stem(path: Optional[str]) -> bool:
-    """Check if the given path is a stem."""
+    """Check if the given path is a stem, i.e., a name without extension."""
     if path is None:
         return False
-
-    path   = path.lower()
-    parent = str(Path(path).parent)
-    if parent == ".":
-        root, ext = os.path.splitext(path)
+    if str(Path(path).parent) == ".":
+        root, ext = path.split(".")
         if ext == "":
             return True
-
     return False
 
 
@@ -258,12 +262,9 @@ def is_torch_saved_file(path: Optional[str]) -> bool:
     """
     if path is None:
         return False
-
-    if os.path.isfile(path=path):
-        extension = os.path.splitext(path.lower())[1]
-        if extension in [".pt", ".pth", ".weights", ".ckpt"]:
-            return True
-
+    if os.path.isfile(path=path) and \
+       path.split(".")[1].lower() in [".pt", ".pth", ".weights", ".ckpt"]:
+        return True
     return False
 
 
@@ -271,12 +272,9 @@ def is_txt_file(path: Optional[str]) -> bool:
     """Check if the given path is a `.txt` file."""
     if path is None:
         return False
-
-    if os.path.isfile(path=path):
-        extension = os.path.splitext(path.lower())[1]
-        if extension in [".txt"]:
-            return True
-
+    if os.path.isfile(path=path) and \
+       path.split(".")[1].lower() in [".txt"]:
+        return True
     return False
 
 
@@ -284,7 +282,6 @@ def is_url(path: Optional[str]) -> bool:
     """Check if the given path is a valid url."""
     if path is None:
         return False
-
     if isinstance(validators.url(path), validators.ValidationFailure):
         return False
     return True
@@ -294,24 +291,36 @@ def is_url_or_file(path: Optional[str]) -> bool:
     """Check if the given path is a valid url or a local file."""
     if path is None:
         return False
-    
-    if os.path.isfile(path=path):
-        return True
-    if isinstance(validators.url(path), validators.ValidationFailure):
+    if isinstance(validators.url(path), validators.ValidationFailure) or \
+       os.path.isfile(path=path):
         return False
     return True
+
+
+def is_video_file(path: Optional[str]) -> bool:
+    """Check if the given path is a video file."""
+    if path is None:
+        return False
+    if os.path.isfile(path=path) and \
+       path.split(".")[1].lower() in VideoFormat.values():
+        return True
+    return False
+
+
+def is_video_stream(path: Optional[str]) -> bool:
+    """Check if the given path is a video stream."""
+    if path is None:
+        return False
+    return "rtsp" in path.lower()
 
 
 def is_weights_file(path: Optional[str]) -> bool:
     """Check if the given path is a `.pt` or `.pth` file."""
     if path is None:
         return False
-
-    if os.path.isfile(path=path):
-        extension = os.path.splitext(path.lower())[1]
-        if extension in [".pt", ".pth"]:
-            return True
-
+    if os.path.isfile(path=path) and \
+       path.split(".")[1].lower() in [".pt", ".pth"]:
+        return True
     return False
 
 
@@ -319,12 +328,9 @@ def is_xml_file(path: Optional[str]) -> bool:
     """Check if the given path is a .xml file."""
     if path is None:
         return False
-
-    if os.path.isfile(path=path):
-        extension = os.path.splitext(path.lower())[1]
-        if extension in [".xml"]:
-            return True
-
+    if os.path.isfile(path=path) and \
+       path.split(".")[1].lower() in [".xml"]:
+        return True
     return False
 
 
@@ -332,41 +338,39 @@ def is_yaml_file(path: Optional[str]) -> bool:
     """Check if the given path is a `.yaml` file."""
     if path is None:
         return False
-
-    if os.path.isfile(path=path):
-        extension = os.path.splitext(path.lower())[1]
-        if extension in [".yaml", ".yml"]:
-            return True
-
+    if os.path.isfile(path=path) and \
+       path.split(".")[1].lower() in [".yaml", ".yml"]:
+        return True
     return False
 
 
 def list_files(patterns: ScalarListOrTupleAnyT[str]) -> list[str]:
-    """List all files that match the desired patterns."""
+    """List all files that match the desired patterns.
+    
+    Args:
+        patterns (ScalarListOrTupleAnyT[str]):
+            File patterns.
+            
+    Returns:
+        image_paths (list[str]):
+            List of images paths.
+    """
     if isinstance(patterns, str):
         patterns = [patterns]
     elif isinstance(patterns, tuple):
         patterns = list(patterns)
-        
+    patterns    = [p for p in patterns if p is not None]
+    patterns    = unique(patterns)
     image_paths = []
     for pattern in patterns:
-        absolute_paths = glob(pattern)
-        for abs_path in absolute_paths:
+        for abs_path in glob(pattern):
             if os.path.isfile(abs_path):
                 image_paths.append(abs_path)
-    return image_paths
+    return unique(image_paths)
 
 
 def list_subdirs(path: Optional[str]) -> Optional[list[str]]:
     """List all subdirectories inside the given `path`."""
     if path is None:
         return None
-
-    return [
-        d for d in os.listdir(path) if os.path.isdir(os.path.join(path, d))
-    ]
-
-
-# MARK: - Alias
-
-get_dirname = get_stem
+    return [d for d in os.listdir(path) if os.path.isdir(os.path.join(path, d))]

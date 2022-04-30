@@ -11,8 +11,8 @@ from copy import deepcopy
 from typing import Optional
 from typing import Union
 
-import torch
 from munch import Munch
+from torch import nn
 from torch.optim import Optimizer
 # noinspection PyUnresolvedReferences
 from torch.optim.lr_scheduler import _LRScheduler
@@ -174,23 +174,19 @@ class Factory(Registry):
 	# MARK: Build
 	
 	def build(self, name: str, *args, **kwargs) -> object:
-		"""Factory command to create an measurement of the class. This method gets
-		the appropriate class from the registry and creates an measurement of
-		it, while passing in the parameters given in `kwargs`.
+		"""Factory command to create a class' instance with arguments given in
+		`kwargs`.
 		
 		Args:
 			name (str):
-				Name of the class to create.
+				Class's name.
 			
 		Returns:
-			measurement (object, optional):
-				An measurement of the class that is created.
+			instance (object, optional):
+				Class' instance.
 		"""
-		from onevision.core.rich import error_console
-		
 		if name not in self.registry:
-			error_console.log(f"{name} does not exist in the registry.")
-			return None
+			raise ValueError(f"{name} does not exist in the registry.")
 		
 		instance = self.registry[name](*args, **kwargs)
 		if not hasattr(instance, "name"):
@@ -198,63 +194,56 @@ class Factory(Registry):
 		return instance
 	
 	def build_from_dict(
-		self, cfg: Optional[Union[dict, Munch]], **kwargs
+		self,
+		cfg: Optional[Union[dict, Munch]],
+		**kwargs
 	) -> Optional[object]:
-		"""Factory command to create an measurement of a class. This method gets
-		the appropriate class from the registry while passing in the
-		parameters given in `cfg`.
+		"""Factory command to create a class' instance with arguments given in
+		`cfgs`.
 		
 		Args:
 			cfg (dict, Munch):
-				Class object' config.
+				Class's arguments.
 		
 		Returns:
-			measurement (object, optional):
-				An measurement of the class that is created.
+			instance (object, optional):
+				Class's instance.
 		"""
-		from onevision.core.rich import error_console
-		
 		if cfg is None:
 			return None
-
 		if not isinstance(cfg, (dict, Munch)):
-			error_console.log("`cfg` must be a dict.")
-			return None
-		
+			raise TypeError("`cfg` must be a dict.")
 		if "name" not in cfg:
-			error_console.log("`cfg` dict must contain the key `name`.")
-			return None
+			raise ValueError("`cfg` dict must contain the key `name`.")
 		
-		cfg_    = deepcopy(cfg)
-		name    = cfg_.pop("name")
-		cfg_   |= kwargs
+		cfg_  = deepcopy(cfg)
+		name  = cfg_.pop("name")
+		cfg_ |= kwargs
 		return self.build(name=name, **cfg_)
 	
 	def build_from_dictlist(
-		self, cfgs: Optional[list[Union[dict, Munch]]], **kwargs
+		self,
+		cfgs: Optional[list[Union[dict, Munch]]],
+		**kwargs
 	) -> Optional[list[object]]:
-		"""Factory command to create detections of classes. This method gets the
-		appropriate classes from the registry while passing in the parameters
-		given in `cfgs`.
+		"""Factory command to create classes' instances with arguments given in
+		`cfgs`.
 
 		Args:
 			cfgs (list[dict, Munch], optional):
-				List of class objects' configs.
+				List of classes' arguments.
 
 		Returns:
-			detections (list[object], optional):
-				Instances of the classes that are created.
+			instances (list[object], optional):
+				Classes' instances.
 		"""
 		from onevision.core.collection import is_list_of
-		from onevision.core.rich import error_console
 		
 		if cfgs is None:
 			return None
-		
-		if (not is_list_of(cfgs, expected_type=dict)
-			and not is_list_of(cfgs, expected_type=Munch)):
-			error_console.log("`cfgs` must be a list of dict.")
-			return None
+		if (not is_list_of(cfgs, item_type=dict) and
+			not is_list_of(cfgs, item_type=Munch)):
+			raise ValueError("`cfgs` must be a `list[dict]`.")
 		
 		cfgs_     = deepcopy(cfgs)
 		instances = []
@@ -272,11 +261,13 @@ class OptimizerFactory(Registry):
 	# MARK: Build
 	
 	def build(
-		self, net: torch.nn.Module, name: str, *args, **kwargs
+		self,
+		net : nn.Module,
+		name: str,
+		*args, **kwargs
 	) -> Optional[Optimizer]:
-		"""Factory command to create an optimizer. This method gets the
-		appropriate optimizer class from the registry and creates an measurement
-		of it, while passing in the parameters given in `kwargs`.
+		"""Factory command to create an optimizer with arguments given in
+		`kwargs`.
 		
 		Args:
 			net (nn.Module):
@@ -285,46 +276,39 @@ class OptimizerFactory(Registry):
 				Optimizer's name.
 		
 		Returns:
-			measurement (Optimizer, optional):
-				An measurement of the optimizer that is created.
+			optimizer (Optimizer, optional):
+				Optimizer.
 		"""
-		from onevision.core.rich import error_console
-		
 		if name not in self.registry:
-			error_console.log(f"{name} does not exist in the registry.")
-			return None
+			raise ValueError(f"{name} does not exist in the registry.")
 		
 		return self.registry[name](params=net.parameters(), *args, **kwargs)
 	
 	def build_from_dict(
-		self, net: torch.nn.Module, cfg: Optional[Union[dict, Munch]], **kwargs
+		self,
+		net: nn.Module,
+		cfg: Optional[Union[dict, Munch]],
+		**kwargs
 	) -> Optional[Optimizer]:
-		"""Factory command to create an optimizer. This method gets the
-		appropriate optimizer class from the registry and creates an measurement
-		of it, while passing in the parameters given in `cfg`.
+		"""Factory command to create an optimizer with arguments given in
+		`cfgs`.
 
 		Args:
 			net (nn.Module):
 				Neural network module.
 			cfg (dict, Munch, optional):
-				Optimizer' config.
+				Optimizer's arguments.
 
 		Returns:
-			measurement (Optimizer, optional):
-				An measurement of the optimizer that is created.
+			optimizer (Optimizer, optional):
+				Optimizer.
 		"""
-		from onevision.core.rich import error_console
-		
 		if cfg is None:
 			return None
-		
 		if not isinstance(cfg, (dict, Munch)):
-			error_console.log("`cfg` must be a dict.")
-			return None
-		
+			raise TypeError("`cfg` must be a dict.")
 		if "name" not in cfg:
-			error_console.log("`cfg` dict must contain the key `name`.")
-			return None
+			raise ValueError("`cfg` dict must contain the key `name`.")
 		
 		cfg_  = deepcopy(cfg)
 		name  = cfg_.pop("name")
@@ -333,88 +317,79 @@ class OptimizerFactory(Registry):
 	
 	def build_from_dictlist(
 		self,
-		net : torch.nn.Module,
+		net : nn.Module,
 		cfgs: Optional[list[Union[dict, Munch]]],
 		**kwargs
 	) -> Optional[list[Optimizer]]:
-		"""Factory command to create optimizers. This method gets the
-		appropriate optimizers classes from the registry and creates
-		detections of them, while passing in the parameters given in `cfgs`.
+		"""Factory command to create optimizers with arguments given in `cfgs`.
 
 		Args:
 			net (nn.Module):
 				List of neural network modules.
 			cfgs (list[dict, Munch], optional):
-				List of optimizers' configs.
+				List of optimizers' arguments.
 
 		Returns:
-			measurement (list[Optimizer], optional):
-				Instances of the optimizers that are created.
+			optimizers (list[Optimizer], optional):
+				Optimizers.
 		"""
 		from onevision.core.collection import is_list_of
-		from onevision.core.rich import error_console
 		
 		if cfgs is None:
 			return None
+		if (not is_list_of(cfgs, item_type=dict) or
+			not is_list_of(cfgs, item_type=Munch)):
+			raise TypeError("`cfgs` must be a `list[dict]`.")
 		
-		if (not is_list_of(cfgs, expected_type=dict)
-			or not is_list_of(cfgs, expected_type=Munch)):
-			error_console.log("`cfgs` must be a list of dict.")
-			return None
-		
-		cfgs_     = deepcopy(cfgs)
-		instances = []
+		cfgs_      = deepcopy(cfgs)
+		optimizers = []
 		for cfg in cfgs_:
 			name  = cfg.pop("name")
 			cfg  |= kwargs
-			instances.append(self.build(net=net, name=name, **cfg))
+			optimizers.append(self.build(net=net, name=name, **cfg))
 		
-		return instances if len(instances) > 0 else None
+		return optimizers if len(optimizers) > 0 else None
 	
 	def build_from_list(
 		self,
-		nets: list[torch.nn.Module],
+		nets: list[nn.Module],
 		cfgs: Optional[list[Union[dict, Munch]]],
-		*args, **kwargs
+		**kwargs
 	) -> Optional[list[Optimizer]]:
-		"""Factory command to create optimizers. This method gets the
-		appropriate optimizers classes from the registry and creates
-		detections of them, while passing in the parameters given in `cfgs`.
+		"""Factory command to create optimizers with arguments given in `cfgs`.
 
 		Args:
 			nets (list[nn.Module]):
 				List of neural network modules.
 			cfgs (list[dict, Munch]):
-				List of optimizers' configs.
+				List of optimizers' arguments.
 
 		Returns:
-			measurement (list[Optimizer], optional):
-				Instances of the optimizers that are created.
+			optimizers (list[Optimizer], optional):
+				Optimizers.
 		"""
 		from onevision.core.collection import is_list_of
 		
 		if cfgs is None:
 			return None
-		
-		if (not is_list_of(cfgs, expected_type=dict)
-			or not is_list_of(cfgs, expected_type=Munch)):
-			raise TypeError(f"`cfgs` must be a `list` of `dict`. But got: {cfgs}.")
-		
-		if not is_list_of(nets, expected_type=dict):
-			raise TypeError(f"`nets` must be a `list[nn.Module]`. But got: {nets}")
-		
+		if (not is_list_of(cfgs, item_type=dict) or
+			not is_list_of(cfgs, item_type=Munch)):
+			raise TypeError(f"`cfgs` must be a `list[dict]`. But got: {cfgs}.")
+		if not is_list_of(nets, item_type=dict):
+			raise TypeError(f"`nets` must be a `list[nn.Module]`. "
+			                f"But got: {nets}")
 		if len(nets) != len(cfgs):
 			raise ValueError(f"`nets` and `cfgs` must have the same length. "
 			                 f" But got: {len(nets)} != {len(cfgs)}.")
 		
-		cfgs_     = deepcopy(cfgs)
-		instances = []
+		cfgs_      = deepcopy(cfgs)
+		optimizers = []
 		for net, cfg in zip(nets, cfgs_):
 			name  = cfg.pop("name")
 			cfg  |= kwargs
-			instances.append(self.build(net=net, name=name, **cfg))
+			optimizers.append(self.build(net=net, name=name, **cfg))
 		
-		return instances if len(instances) > 0 else None
+		return optimizers if len(optimizers) > 0 else None
 
 
 class SchedulerFactory(Registry):
@@ -423,11 +398,13 @@ class SchedulerFactory(Registry):
 	# MARK: Build
 	
 	def build(
-		self, optimizer: Optimizer, name: Optional[str], *args, **kwargs
+		self,
+		optimizer: Optimizer,
+		name     : Optional[str],
+		*args, **kwargs
 	) -> Optional[_LRScheduler]:
-		"""Factory command to create a scheduler. This method gets the
-		appropriate scheduler class from the registry and creates an measurement
-		of it, while passing in the parameters given in `kwargs`.
+		"""Factory command to create a scheduler with arguments given in
+		`kwargs`.
 		
 		Args:
 			optimizer (Optimizer):
@@ -436,17 +413,13 @@ class SchedulerFactory(Registry):
 				Scheduler's name.
 		
 		Returns:
-			measurement (_LRScheduler, optional):
-				An measurement of the scheduler that is created.
+			scheduler (_LRScheduler, optional):
+				Scheduler.
 		"""
-		from onevision.core.rich import error_console
-		
 		if name is None:
 			return None
-		
 		if name not in self.registry:
-			error_console.log(f"{name} does not exist in the registry.")
-			return None
+			raise ValueError(f"{name} does not exist in the registry.")
 		
 		if name in ["gradual_warmup_scheduler"]:
 			after_scheduler = kwargs.pop("after_scheduler")
@@ -469,28 +442,24 @@ class SchedulerFactory(Registry):
 		self,
 		optimizer: Optimizer,
 		cfg      : Optional[Union[dict, Munch]],
-		*args, **kwargs
+		**kwargs
 	) -> Optional[_LRScheduler]:
-		"""Factory command to create a scheduler. This method gets the
-		appropriate scheduler class from the registry and creates an
-		measurement of it, while passing in the parameters given in `cfg`.
+		"""Factory command to create a scheduler with arguments given in `cfg`.
 
 		Args:
 			optimizer (Optimizer):
 				Optimizer.
 			cfg (dict, Munch, optional):
-				Scheduler' config.
+				Scheduler's arguments.
 
 		Returns:
-			measurement (_LRScheduler, optional):
-				An measurement of the scheduler that is created.
+			scheduler (_LRScheduler, optional):
+				Scheduler.
 		"""
 		if cfg is None:
 			return None
-		
 		if not isinstance(cfg, (dict, Munch)):
 			raise TypeError(f"`cfg` must be a `dict`. But got: {type(cfg)}.")
-		
 		if "name" not in cfg:
 			raise KeyError("`cfg` dict must contain the key `name`.")
 		
@@ -503,85 +472,76 @@ class SchedulerFactory(Registry):
 		self,
 		optimizer: Optimizer,
 		cfgs     : Optional[list[Union[dict, Munch]]],
-		*args, **kwargs
+		**kwargs
 	) -> Optional[list[_LRScheduler]]:
-		"""Factory command to create schedulers. This method gets the
-		appropriate schedulers classes from the registry and creates
-		detections of them, while passing in the parameters given in `cfgs`.
+		"""Factory command to create schedulers with arguments given in `cfgs`.
 
 		Args:
 			optimizer (Optimizer):
 				Optimizer.
 			cfgs (list[dict, Munch], optional):
-				List of optimizers' configs.
+				List of schedulers' arguments.
 
 		Returns:
-			measurement (list[Optimizer], optional):
-				Instances of the scheduler that are created.
+			schedulers (list[Optimizer], optional):
+				Schedulers.
 		"""
 		from onevision.core.collection import is_list_of
 		
 		if cfgs is None:
 			return None
+		if (not is_list_of(cfgs, item_type=dict) or
+			not is_list_of(cfgs, item_type=Munch)):
+			raise TypeError(f"`cfgs` must be a `list[dict]`. "
+			                f"But got: {type(cfgs)}.")
 		
-		if (
-            not is_list_of(cfgs, expected_type=dict) or
-            not is_list_of(cfgs, expected_type=Munch)
-        ):
-			raise TypeError(f"`cfgs` must be a `list[dict]`. But got: {type(cfgs)}.")
-		
-		cfgs_     = deepcopy(cfgs)
-		instances = []
+		cfgs_      = deepcopy(cfgs)
+		schedulers = []
 		for cfg in cfgs_:
 			name  = cfg.pop("name")
 			cfg  |= kwargs
-			instances.append(self.build(optimizer=optimizer, name=name, **cfg))
+			schedulers.append(self.build(optimizer=optimizer, name=name, **cfg))
 		
-		return instances if len(instances) > 0 else None
+		return schedulers if len(schedulers) > 0 else None
 	
 	def build_from_list(
 		self,
 		optimizers: list[Optimizer],
 		cfgs      : Optional[list[list[Union[dict, Munch]]]],
-		*args, **kwargs
+		**kwargs
 	) -> Optional[list[_LRScheduler]]:
-		"""Factory command to create schedulers. This method gets the
-		appropriate schedulers classes from the registry and creates
-		detections of them, while passing in the parameters given in `cfgs`.
+		"""Factory command to create schedulers with arguments given in `cfgs`.
 
 		Args:
 			optimizers (list[Optimizer]):
 				List of optimizers.
 			cfgs (list[list[dict, Munch]], optional):
-				2D-list of optimizers' configs.
+				2D-list of schedulers' arguments.
 
 		Returns:
-			measurement (list[Optimizer], optional):
-				Instances of the scheduler that are created.
+			schedulers (list[Optimizer], optional):
+				Schedulers.
 		"""
 		from onevision.core.collection import is_list_of
 		
 		if cfgs is None:
 			return None
-		
-		if (
-			not is_list_of(cfgs, expected_type=list) or
-			not all(is_list_of(cfg, expected_type=dict) for cfg in cfgs)
-        ):
-			raise TypeError(f"`cfgs` must be a 2D `list[dict]`. But got: {type(cfgs)}.")
-		
+		if (not is_list_of(cfgs, item_type=list) or
+			not all(is_list_of(cfg, item_type=dict) for cfg in cfgs)):
+			raise TypeError(f"`cfgs` must be a 2D `list[dict]`. "
+			                f"But got: {type(cfgs)}.")
 		if len(optimizers) != len(cfgs):
 			raise ValueError(f"`optimizers` and `cfgs` must have the same length."
 			                 f" But got: {len(optimizers)} != {len(cfgs)}.")
 		
-		cfgs_     = deepcopy(cfgs)
-		instances = []
+		cfgs_      = deepcopy(cfgs)
+		schedulers = []
 		for optimizer, cfgs in zip(optimizers, cfgs_):
 			for cfg in cfgs:
 				name  = cfg.pop("name")
 				cfg  |= kwargs
-				instances.append(
+				schedulers.append(
 					self.build(optimizer=optimizer, name=name, **cfg)
 				)
 		
-		return instances if len(instances) > 0 else None
+		return schedulers if len(schedulers) > 0 else None

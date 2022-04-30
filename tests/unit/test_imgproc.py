@@ -1,10 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""Test CV transformation operations.
+"""Test CV Image Processing operations.
 """
 
 from __future__ import annotations
+
+import numpy as np
+
+from onevision import cosine_distance
+from onevision import euclidean_distance
 
 import pickle as pkl
 
@@ -18,8 +23,24 @@ from onevision import to_channel_first
 from onevision import to_channel_last
 
 
+# MARK: - Test Distance Functions
+
+def test_cosine_distance():
+	x = np.array((1, 2, 3))
+	y = np.array((1, 1, 1))
+	print(cosine_distance(x, y))
+
+
+def test_euclidean_distance():
+	x = np.array((1, 2, 3))
+	y = np.array((1, 1, 1))
+	print(euclidean_distance(x, y))
+
+
+# MARK: - Test Transformation
+
 def draw_rect(im, cords, color=None):
-	im    = im.copy()
+	im = im.copy()
 	cords = cords[:, :4]
 	cords = cords.reshape(-1, 4)
 	
@@ -27,9 +48,9 @@ def draw_rect(im, cords, color=None):
 		color = [255, 255, 255]
 	for cord in cords:
 		pt1, pt2 = (cord[0], cord[1]), (cord[2], cord[3])
-		pt1      = int(pt1[0]), int(pt1[1])
-		pt2      = int(pt2[0]), int(pt2[1])
-		im       = cv2.rectangle(im.copy(), pt1, pt2, color, int(max(im.shape[:2]) / 200))
+		pt1 = int(pt1[0]), int(pt1[1])
+		pt2 = int(pt2[0]), int(pt2[1])
+		im = cv2.rectangle(im.copy(), pt1, pt2, color, int(max(im.shape[:2]) / 200))
 		print(pt1, pt2)
 	return im
 

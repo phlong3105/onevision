@@ -126,7 +126,10 @@ def print_dict(data: dict, title: str = ""):
         
     pretty = Pretty(
         data,
-        expand_all=True, indent_guides=True, insert_line=True, overflow="fold"
+        expand_all    = True,
+        indent_guides = True,
+        insert_line   = True,
+        overflow      = "fold"
     )
     panel = Panel(pretty, title=f"{title}")
     console.log(panel)

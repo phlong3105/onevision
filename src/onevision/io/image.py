@@ -30,7 +30,7 @@ from onevision.core import to_4d_array
 from onevision.core import to_channel_last
 from onevision.core import VisionBackend
 from onevision.io.file import create_dirs
-from onevision.io.format import ImageFormat
+from onevision.io.file import is_image_file
 
 """
 from onevision.core import error_console
@@ -45,8 +45,6 @@ __all__ = [
 	"read_image_cv",
 	# "read_image_libvips",
 	"read_image_pil",
-	"is_bmp_file",
-	"is_image_file",
 	"write_image",
 	"write_images",
 	"ImageLoader",
@@ -55,32 +53,6 @@ __all__ = [
 
 
 # MARK: - Functional
-
-def is_bmp_file(path: str) -> bool:
-	"""Check if the given path is a .bmp image file."""
-	if path is None:
-		return False
-	
-	bmp = ImageFormat.BMP.value  # Acceptable image suffixes
-	if os.path.isfile(path=path):
-		extension = os.path.splitext(path.lower())[1]
-		if extension == bmp:
-			return True
-	return False
-
-
-def is_image_file(path: str) -> bool:
-	"""Check if the given path is an image file."""
-	if path is None:
-		return False
-	
-	image_formats = ImageFormat.values()  # Acceptable image suffixes
-	if os.path.isfile(path=path):
-		extension = os.path.splitext(path.lower())[1]
-		if extension in image_formats:
-			return True
-	return False
-
 
 def read_image_cv(path: str) -> np.ndarray:
 	"""Read image using opencv."""

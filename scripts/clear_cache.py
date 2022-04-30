@@ -13,7 +13,7 @@ from onevision import delete_files
 
 if __name__ == "__main__":
 	delete_files(
-		dirpaths  = [os.path.join(datasets_dir, "*")],
+		dirs= [os.path.join(datasets_dir, "*")],
 		extension = ".cache",
 		recursive = True
 	)

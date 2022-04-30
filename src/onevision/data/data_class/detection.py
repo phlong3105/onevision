@@ -120,7 +120,7 @@ class Detection:
 				Should draw polygon? Default: `False`.
 			label (bool):
 				Should draw label? Default: `True`.
-			color (tuple):
+			color (Color, optional):
 				Primary color. Default: `None`.
 				
 		Returns:

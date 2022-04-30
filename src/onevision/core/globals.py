@@ -59,6 +59,7 @@ ListOrTuple3T          = Union[   list[T], tuple[T, T, T]]
 ListOrTuple4T          = Union[   list[T], tuple[T, T, T, T]]
 ListOrTuple5T          = Union[   list[T], tuple[T, T, T, T, T]]
 ListOrTuple6T          = Union[   list[T], tuple[T, T, T, T, T, T]]
+ListOrTuple3or4T       = Union[   list[T], tuple[T, T, T], tuple[T, T, T, T]]
 # NOTE: Custom
 Array1T                = ScalarListOrTuple1T[np.ndarray]
 Array2T                = ScalarListOrTuple2T[np.ndarray]
@@ -70,8 +71,9 @@ ArrayAnyT              = ScalarListOrTupleAnyT[np.ndarray]
 ArrayList              = list[np.ndarray]
 Arrays                 = ScalarOrCollectionAnyT[np.ndarray]
 Augment_               = Union[dict, Callable]
-Color                  = ListOrTuple3T[int]
-Devices                = Union[ScalarListOrTupleAnyT[int], ScalarListOrTupleAnyT[str]]
+Color                  = ListOrTuple3or4T[int]
+Devices                = Union[ScalarListOrTupleAnyT[int],
+                               ScalarListOrTupleAnyT[str]]
 EvalDataLoaders        = Union[DataLoader, Sequence[DataLoader]]
 Int1T                  = ScalarListOrTuple1T[int]
 Int2T                  = ScalarListOrTuple2T[int]
@@ -89,17 +91,17 @@ Float5T                = ScalarListOrTuple5T[float]
 Float6T                = ScalarListOrTuple6T[float]
 FloatAnyT              = ScalarListOrTupleAnyT[float]
 Indexes                = ScalarListOrTupleAnyT[int]
-Losses_                = Union[_Loss,  list[Union[_Loss,  dict]], dict]
-Metrics_               = Union[Metric, list[Union[Metric, dict]], dict]
+Losses_                = Union[_Loss,  dict, list[Union[_Loss,  dict]]]
+Metrics_               = Union[Metric, dict, list[Union[Metric, dict]]]
 Number                 = Union[int, float]
-Optimizers_            = Union[Optimizer, list[Union[Optimizer, dict]], dict]
-Padding1T              = Union[ScalarListOrTuple1T[int],   str]
-Padding2T              = Union[ScalarListOrTuple2T[int],   str]
-Padding3T              = Union[ScalarListOrTuple3T[int],   str]
-Padding4T              = Union[ScalarListOrTuple4T[int],   str]
-Padding5T              = Union[ScalarListOrTuple5T[int],   str]
-Padding6T              = Union[ScalarListOrTuple6T[int],   str]
-PaddingAnyT            = Union[ScalarListOrTupleAnyT[int], str]
+Optimizers_            = Union[Optimizer, dict, list[Union[Optimizer, dict]]]
+Padding1T              = Union[str, ScalarListOrTuple1T[int]]
+Padding2T              = Union[str, ScalarListOrTuple2T[int]]
+Padding3T              = Union[str, ScalarListOrTuple3T[int]]
+Padding4T              = Union[str, ScalarListOrTuple4T[int]]
+Padding5T              = Union[str, ScalarListOrTuple5T[int]]
+Padding6T              = Union[str, ScalarListOrTuple6T[int]]
+PaddingAnyT            = Union[str, ScalarListOrTupleAnyT[int]]
 Pretrained             = Union[bool, str, dict]
 Tasks                  = ScalarListOrTupleAnyT[str]
 Tensor1T               = ScalarListOrTuple1T[Tensor]
@@ -124,7 +126,9 @@ TrainDataLoaders       = Union[
 ]
 Transform_             = Union[dict, Callable]
 Transforms_            = Union[str, nn.Sequential, Transform_, list[Transform_]]
-Weights                = Union[Tensor, ListOrTupleAnyT[float], ListOrTupleAnyT[int]]
+Weights                = Union[Tensor,
+                               ListOrTupleAnyT[float],
+                               ListOrTupleAnyT[int]]
 
 ForwardOutput          = tuple[Tensors, Optional[Tensor]]
 StepOutput             = Union[Tensor, dict[str, Any]]
@@ -248,7 +252,76 @@ class DistanceMetric(Enum):
     def values() -> list[str]:
         return [e.value for e in DistanceMetric]
  
- 
+
+class ImageFormat(Enum):
+    BMP  = "bmp"
+    DNG	 = "dng"
+    JPG  = "jpg"
+    JPEG = "jpeg"
+    PNG  = "png"
+    PPM  = "ppm"
+    TIF  = "tif"
+    TIFF = "tiff"
+    
+    @classmethod
+    @property
+    def str_mapping(cls) -> dict:
+        return {
+            "bmp" : ImageFormat.BMP,
+            "dng" : ImageFormat.DNG,
+            "jpg" : ImageFormat.JPG,
+            "jpeg": ImageFormat.JPEG,
+            "png" : ImageFormat.PNG,
+            "ppm" : ImageFormat.PPM,
+            "tif" : ImageFormat.TIF,
+            "tiff": ImageFormat.TIF,
+        }
+
+    @classmethod
+    @property
+    def int_mapping(cls) -> dict:
+        return {
+            0: ImageFormat.BMP,
+            1: ImageFormat.DNG,
+            2: ImageFormat.JPG,
+            3: ImageFormat.JPEG,
+            4: ImageFormat.PNG,
+            5: ImageFormat.PPM,
+            6: ImageFormat.TIF,
+            7: ImageFormat.TIF,
+        }
+    
+    @staticmethod
+    def from_str(value: str) -> ImageFormat:
+        value = value.lower()
+        if value not in ImageFormat.str_mapping:
+            raise ValueError(f"`value` must be one of: {ImageFormat.str_mapping.keys()}. "
+                             f"But got: {value}.")
+        return ImageFormat.str_mapping[value]
+    
+    @staticmethod
+    def from_int(value: int) -> ImageFormat:
+        if value not in ImageFormat.int_mapping:
+            raise ValueError(f"`value` must be one of: {ImageFormat.int_mapping.keys()}. "
+                             f"But got: {value}.")
+        return ImageFormat.int_mapping[value]
+
+    @staticmethod
+    def from_value(value: Union[str, int]) -> ImageFormat:
+        if isinstance(value, int):
+            return ImageFormat.from_int(value)
+        else:
+            return ImageFormat.from_str(value)
+    
+    @staticmethod
+    def keys():
+        return [e for e in ImageFormat]
+    
+    @staticmethod
+    def values() -> list[str]:
+        return [e.value for e in ImageFormat]
+
+
 class InterpolationMode(Enum):
     BICUBIC       = "bicubic"
     BILINEAR      = "bilinear"
@@ -575,6 +648,75 @@ class PaddingMode(Enum):
     def values() -> list[str]:
         return [e.value for e in PaddingMode]
 
+
+class VideoFormat(Enum):
+    AVI  = "avi"
+    M4V  = "m4v"
+    MKV  = "mkv"
+    MOV  = "mov"
+    MP4  = "mp4"
+    MPEG = "mpeg"
+    MPG  = "mpg"
+    WMV  = "wmv"
+    
+    @classmethod
+    @property
+    def str_mapping(cls) -> dict:
+        return {
+            "avi" : VideoFormat.AVI,
+            "m4v" : VideoFormat.M4V,
+            "mkv" : VideoFormat.MKV,
+            "mov" : VideoFormat.MOV,
+            "mp4" : VideoFormat.MP4,
+            "mpeg": VideoFormat.MPEG,
+            "mpg" : VideoFormat.MPG,
+            "wmv" : VideoFormat.WMV,
+        }
+
+    @classmethod
+    @property
+    def int_mapping(cls) -> dict:
+        return {
+            0: VideoFormat.AVI, 
+            1: VideoFormat.M4V, 
+            2: VideoFormat.MKV, 
+            3: VideoFormat.MOV, 
+            4: VideoFormat.MP4, 
+            5: VideoFormat.MPEG,
+            6: VideoFormat.MPG, 
+            7: VideoFormat.WMV, 
+        }
+    
+    @staticmethod
+    def from_str(value: str) -> VideoFormat:
+        value = value.lower()
+        if value not in VideoFormat.str_mapping:
+            raise ValueError(f"`value` must be one of: {VideoFormat.str_mapping.keys()}. "
+                             f"But got: {value}.")
+        return VideoFormat.str_mapping[value]
+    
+    @staticmethod
+    def from_int(value: int) -> VideoFormat:
+        if value not in VideoFormat.int_mapping:
+            raise ValueError(f"`value` must be one of: {VideoFormat.int_mapping.keys()}. "
+                             f"But got: {value}.")
+        return VideoFormat.int_mapping[value]
+
+    @staticmethod
+    def from_value(value: Union[str, int]) -> VideoFormat:
+        if isinstance(value, int):
+            return VideoFormat.from_int(value)
+        else:
+            return VideoFormat.from_str(value)
+    
+    @staticmethod
+    def keys():
+        return [e for e in VideoFormat]
+    
+    @staticmethod
+    def values() -> list[str]:
+        return [e.value for e in VideoFormat]
+    
 
 class VisionBackend(Enum):
     CV      = "cv"

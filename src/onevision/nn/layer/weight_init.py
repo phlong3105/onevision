@@ -55,7 +55,7 @@ def _no_grad_trunc_normal_(tensor: Tensor, mean: float, std: float, a: float, b:
         l = norm_cdf((a - mean) / std)
         u = norm_cdf((b - mean) / std)
 
-        # Uniformly fill image with values from [l, u], then translate to
+        # Uniformly fill image with values from [ll, u], then translate to
         # [2l-1, 2u-1].
         tensor.uniform_(2 * l - 1, 2 * u - 1)
 

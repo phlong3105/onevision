@@ -13,7 +13,6 @@ from abc import ABCMeta
 from abc import abstractmethod
 from pathlib import Path
 from typing import Optional
-from typing import Union
 
 import cv2
 import ffmpeg
@@ -25,14 +24,12 @@ from onevision.core import to_4d_array
 from onevision.core import to_channel_last
 from onevision.core import to_size
 from onevision.io.file import create_dirs
-from onevision.io.format import VideoFormat
-from onevision.io.image import is_image_file
+from onevision.io.file import is_image_file
+from onevision.io.file import is_video_file
+from onevision.io.file import is_video_stream
 
 __all__ = [
 	"ffmpeg_read_frame",
-	"is_camera_device",
-	"is_video_file",
-	"is_video_stream",
 	"BaseVideoLoader",
 	"BaseVideoWriter",
 	"CVVideoLoader",
@@ -90,40 +87,6 @@ def ffmpeg_write_frame(process, frame: Optional[np.ndarray]):
 				.astype(np.uint8)
 				.tobytes()
 		)
-
-
-def is_camera_device(path: Optional[Union[str, int]]) -> bool:
-	"""Check if the given path is a camera device."""
-	if path is None:
-		return False
-	
-	if isinstance(path, str) and path.isnumeric():
-		return True
-	elif isinstance(path, int):
-		return True
-	return False
-
-
-def is_video_file(path: Optional[str]) -> bool:
-	"""Check if the given path is a video file."""
-	if path is None:
-		return False
-	
-	video_formats = VideoFormat.values()
-	if os.path.isfile(path=path):
-		extension = os.path.splitext(path.lower())[1]
-		if extension in video_formats:
-			return True
-	return False
-
-
-def is_video_stream(path: Optional[str]) -> bool:
-	"""Check if the given path is a video stream."""
-	if path is None:
-		return False
-	
-	path = path.lower()
-	return "rtsp" in path
 
 
 # MARK: - Modules

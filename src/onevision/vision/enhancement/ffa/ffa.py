@@ -89,7 +89,7 @@ class FFA(ImageEnhancer):
         # Hyperparameters
         in_channels : int           = 3,
         out_channels: int           = 64,
-        kernel_size : Int2T        = 3,
+        kernel_size : Int2T         = 3,
         groups      : int           = 3,
         blocks      : int           = 20,
         conv        : nn.Conv2d     = default_conv,

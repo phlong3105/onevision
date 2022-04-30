@@ -274,7 +274,7 @@ class MedianPool2d(nn.Module):
          stride (Int2T):
             Pool stride, int or 2-tuple
          padding (Size4T, str, optional):
-            Pool padding, int or 4-tuple (l, r, t, b) as in pytorch F.pad.
+            Pool padding, int or 4-tuple (ll, r, t, b) as in pytorch F.pad.
          same (bool):
             Override padding and enforce same padding. Default: `False`.
     """
@@ -291,7 +291,7 @@ class MedianPool2d(nn.Module):
         super().__init__()
         self.kernel_size = to_2tuple(kernel_size)
         self.stride 	 = to_2tuple(stride)
-        self.padding 	 = to_4tuple(padding)  # convert to l, r, t, b
+        self.padding 	 = to_4tuple(padding)  # convert to ll, r, t, b
         self.same	 	 = same
 
     # MARK: Configure

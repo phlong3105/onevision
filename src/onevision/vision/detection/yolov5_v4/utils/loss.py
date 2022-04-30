@@ -176,7 +176,7 @@ class ComputeLoss:
 
         g = 0.5  # bias
         off = torch.tensor([[0, 0],
-                            [1, 0], [0, 1], [-1, 0], [0, -1],  # j,k,l,m
+                            [1, 0], [0, 1], [-1, 0], [0, -1],  # j,k,ll,m
                             # [1, 1], [1, -1], [-1, 1], [-1, -1],  # jk,jm,lk,lm
                             ], device=targets.device).float() * g  # offsets
 

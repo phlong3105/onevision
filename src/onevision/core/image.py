@@ -87,8 +87,9 @@ def add_weighted(
     beta : float,
     gamma: float = 0.0,
 ) -> Tensor:
-    """Calculate the weighted sum of two Tensors. Function calculates the
-    weighted sum of two Tensors as follows:
+    """Calculate the weighted sum of two Tensors.
+    
+    Function calculates the weighted sum of two Tensors as follows:
         out = src1 * alpha + src2 * beta + gamma
 
     Args:
@@ -249,7 +250,7 @@ def check_image_size(image_size: Int2Or3T, stride: int = 32) -> int:
 def denormalize(
     data: Tensor,
     mean: Union[Tensor, float],
-    std: Union[Tensor, float]
+    std : Union[Tensor, float]
 ) -> Tensor:
     """Denormalize an image/video image with mean and standard deviation.
     
@@ -962,7 +963,7 @@ def to_channel_last(image: np.ndarray, keep_dims: bool = True) -> np.ndarray:
 
 def to_image(
     tensor     : Tensor,
-    keep_dims   : bool = True,
+    keep_dims  : bool = True,
     denormalize: bool = False
 ) -> np.ndarray:
     """Converts a PyTorch tensor to a numpy image. In case the image is in the
@@ -1012,7 +1013,7 @@ def to_pil_image(image: TensorOrArray) -> PIL.Image:
 
 def to_tensor(
     image    : Union[np.ndarray, PIL.Image],
-    keep_dims : bool = True,
+    keep_dims: bool = True,
     normalize: bool = False,
 ) -> Tensor:
     """Convert a `PIL Image` or `np.ndarray` image to a 4d tensor.
