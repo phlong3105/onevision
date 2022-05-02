@@ -214,7 +214,7 @@ def is_ckpt_file(path: Optional[str]) -> bool:
     if path is None:
         return False
     if os.path.isfile(path=path) and \
-       path.split(".")[1].lower() in [".ckpt"]:
+       path.split(".")[1].lower() in ["ckpt"]:
         return True
     return False
 
@@ -233,7 +233,7 @@ def is_json_file(path: Optional[str]) -> bool:
     """Check if the given path is a `.json` file."""
     if path is None:
         return False
-    if os.path.isfile(path=path) and path.split(".")[1].lower() in [".json"]:
+    if os.path.isfile(path=path) and path.split(".")[1].lower() in ["json"]:
         return True
     return False
 
@@ -264,7 +264,7 @@ def is_torch_saved_file(path: Optional[str]) -> bool:
     if path is None:
         return False
     if os.path.isfile(path=path) and \
-       path.split(".")[1].lower() in [".pt", ".pth", ".weights", ".ckpt"]:
+       path.split(".")[1].lower() in ["pt", "pth", "weights", "ckpt"]:
         return True
     return False
 
@@ -274,7 +274,7 @@ def is_txt_file(path: Optional[str]) -> bool:
     if path is None:
         return False
     if os.path.isfile(path=path) and \
-       path.split(".")[1].lower() in [".txt"]:
+       path.split(".")[1].lower() in ["txt"]:
         return True
     return False
 
@@ -320,7 +320,7 @@ def is_weights_file(path: Optional[str]) -> bool:
     if path is None:
         return False
     if os.path.isfile(path=path) and \
-       path.split(".")[1].lower() in [".pt", ".pth"]:
+       path.split(".")[1].lower() in ["pt", "pth"]:
         return True
     return False
 
@@ -330,7 +330,7 @@ def is_xml_file(path: Optional[str]) -> bool:
     if path is None:
         return False
     if os.path.isfile(path=path) and \
-       path.split(".")[1].lower() in [".xml"]:
+       path.split(".")[1].lower() in ["xml"]:
         return True
     return False
 
@@ -340,7 +340,7 @@ def is_yaml_file(path: Optional[str]) -> bool:
     if path is None:
         return False
     if os.path.isfile(path=path) and \
-       path.split(".")[1].lower() in [".yaml", ".yml"]:
+       path.split(".")[1].lower() in ["yaml", "yml"]:
         return True
     return False
 
