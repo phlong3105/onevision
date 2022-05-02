@@ -14,7 +14,6 @@ from onevision import FFmpegVideoWriter
 
 def test_ffmpeg_video_loader():
 	video_loader = FFmpegVideoLoader(data="../../data/demo.mp4")
-	
 	for imgs, idxes, files, rel_paths in video_loader:
 		for img in imgs:
 			cv2.imshow("Image", img)
@@ -35,7 +34,6 @@ def test_ffmpeg_video_writer():
 		save_video = True,
 		verbose    = False,
 	)
-	
 	for imgs, idxes, files, rel_paths in video_loader:
 		for img in imgs:
 			cv2.imshow("Image", img)

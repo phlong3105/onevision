@@ -175,9 +175,10 @@ def get_latest_file(path: str, recursive: bool = True) -> Optional[str]:
             Latest file path. Return `None` if not found (no file, wrong path
             format, wrong file extension).
     """
-    file_list = glob(path, recursive=recursive)
-    if len(file_list) > 0:
-        return max(file_list, key=os.path.getctime)
+    if path:
+        file_list = glob(path, recursive=recursive)
+        if len(file_list) > 0:
+            return max(file_list, key=os.path.getctime)
     return None
 
 

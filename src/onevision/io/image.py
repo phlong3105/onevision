@@ -97,7 +97,7 @@ def read_image(path: str, backend: Union[VisionBackend, str, int] = "cv") -> np.
 @dispatch(np.ndarray, str, str, str, str)
 def write_image(
 	image    : np.ndarray,
-	dirpath  : str,
+	dir      : str,
 	name     : str,
 	prefix   : str = "",
 	extension: str = ".png"
@@ -107,7 +107,7 @@ def write_image(
 	Args:
 		image (np.ndarray):
 			A single image.
-		dirpath (str):
+		dir (str):
 			Saving directory.
 		name (str):
 			Name of the image file.
@@ -131,23 +131,23 @@ def write_image(
 		image = Image.fromarray(image.astype(np.uint8))
 	
 	# NOTE: Write image
-	if create_dirs(paths=[dirpath]) == 0:
+	if create_dirs(paths=[dir]) == 0:
 		base, ext = os.path.splitext(name)
 		if ext:
 			extension = ext
 		if "." not in extension:
 			extension = f".{extension}"
 		if prefix in ["", None]:
-			filepath = os.path.join(dirpath, f"{base}{extension}")
+			filepath = os.path.join(dir, f"{base}{extension}")
 		else:
-			filepath = os.path.join(dirpath, f"{prefix}_{base}{extension}")
+			filepath = os.path.join(dir, f"{prefix}_{base}{extension}")
 		image.save(filepath)
 
 
 @dispatch(Tensor, str, str, str, str)
 def write_image(
 	image    : Tensor,
-	dirpath  : str,
+	dir      : str,
 	name     : str,
 	prefix   : str = "",
 	extension: str = ".png"
@@ -157,7 +157,7 @@ def write_image(
 	Args:
 		image (Tensor):
 			A single image.
-		dirpath (str):
+		dir (str):
 			Saving directory.
 		name (str):
 			Name of the image file.
@@ -174,16 +174,16 @@ def write_image(
 	image = to_channel_last(image)
 	
 	# NOTE: Write image
-	if create_dirs(paths=[dirpath]) == 0:
+	if create_dirs(paths=[dir]) == 0:
 		base, ext = os.path.splitext(name)
 		if ext:
 			extension = ext
 		if "." not in extension:
 			extension = f".{extension}"
 		if prefix in ["", None]:
-			filepath = os.path.join(dirpath, f"{base}{extension}")
+			filepath = os.path.join(dir, f"{base}{extension}")
 		else:
-			filepath = os.path.join(dirpath, f"{prefix}_{base}{extension}")
+			filepath = os.path.join(dir, f"{prefix}_{base}{extension}")
 		
 		if extension in [".jpg", ".jpeg"]:
 			torchvision.io.image.write_jpeg(input=image, filename=filepath)
@@ -194,7 +194,7 @@ def write_image(
 @dispatch(np.ndarray, str, str, str)
 def write_images(
 	images   : np.ndarray,
-	dirpath  : str,
+	dir      : str,
 	name     : str,
 	extension: str = ".png"
 ):
@@ -203,7 +203,7 @@ def write_images(
 	Args:
 		images (np.ndarray):
 			A batch of images.
-		dirpath (str):
+		dir (str):
 			Saving directory.
 		name (str):
 			Name of the image file.
@@ -215,7 +215,7 @@ def write_images(
 	
 	num_jobs = multiprocessing.cpu_count()
 	Parallel(n_jobs=num_jobs)(
-		delayed(write_image)(image, dirpath, name, f"{index}", extension)
+		delayed(write_image)(image, dir, name, f"{index}", extension)
 		for index, image in enumerate(images)
 	)
 
@@ -223,7 +223,7 @@ def write_images(
 @dispatch(Tensor, str, str, str)
 def write_images(
 	images   : Tensor,
-	dirpath  : str,
+	dir      : str,
 	name     : str,
 	extension: str = ".png"
 ):
@@ -232,7 +232,7 @@ def write_images(
 	Args:
 		images (Tensor):
 			A image of image.
-		dirpath (str):
+		dir (str):
 			Saving directory.
 		name (str):
 			Name of the image file.
@@ -244,7 +244,7 @@ def write_images(
 	
 	num_jobs = multiprocessing.cpu_count()
 	Parallel(n_jobs=num_jobs)(
-		delayed(write_image)(image, dirpath, name, f"{index}", extension)
+		delayed(write_image)(image, dir, name, f"{index}", extension)
 		for index, image in enumerate(images)
 	)
 
@@ -252,7 +252,7 @@ def write_images(
 @dispatch(list, str, str, str)
 def write_images(
 	images   : list,
-	dirpath  : str,
+	dir      : str,
 	name     : str,
 	extension: str = ".png"
 ):
@@ -261,7 +261,7 @@ def write_images(
 	Args:
 		images (list):
 			A list of images.
-		dirpath (str):
+		dir (str):
 			Saving directory.
 		name (str):
 			Name of the image file.
@@ -271,11 +271,11 @@ def write_images(
 	if (isinstance(images, list) and
 		all(isinstance(image, np.ndarray) for image in images)):
 		cat_image = np.concatenate([images], axis=0)
-		write_images(cat_image, dirpath, name, extension)
+		write_images(cat_image, dir, name, extension)
 	elif (isinstance(images, list) and
 		  all(torch.is_tensor(image) for image in images)):
 		cat_image = torch.stack(images)
-		write_images(cat_image, dirpath, name, extension)
+		write_images(cat_image, dir, name, extension)
 	else:
 		raise TypeError(f"Do not support {type(images)}.")
 
@@ -283,7 +283,7 @@ def write_images(
 @dispatch(dict, str, str, str)
 def write_images(
 	images   : dict,
-	dirpath  : str,
+	dir      : str,
 	name     : str,
 	extension: str = ".png"
 ):
@@ -292,7 +292,7 @@ def write_images(
 	Args:
 		images (dict):
 			A list of images.
-		dirpath (str):
+		dir (str):
 			Saving directory.
 		name (str):
 			Name of the image file.
@@ -303,12 +303,12 @@ def write_images(
 		all(isinstance(image, np.ndarray) for _, image in images.items())):
 		cat_image = np.concatenate([image for key, image in images.items()],
 								   axis=0)
-		write_images(cat_image, dirpath, name, extension)
+		write_images(cat_image, dir, name, extension)
 	elif (isinstance(images, dict) and
 		  all(torch.is_tensor(image) for _, image in images)):
 		values    = list(tuple(images.values()))
 		cat_image = torch.stack(values)
-		write_images(cat_image, dirpath, name, extension)
+		write_images(cat_image, dir, name, extension)
 	else:
 		raise TypeError
 

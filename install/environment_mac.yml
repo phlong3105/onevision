@@ -137,13 +137,10 @@ dependencies:
           # and reference training / validation scripts that aim to pull
           # together a wide variety of SOTA models with ability to reproduce
           # ImageNet training results.
-        - --find-links https://download.pytorch.org/whl/cu113/torch_stable.html
-        - torch==1.11.0+cu113      ; sys_platform=="win32" or sys_platform=="linux"
-        - torchvision==0.12.0+cu113; sys_platform=="win32" or sys_platform=="linux"
-        - torchaudio==0.11.0+cu113 ; sys_platform=="win32" or sys_platform=="linux"
-        - torch>=1.11.0            ; sys_platform=="darwin"
-        - torchvision>=0.12.0      ; sys_platform=="darwin"
-        - torchaudio>=0.11.0       ; sys_platform=="darwin"
+        # - --find-links https://download.pytorch.org/whl/cu113/torch_stable.html
+        - torch==1.11.0
+        - torchvision==0.12.0
+        - torchaudio==0.11.0
           # PyTorch.
         - torchmetrics[all]
           # git+https://github.com/PytorchLightning/metrics.git@release/latest

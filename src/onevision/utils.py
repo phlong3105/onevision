@@ -18,7 +18,9 @@ from onevision.io import load
 
 __all__ = [
     "content_root_dir",
+    "copy_config_file",
     "datasets_dir",
+    "load_config",
     "pretrained_dir",
     "source_root_dir",
 ]

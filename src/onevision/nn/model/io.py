@@ -231,7 +231,7 @@ load_weights	= load_pretrained
 # MARK: - Checkpoint
 
 def get_latest_checkpoint(dirpath: Union[str, Path], name: str = "*.ckpt") -> Optional[str]:
-    """Get the latest weights in the `dirpath`.
+    """Get the latest weights in the `dir`.
 
     Args:
         dirpath (str, Path):
