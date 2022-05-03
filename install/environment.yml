@@ -26,6 +26,7 @@ channels:
 
 dependencies:
   - cudatoolkit=11.3
+  - cudatoolkit-dev=11.3
   - cudnn
     # CUDA is a parallel computing platform and programming model developed by
     # NVIDIA for general computing on graphical processing units (GPUs).
@@ -51,7 +52,7 @@ dependencies:
           # FilterPy is a Python library that implements a number of Bayesian
           # filtering, most notably Kalman filtering.
         - koila
-          # Koila solves CUDA error: out of memory error painlessly. 
+          # Koila solves CUDA error: out of memory error painlessly.
           # Fix it with just one line of code, and forget it.
           # https://github.com/rentruewang/koila
         - labelImg
@@ -68,6 +69,8 @@ dependencies:
         - mediapipe
           # MediaPipe offers ready-to-use yet customizable Python solutions as
           # a prebuilt Python package.
+        - git+https://github.com/JunnYu/mish-cuda.git
+          # mish-cuda
         - munch
           # Munch is a dictionary that supports attribute-style access.
         - mypy
@@ -116,8 +119,8 @@ dependencies:
           # image.
         - requests
           # Python HTTP for Humans.
-        - rich  
-          # Rich is a Python library for rich text and beautiful formatting in 
+        - rich
+          # Rich is a Python library for rich text and beautiful formatting in
           # the terminal.
         - scikit-learn
           # Simple and efficient tools for predictive data analysis.
@@ -144,7 +147,7 @@ dependencies:
           # together a wide variety of SOTA models with ability to reproduce
           # ImageNet training results.
         - --extra-index-url https://download.pytorch.org/whl/cu113
-        - torch      
+        - torch
         - torchvision
         - torchaudio
           # PyTorch.
