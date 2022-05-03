@@ -30,12 +30,13 @@ case "$OSTYPE" in
     eval "$(conda shell.bash hook)"
     conda activate one
     pip install --upgrade pip
-    # conda update --a --y
-    # conda clean --a --y
-    
+
     # Install `mish-cuda`
     echo "Install 'mish-cuda':"
     pip install git+https://github.com/JunnYu/mish-cuda.git
+
+    # Remove `cv2/plugin` folder:
+    rm -rf $CONDA_PREFIX/lib/python3.9/site-packes/cv2/plugin
     ;;
   darwin*)
     echo "Mac OS"
@@ -45,13 +46,14 @@ case "$OSTYPE" in
     conda env create -f "${env_yml_path}"
     conda activate one
     pip install --upgrade pip
-    conda update --a --y
-    conda clean --a --y
 
     # Install from 'brew'
-    echo "Install from 'brew':"
-    brew install ffmpeg
-    brew install libvips
+    # echo "Install from 'brew':"
+    # brew install ffmpeg
+    # brew install libvips
+
+    # Remove `cv2/plugin` folder:
+    rm -rf $CONDA_PREFIX/lib/python3.9/site-packes/cv2/plugin
     ;;
   win*)
     echo "Windows"
