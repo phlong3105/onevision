@@ -68,6 +68,16 @@ def convert_single_label_file(
 	save_image: bool = False,
 	verbose   : bool = False,
 ):
+	"""Convert single label file.
+
+	Args:
+		image_file (str):
+			A single image file.
+		save_image (bool):
+			Should save image with drawn bounding boxes. Default: `False`.
+		verbose (bool):
+			Should show image with drawn bounding boxes. Default: `False`.
+	"""
 	vis_file        = image_file.replace("images", "visualize")
 	label_file      = image_file.replace("images", "annotations")
 	label_file      = label_file.replace("image_", "annotations_")
@@ -111,6 +121,16 @@ def convert_yolo_labels(
 	save_image: bool = False,
 	verbose   : bool = False,
 ):
+	"""Convert labels to YOLO format.
+
+	Args:
+		split (str):
+			Split. One of: [`train`, `val`, `test`]. Default: `train`.
+		save_image (bool):
+			Should save image with drawn bounding boxes. Default: `False`.
+		verbose (bool):
+			Should show image with drawn bounding boxes. Default: `False`.
+	"""
 	image_pattern = os.path.join(
 		datasets_dir, "chalearn", "ltd", split, "*", "images", "*", "*", "*.jpg"
 	)
@@ -129,6 +149,16 @@ def convert_yolo_labels_asynchronous(
 	save_image: bool = False,
 	verbose   : bool = False,
 ):
+	"""Convert labels to YOLO format in asynchronous mode.
+	
+	Args:
+		split (str):
+			Split. One of: [`train`, `val`, `test`]. Default: `train`.
+		save_image (bool):
+			Should save image with drawn bounding boxes. Default: `False`.
+		verbose (bool):
+			Should show image with drawn bounding boxes. Default: `False`.
+	"""
 	image_pattern = os.path.join(
 		datasets_dir, "chalearn", "ltd", split, "*", "images", "*", "*", "*.jpg"
 	)
@@ -164,18 +194,25 @@ def read_pkl_results():
 		pass
 
 
-def shuffle_images_labels(split: str = "train"):
-	"""Shuffle images and labels for training."""
+def shuffle_images_labels(split: str = "train", subset: str = "month"):
+	"""Shuffle images and labels for training.
+	
+	Args:
+		split (str):
+			Split. One of: [`train`, `val`, `test`]. Default: `train`.
+		subset (str):
+			Subset of the data. One of: [`day`, `week`, `month`].
+	"""
 	label_pattern = os.path.join(
-		datasets_dir, "chalearn", "ltd", split, "month", "yolo", "*", "*", "*.txt"
+		datasets_dir, "chalearn", "ltd", split, subset, "yolo", "*", "*", "*.txt"
 	)
 	label_files = glob.glob(label_pattern)
 	random.shuffle(label_files)
 	image_files = [i.replace("yolo", "images") for i in label_files]
 	image_files = [l.replace(".txt", ".jpg")   for l in image_files]
 	if len(image_files) != len(label_files):
-		raise RuntimeError(f"Number of `image_files` and `label_files` must be "
-		                   f"the same. "
+		raise RuntimeError(f"Number of `image_files` and `label_files` must "
+		                   f"be the same. "
 		                   f"But got: {len(image_files)} != {len(label_files)}.")
 	
 	with progress_bar() as pbar:
@@ -185,10 +222,10 @@ def shuffle_images_labels(split: str = "train"):
 		):
 			i         = f"{i}".zfill(8)
 			out_image = os.path.join(
-				datasets_dir, "chalearn", "ltd", "extra", split, "images", f"{i}.jpg"
+				datasets_dir, "chalearn", "ltd", "extra", subset, split, "images", f"{i}.jpg"
 			)
 			out_label = os.path.join(
-				datasets_dir, "chalearn", "ltd", "extra", split, "labels", f"{i}.txt"
+				datasets_dir, "chalearn", "ltd", "extra", subset, split, "labels", f"{i}.txt"
 			)
 			create_dirs(paths=[os.path.dirname(out_image)])
 			create_dirs(paths=[os.path.dirname(out_label)])
@@ -204,6 +241,7 @@ if __name__ == "__main__":
 	parser.add_argument("--verbose",    default=False,   action="store_true", help="Should show image with drawn bounding boxes.")
 	parser.add_argument("--asynch",     default=True,    action="store_true", help="Run labels conversion in asynchronous mode.")
 	parser.add_argument("--shuffle",    default=True,    action="store_true", help="Shuffle and copy images and labels to train/val folders.")
+	parser.add_argument("--subset",     default="month", type=str,            help="Subset to shuffle and copy.")
 	args = parser.parse_args()
 	
 	if args.convert:
@@ -220,4 +258,4 @@ if __name__ == "__main__":
 				verbose    = args.verbose,
 			)
 	if args.shuffle:
-		shuffle_images_labels(split=args.split)
+		shuffle_images_labels(split=args.split, subset=args.split)
