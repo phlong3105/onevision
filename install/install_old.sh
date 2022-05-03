@@ -2,7 +2,7 @@
 
 # Install:
 # chmod +x install.sh
-# ./install.sh
+# bash install.sh
 
 script_path=$(readlink -f "$0")
 current_dir=$(dirname "$script_path")

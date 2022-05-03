@@ -69,8 +69,6 @@ dependencies:
         - mediapipe
           # MediaPipe offers ready-to-use yet customizable Python solutions as
           # a prebuilt Python package.
-        - git+https://github.com/JunnYu/mish-cuda.git
-          # mish-cuda
         - munch
           # Munch is a dictionary that supports attribute-style access.
         - mypy

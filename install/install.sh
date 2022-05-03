@@ -2,6 +2,7 @@
 
 # Install:
 # chmod +x install.sh
+# conda init bash
 # ./install.sh
 
 script_path=$(readlink -f "$0")
@@ -26,10 +27,15 @@ case "$OSTYPE" in
     echo "Create 'one' environment:"
     env_yml_path="${current_dir}/environment.yml"
     conda env create -f "${env_yml_path}"
+    eval "$(conda shell.bash hook)"
     conda activate one
     pip install --upgrade pip
-    conda update --a --y
-    conda clean --a --y
+    # conda update --a --y
+    # conda clean --a --y
+    
+    # Install `mish-cuda`
+    echo "Install 'mish-cuda':"
+    pip install git+https://github.com/JunnYu/mish-cuda.git
     ;;
   darwin*)
     echo "Mac OS"
