@@ -208,29 +208,29 @@ def shuffle_images_labels(split: str = "train", subset: str = "month"):
 	)
 	label_files = glob.glob(label_pattern)
 	random.shuffle(label_files)
-	image_files = [i.replace("yolo", "images") for i in label_files]
-	image_files = [l.replace(".txt", ".jpg")   for l in image_files]
+	image_files = [l.replace("yolo", "images") for l in label_files]
+	image_files = [i.replace(".txt", ".jpg")   for i in image_files]
 	if len(image_files) != len(label_files):
 		raise RuntimeError(f"Number of `image_files` and `label_files` must "
 		                   f"be the same. "
 		                   f"But got: {len(image_files)} != {len(label_files)}.")
 	
 	with progress_bar() as pbar:
-		for i, (in_image, in_label)  in pbar.track(
-			enumerate(zip(image_files, label_files)),
+		for i in pbar.track(
+			range(len(image_files)),
 			description=f"[bright_yellow]Shuffling and copying images and labels"
 		):
-			i         = f"{i}".zfill(8)
+			idx       = f"{i}".zfill(8)
 			out_image = os.path.join(
-				datasets_dir, "chalearn", "ltd", "extra", subset, split, "images", f"{i}.jpg"
+				datasets_dir, "chalearn", "ltd", "extra", subset, split, "images", f"{idx}.jpg"
 			)
 			out_label = os.path.join(
-				datasets_dir, "chalearn", "ltd", "extra", subset, split, "labels", f"{i}.txt"
+				datasets_dir, "chalearn", "ltd", "extra", subset, split, "labels", f"{idx}.txt"
 			)
 			create_dirs(paths=[os.path.dirname(out_image)])
 			create_dirs(paths=[os.path.dirname(out_label)])
-			copyfile(in_image, out_image)
-			copyfile(in_label, out_label)
+			copyfile(image_files[i], out_image)
+			copyfile(label_files[i], out_label)
 
 
 if __name__ == "__main__":
