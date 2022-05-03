@@ -105,7 +105,7 @@ read -e -i "$datasets_dir" -p "Enter DATASETS_DIR= " input
 datasets_dir="${input:-$datasets_dir}"
 
 if [ "$datasets_dir" != "" ]; then
-  export DATASET_DIR="$datasets_dir"
+  export DATASETS_DIR="$datasets_dir"
   conda env config vars set datasets_dir="$datasets_dir"
   echo "DATASETS_DIR has been set."
 else
