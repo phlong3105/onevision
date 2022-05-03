@@ -87,8 +87,8 @@ def train(hyp, opt, device, tb_writer=None):
     init_seeds(2 + rank)
     with open(opt.data) as f:
         data_dict = yaml.load(f, Loader=yaml.FullLoader)  # model dict
-    train_path = os.path.join(datasets_dir, data_dict["train"])
-    test_path  = os.path.join(datasets_dir, data_dict["val"])
+    train_path = os.path.join(data_dict["path"], data_dict["train"])
+    test_path  = os.path.join(data_dict["path"], data_dict["val"])
     nc, names  = (1, ["item"]) if opt.single_cls else (int(data_dict["nc"]), data_dict["names"])  # number classes, names
     assert len(names) == nc, "%g names found for nc=%g dataset in %s" % (len(names), nc, opt.data)  # check
 
