@@ -30,7 +30,7 @@ from onevision.models.detection.scaled_yolov4.utils.general import coco80_to_coc
 from onevision.models.detection.scaled_yolov4.utils.general import compute_loss
 from onevision.models.detection.scaled_yolov4.utils.general import non_max_suppression
 from onevision.models.detection.scaled_yolov4.utils.general import output_to_target
-from onevision.models.detection.scaled_yolov4.utils.general import plot_images
+# from onevision.models.detection.scaled_yolov4.utils.general import plot_images
 from onevision.models.detection.scaled_yolov4.utils.general import scale_coords
 from onevision.models.detection.scaled_yolov4.utils.general import xywh2xyxy
 from onevision.models.detection.scaled_yolov4.utils.general import xyxy2xywh
