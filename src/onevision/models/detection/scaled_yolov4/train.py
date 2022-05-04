@@ -39,10 +39,10 @@ from onevision.models.detection.scaled_yolov4.utils.general import get_latest_ru
 from onevision.models.detection.scaled_yolov4.utils.general import increment_dir
 from onevision.models.detection.scaled_yolov4.utils.general import labels_to_class_weights
 from onevision.models.detection.scaled_yolov4.utils.general import labels_to_image_weights
-from onevision.models.detection.scaled_yolov4.utils.general import plot_evolution
-from onevision.models.detection.scaled_yolov4.utils.general import plot_images
-from onevision.models.detection.scaled_yolov4.utils.general import plot_labels
-from onevision.models.detection.scaled_yolov4.utils.general import plot_results
+# from onevision.models.detection.scaled_yolov4.utils.general import plot_evolution
+# from onevision.models.detection.scaled_yolov4.utils.general import plot_images
+# from onevision.models.detection.scaled_yolov4.utils.general import plot_labels
+# from onevision.models.detection.scaled_yolov4.utils.general import plot_results
 from onevision.models.detection.scaled_yolov4.utils.general import print_mutation
 from onevision.models.detection.scaled_yolov4.utils.general import strip_optimizer
 from onevision.models.detection.scaled_yolov4.utils.general import torch_distributed_zero_first
@@ -234,7 +234,7 @@ def train(hyp, opt, device, tb_writer=None):
         c      = torch.tensor(labels[:, 0])  # classes
         # cf = torch.bincount(c.long(), minlength=nc) + 1.
         # model._initialize_biases(cf.to(device))
-        plot_labels(labels, save_dir=log_dir)
+        # plot_labels(labels, save_dir=log_dir)
         if tb_writer:
             tb_writer.add_histogram("classes", c, 0)
 
@@ -345,11 +345,11 @@ def train(hyp, opt, device, tb_writer=None):
                 pbar.set_description(s)
 
                 # Plot
-                if ni < 3:
-                    f      = str(log_dir / ("train_batch%g.jpg" % ni))  # filename
-                    result = plot_images(images=imgs, targets=targets, paths=paths, fname=f)
-                    if tb_writer and result is not None:
-                        tb_writer.add_image(f, result, dataformats="HWC", global_step=epoch)
+                # if ni < 3:
+                    # f      = str(log_dir / ("train_batch%g.jpg" % ni))  # filename
+                    # result = plot_images(images=imgs, targets=targets, paths=paths, fname=f)
+                    # if tb_writer and result is not None:
+                        # tb_writer.add_image(f, result, dataformats="HWC", global_step=epoch)
                         # tb_writer.add_graph(model, imgs)  # add model to tensorboard
 
             # end batch ------------------------------------------------------------------------------------------------
@@ -429,8 +429,8 @@ def train(hyp, opt, device, tb_writer=None):
                 strip_optimizer(f2, f2.replace(".pt","_strip.pt")) if ispt else None  # strip optimizer
                 os.system("gsutil cp %s gs://%s/weights" % (f2, opt.bucket)) if opt.bucket and ispt else None  # upload
         # Finish
-        if not opt.evolve:
-            plot_results(save_dir=log_dir)  # save as results.png
+        # if not opt.evolve:
+            # plot_results(save_dir=log_dir)  # save as results.png
         print("%g epochs completed in %.3f hours.\n" % (epoch - start_epoch + 1, (time.time() - t0) / 3600))
 
     dist.destroy_process_group() if rank not in [-1, 0] else None
@@ -589,7 +589,7 @@ def main(opt):
             print_mutation(hyp.copy(), results, yaml_file, opt.bucket)
 
         # Plot results
-        plot_evolution(yaml_file)
+        # plot_evolution(yaml_file)
         print("Hyperparameter evolution complete. Best results saved as: %s\nCommand to train a new model with these "
               "hyperparameters: $ python train.py --hyp %s" % (yaml_file, yaml_file))
 
