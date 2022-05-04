@@ -22,8 +22,8 @@ from onevision.cv.core import to_pil_image
 from onevision.type import Arrays
 from onevision.type import to_4d_array_list
 
-plt.ion()
-plt.switch_backend("qt5agg")
+# plt.ion()
+# plt.switch_backend("qt5agg")
 
 __all__ = [
 	"imshow_cls_plt",
