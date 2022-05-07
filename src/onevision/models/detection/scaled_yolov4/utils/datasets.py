@@ -81,7 +81,7 @@ def create_dataloader(
             hyp          = hyp           , # augmentation hyperparameters
             rect         = rect          , # rectangular training
             cache_images = cache,
-            single_cls   = opt.single_cls,
+            single_cls   = False, # opt.single_cls,
             stride       = int(stride),
             pad          = pad
         )
