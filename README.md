@@ -1,4 +1,3 @@
-
 <div align="center">
 
 OneVision <img src="docs/logo/one_32.png" width="32"> : One Vision Library To Rule Them All
