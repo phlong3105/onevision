@@ -37,7 +37,7 @@ if str(ROOT) not in sys.path:
     sys.path.append(str(ROOT))  # add ROOT to PATH
 ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
 
-from onevision.utils import pretrained_dir
+from onevision.utils import pretrained_dir, datasets_dir
 from onevision.vision.detection.yolov5_v6_1.models.common import DetectMultiBackend
 from onevision.vision.detection.yolov5_v6_1.utils.callbacks import Callbacks
 from onevision.vision.detection.yolov5_v6_1.utils.datasets import create_dataloader
@@ -192,23 +192,27 @@ def run(
         pad        = 0.0 if task in ("speed", "benchmark") else 0.5
         rect       = False if task == "benchmark" else pt  # square inference for benchmarks
         task       = task if task in ("train", "val", "test") else "val"  # path to train/val/test images
+        if os.path.isdir(datasets_dir):
+            path = os.path.join(datasets_dir, data[task])
+        else:
+            path = os.path.join(data["path"], data[task])
         dataloader = create_dataloader(
-            data[task],
-            imgsz,
-            batch_size,
-            stride,
-            single_cls,
-            pad=pad,
-            rect=rect,
-            workers=workers,
-            prefix=colorstr(f"{task}: ")
+            path       = path,
+            imgsz      = imgsz,
+            batch_size = batch_size,
+            stride     = stride,
+            single_cls = single_cls,
+            pad        = pad,
+            rect       = rect,
+            workers    = workers,
+            prefix     = colorstr(f"{task}: ")
         )[0]
 
     seen = 0
     confusion_matrix = ConfusionMatrix(nc=nc)
     names     = {k: v for k, v in enumerate(model.names if hasattr(model, "names") else model.module.names)}
     class_map = coco80_to_coco91_class() if is_coco else list(range(1000))
-    s          = ("%20s" + "%11s" * 6) % ("Class", "Images", "Labels", "P", "R", "mAP@.5", "mAP@.5:.95")
+    s         = ("%20s" + "%11s" * 6) % ("Class", "Images", "Labels", "P", "R", "mAP@.5", "mAP@.5:.95")
     dt, p, r, f1, mp, mr, map50, map = [0.0, 0.0, 0.0], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
     loss = torch.zeros(3, device=device)
     jdict, stats, ap, ap_class = [], [], [], []

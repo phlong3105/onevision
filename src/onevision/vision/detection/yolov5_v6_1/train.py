@@ -43,8 +43,9 @@ if str(ROOT) not in sys.path:
     sys.path.append(str(ROOT))  # add ROOT to PATH
 ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
 
-from onevision.utils import pretrained_dir
 import onevision.vision.detection.yolov5_v6_1.val as val  # for end-of-epoch mAP
+from onevision.utils import datasets_dir
+from onevision.utils import pretrained_dir
 from onevision.vision.detection.yolov5_v6_1.models.experimental import attempt_load
 from onevision.vision.detection.yolov5_v6_1.models.yolo import Model
 from onevision.vision.detection.yolov5_v6_1.utils.autoanchor import check_anchors
@@ -138,7 +139,15 @@ def train(
     init_seeds(1 + RANK)
     with torch_distributed_zero_first(LOCAL_RANK):
         data_dict = data_dict or check_dataset(data)  # check if None
-    train_path, val_path = data_dict["train"], data_dict["val"]
+    
+    # train_path, val_path = data_dict["train"], data_dict["val"]
+    if os.path.isdir(datasets_dir):
+        train_path = os.path.join(datasets_dir, data_dict["train"])
+        val_path   = os.path.join(datasets_dir, data_dict["val"])
+    else:
+        train_path = os.path.join(data_dict["path"], data_dict["train"])
+        val_path   = os.path.join(data_dict["path"], data_dict["val"])
+    
     nc    = 1 if single_cls else int(data_dict["nc"])  # number of classes
     names = ["item"] if single_cls and len(data_dict["names"]) != 1 else data_dict["names"]  # class names
     assert len(names) == nc, f"{len(names)} names found for nc={nc} dataset in {data}"  # check

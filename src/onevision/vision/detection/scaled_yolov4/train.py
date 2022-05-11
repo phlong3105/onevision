@@ -55,7 +55,7 @@ from onevision.vision.detection.scaled_yolov4.utils.torch_utils import ModelEMA
 from onevision.vision.detection.scaled_yolov4.utils.torch_utils import select_device
 
 FILE = Path(__file__).resolve()
-ROOT = FILE.parents[0]  # YOLOv5 root directory
+ROOT = FILE.parents[0]  # Scaled-YOLOv4 root directory
 if str(ROOT) not in sys.path:
     sys.path.append(str(ROOT))  # add ROOT to PATH
 ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
@@ -87,8 +87,12 @@ def train(hyp, opt, device, tb_writer=None):
     init_seeds(2 + rank)
     with open(opt.data) as f:
         data_dict = yaml.load(f, Loader=yaml.FullLoader)  # model dict
-    train_path = os.path.join(datasets_dir, data_dict["train"])
-    test_path  = os.path.join(datasets_dir, data_dict["val"])
+    if os.path.isdir(datasets_dir):
+        train_path = os.path.join(datasets_dir, data_dict["train"])
+        test_path  = os.path.join(datasets_dir, data_dict["val"])
+    else:
+        train_path = os.path.join(data_dict["path"], data_dict["train"])
+        test_path  = os.path.join(data_dict["path"], data_dict["val"])
     nc, names  = (1, ["item"]) if opt.single_cls else (int(data_dict["nc"]), data_dict["names"])  # number classes, names
     assert len(names) == nc, "%g names found for nc=%g dataset in %s" % (len(names), nc, opt.data)  # check
 
