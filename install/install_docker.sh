@@ -27,37 +27,33 @@ pip install --upgrade pip
 case "$OSTYPE" in
   linux*)
     echo "Linux / WSL"
-    # Create `one` env
-    env_yml_path="${current_dir}/environment_linux.yml"
-    if { conda env list | grep 'one'; } >/dev/null 2>&1; then
-      echo "Update 'one' environment:"
-      conda env update --name one -f "${env_yml_path}"
+    # Create `base` env
+    env_yml_path="${current_dir}/environment_docker.yml"
+    conda install python=3.9
+    if { conda env list | grep 'base'; } >/dev/null 2>&1; then
+      echo "Update 'base' environment:"
+      conda env update --name base -f "${env_yml_path}"
     else
-      echo "Create 'one' environment:"
+      echo "Create 'base' environment:"
       conda env create -f "${env_yml_path}"
     fi
     eval "$(conda shell.bash hook)"
-    conda activate one
     pip install --upgrade pip
-    # Install `mish-cuda`
-    echo "Install 'mish-cuda':"
-    pip install git+https://github.com/JunnYu/mish-cuda.git
-    # Remove `cv2/plugin` folder
+    # Remove `cv2/plugin` folder:
     rm -rf $CONDA_PREFIX/lib/python3.9/site-packes/cv2/plugin
     ;;
   darwin*)
     echo "MacOS"
-    # Create `one` env
+    # Create `base` env
     env_yml_path="${current_dir}/environment_macos.yml"
-    if { conda env list | grep 'one'; } >/dev/null 2>&1; then
-      echo "Update 'one' environment:"
-      conda env update --name one -f "${env_yml_path}"
+    if { conda env list | grep 'base'; } >/dev/null 2>&1; then
+      echo "Update 'base' environment:"
+      conda env update --name base -f "${env_yml_path}"
     else
-      echo "Create 'one' environment:"
+      echo "Create 'base' environment:"
       conda env create -f "${env_yml_path}"
     fi
     eval "$(conda shell.bash hook)"
-    conda activate one
     pip install --upgrade pip
     # Remove `cv2/plugin` folder:
     rm -rf $CONDA_PREFIX/lib/python3.9/site-packes/cv2/plugin

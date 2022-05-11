@@ -31,10 +31,10 @@ ninja
 # Ninja is a small build system with a focus on speed.
 numpy
 # NumPy is the fundamental package for array computing with Python.
-opencv-python==4.4.0.46                 ; sys_platform=="win32" or sys_platform=="linux"
-opencv-contrib-python==4.4.0.46         ; sys_platform=="win32" or sys_platform=="linux"
-opencv-python-headless==4.4.0.46        ; sys_platform=="darwin"
-opencv-contrib-python-headless==4.4.0.46; sys_platform=="darwin"
+opencv-python==4.4.0.46
+opencv-contrib-python==4.4.0.46
+opencv-python-headless==4.4.0.46        ;sys_platform=='darwin'
+opencv-contrib-python-headless==4.4.0.46;sys_platform=='darwin'
 # OpenCV library
 ordered-enum
 # A small library for adding total orderings to enums
@@ -90,12 +90,10 @@ timm
 # utilities, optimizers, schedulers, data-loaders / augmentations, and reference
 # training / validation scripts that aim to pull together a wide variety of SOTA
 # models with ability to reproduce ImageNet training results.
-torch==1.11.0+cu113       ; sys_platform=="win32" or sys_platform=="linux"
-torchvision==0.12.0+cu113 ; sys_platform=="win32" or sys_platform=="linux"
-torchaudio==0.11.0+cu113  ; sys_platform=="win32" or sys_platform=="linux"
-torch==1.11.0             ; sys_platform=="darwin"
-torchvision==0.12.0       ; sys_platform=="darwin"
-torchaudio==0.11.0        ; sys_platform=="darwin"
+--extra-index-url https://download.pytorch.org/whl/cu113
+torch
+torchvision
+torchaudio
 # PyTorch
 torchmetrics
 # git+https://github.com/PytorchLightning/metrics.git@release/latest
