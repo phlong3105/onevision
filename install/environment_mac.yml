@@ -26,13 +26,11 @@ channels:
 
 dependencies:
   - git
+  - git-lfs
   - librsvg
   - libiconv
   - python=3.9
   - pyqt
-  # - pytorch
-  # - torchvision
-  # - torchaudio
   - pip
   - pip:
         - cython

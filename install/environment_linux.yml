@@ -31,15 +31,11 @@ dependencies:
     # CUDA is a parallel computing platform and programming model developed by
     # NVIDIA for general computing on graphical processing units (GPUs).
   - git
-  # - mpi4py
-  # Install cuda-aware openmpi.
+  - git-lfs
   - librsvg
   - libiconv
   - python=3.9
   - pyqt
-  # - pytorch
-  # - torchvision
-  # - torchaudio
   - pip
   - pip:
         - cython
